@@ -2,8 +2,8 @@ lexer grammar Lexicon;
 
 INT: 'int';
 FLOAT: 'float';
-CODE: 'code';
-DATA: 'data';
+CODE: 'CODE';
+DATA: 'DATA';
 PRINT: 'print';
 
 IDENT: [a-zA-Z][a-zA-Z0-9_]*;
