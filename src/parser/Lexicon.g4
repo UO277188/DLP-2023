@@ -1,29 +1,11 @@
 lexer grammar Lexicon;
 
-INT: 'int';
-FLOAT: 'float';
-CODE: 'code';
-DATA: 'data';
-PRINT: 'print';
+LITENT: [0-9]+;
+LITREAL: [0-9]+ '.' [0-9]+;
+IDENT: [a-zA-Z_][a-zA-Z0-9_]*;
+LITCHAR: '\' \\n \''
+    | '\'' ~[\n\r\t] '\'';
 
-IDENT: [a-zA-Z][a-zA-Z0-9_]*;
-
-FLOAT_CONSTANT: [0-9]+'.'[0-9]+;
-
-INT_CONSTANT: [0-9]+;
-
-SUMA: '+';
-RESTA: '-';
-MULT: '*';
-DIV: '/';
-ASIGNACION: '=';
-PUNTO_COMA: ';';
-
-PARENTESIS_ABRIR: '(';
-PARENTESIS_CERRAR:  ')';
-
-LINE_COMMENT: '//' .*? ('\n' | EOF) -> skip;
-
-MULTILINE_COMMENT: '/*' .*? '*/' -> skip;
-
-WHITESPACE: [ \t\r\n]+ -> skip;
+COMMENT_MULTILINEA: '/*' .*? '*/' -> skip;
+COMENT_LINEA: '//' .*? '\n' -> skip;
+WS: [ \t\r\n]+ -> skip;
