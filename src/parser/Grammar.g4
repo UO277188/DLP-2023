@@ -2,26 +2,42 @@ grammar Grammar;
 import Lexicon;
 
 start: programa EOF ;
-programa: sentencia* ;
-tipo: 'int'
+
+defVarGlobal:
+    'var' IDENT ':' tipo ';'
+    ;
+
+defFunc:
+    IDENT '(' funcDefParamsOpt ')' (':' tipo)? '{' defVarLocal* sentencia* '}'
+    ;
+
+defStruct:
+    'struct' IDENT '{' (IDENT ':' tipo ';')* '}' ';'
+    ;
+
+programa:
+    (defVarGlobal | defStruct | defFunc)*
+    ;
+
+tipo:
+    'int'
 	| 'float'
 	| 'char'
 	| IDENT
 	| '[' expr ']' tipo;
 
-sentencia: ('print'|'printsp'|'println') expr? ';'
-	| 'read' IDENT ';'
+sentencia:
+    ('print'|'printsp'|'println') expr? ';'
+	| 'read' expr ';'
 	| expr '=' expr ';'
-	| 'if' '(' expr ')' '{' sentencia* '}'
-	| 'if' '(' expr ')' '{' sentencia* '}' 'else' '{' sentencia* '}'
+	| 'if' '(' expr ')' '{' sentencia* '}' ('else' '{' sentencia* '}')?
 	| 'while' '(' expr ')' '{' sentencia* '}'
-	| 'var' IDENT ':' tipo ';'
 	| IDENT '(' params* ')' ';'
-	| IDENT '(' funcDefParams* ')' (':' tipo)? '{' sentencia* '}'
-	| 'return' expr ';'
-	| 'struct' IDENT '{' (IDENT ':' tipo ';')* '}' ';' ;
+	| 'return' expr? ';'
+	;
 
-expr: LITENT
+expr:
+    LITENT
 	| LITREAL
 	| LITCHAR
 	| IDENT
@@ -34,9 +50,29 @@ expr: LITENT
 	| expr ('=='|'!=') expr
 	| '(' expr ')'
 	| '<' tipo '>' '(' expr ')'
-	| IDENT '(' params* ')'
+	| IDENT '(' paramOpt ')'
 	| expr '[' expr ']'
-	| expr '.' expr ;
+	| expr '.' expr
+	;
 
-params: expr | params ',' expr ;
-funcDefParams: IDENT ':' tipo | funcDefParams ',' IDENT ':' tipo ;
+defVarLocal:
+    'var' IDENT ':' tipo ';'
+    ;
+
+paramOpt:
+    params
+    |
+    ;
+params:
+    expr
+    | params ',' expr
+    ;
+
+funcDefParamsOpt:
+    funcDefParams
+    |
+    ;
+funcDefParams:
+    IDENT ':' tipo
+    | funcDefParams ',' IDENT ':' tipo
+    ;
