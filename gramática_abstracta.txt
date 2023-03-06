@@ -1,0 +1,27 @@
+CATEGORIES
+sentencia, expresion, tipo
+
+NODES
+programa -> variables:defVar* structs:defStruct* funciones:defFunc*;
+defFunc -> params:defVar* tipo variablesLocales:defVar* sentencia*;
+defVar -> nombre:string tipo;
+defStruct -> nombre:string campos:defVar*;
+
+tipoEntero:tipo -> ;
+tipoReal:tipo -> ;
+tipoChar:tipo -> ;
+
+print:sentencia -> expresion;
+read:sentencia -> expresion;
+asignacion:sentencia -> izq:expresion der:expresion;
+if:sentencia -> condicion:expresion verdadero:expresion falso:expresion;
+while:sentencia -> condicion:expresion sentencia*;
+invocacion:sentencia -> nombre:string params:defVar*;
+return:sentencia -> expresion;
+
+constanteEntero:expresion -> valor:string;
+constanteReal:expresion -> valor:string;
+constanteChar:expresion -> valor:string;
+variable:expresion -> nombre:string;
+expresionAritmetica:expresion -> izq:expresion operador:string der:expresion;
+conversion:expresion -> tipo expresion;

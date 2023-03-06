@@ -1,22 +1,14 @@
 grammar Grammar;
 import Lexicon;
 
-start: programa EOF ;
-
-defVarGlobal:
-    'var' IDENT ':' tipo ';'
-    ;
+start: ('var' defVar ';' | defStruct | defFunc)* EOF ;
 
 defFunc:
-    IDENT '(' funcDefParamsOpt ')' (':' tipo)? '{' defVarLocal* sentencia* '}'
+    IDENT '(' funcDefParamsOpt ')' (':' tipo)? '{' ('var' defVar ';')* sentencia* '}'
     ;
 
 defStruct:
-    'struct' IDENT '{' (IDENT ':' tipo ';')* '}' ';'
-    ;
-
-programa:
-    (defVarGlobal | defStruct | defFunc)*
+    'struct' IDENT '{' (defVar ';')* '}' ';'
     ;
 
 tipo:
@@ -24,7 +16,7 @@ tipo:
 	| 'float'
 	| 'char'
 	| IDENT
-	| '[' expr ']' tipo;
+	| '[' LITENT ']' tipo;
 
 sentencia:
     ('print'|'printsp'|'println') expr? ';'
@@ -55,8 +47,8 @@ expr:
 	| expr '.' expr
 	;
 
-defVarLocal:
-    'var' IDENT ':' tipo ';'
+defVar:
+    IDENT ':' tipo
     ;
 
 paramOpt:
@@ -73,6 +65,6 @@ funcDefParamsOpt:
     |
     ;
 funcDefParams:
-    IDENT ':' tipo
-    | funcDefParams ',' IDENT ':' tipo
+    defVar
+    | funcDefParams ',' defVar
     ;

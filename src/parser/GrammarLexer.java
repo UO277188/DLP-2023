@@ -1,4 +1,4 @@
-// Generated from ..\..\src\parser\Grammar.g4 by ANTLR 4.7.2
+// Generated from ../../src/parser/Grammar.g4 by ANTLR 4.7.2
 package parser;
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.CharStream;
@@ -46,7 +46,7 @@ public class GrammarLexer extends Lexer {
 
 	private static String[] makeLiteralNames() {
 		return new String[] {
-			null, "'var'", "':'", "';'", "'('", "')'", "'{'", "'}'", "'struct'", 
+			null, "'var'", "';'", "'('", "')'", "':'", "'{'", "'}'", "'struct'", 
 			"'int'", "'float'", "'char'", "'['", "']'", "'print'", "'printsp'", "'println'", 
 			"'read'", "'='", "'if'", "'else'", "'while'", "'return'", "'*'", "'/'", 
 			"'+'", "'-'", "'%'", "'&&'", "'||'", "'!'", "'<'", "'>'", "'>='", "'<='", 
@@ -162,8 +162,8 @@ public class GrammarLexer extends Lexer {
 		"\u00cf\3\2\2\2E\u00d2\3\2\2\2G\u00d5\3\2\2\2I\u00d8\3\2\2\2K\u00db\3\2"+
 		"\2\2M\u00dd\3\2\2\2O\u00e0\3\2\2\2Q\u00e5\3\2\2\2S\u00ef\3\2\2\2U\u00ff"+
 		"\3\2\2\2W\u0101\3\2\2\2Y\u010f\3\2\2\2[\u011d\3\2\2\2]^\7x\2\2^_\7c\2"+
-		"\2_`\7t\2\2`\4\3\2\2\2ab\7<\2\2b\6\3\2\2\2cd\7=\2\2d\b\3\2\2\2ef\7*\2"+
-		"\2f\n\3\2\2\2gh\7+\2\2h\f\3\2\2\2ij\7}\2\2j\16\3\2\2\2kl\7\177\2\2l\20"+
+		"\2_`\7t\2\2`\4\3\2\2\2ab\7=\2\2b\6\3\2\2\2cd\7*\2\2d\b\3\2\2\2ef\7+\2"+
+		"\2f\n\3\2\2\2gh\7<\2\2h\f\3\2\2\2ij\7}\2\2j\16\3\2\2\2kl\7\177\2\2l\20"+
 		"\3\2\2\2mn\7u\2\2no\7v\2\2op\7t\2\2pq\7w\2\2qr\7e\2\2rs\7v\2\2s\22\3\2"+
 		"\2\2tu\7k\2\2uv\7p\2\2vw\7v\2\2w\24\3\2\2\2xy\7h\2\2yz\7n\2\2z{\7q\2\2"+
 		"{|\7c\2\2|}\7v\2\2}\26\3\2\2\2~\177\7e\2\2\177\u0080\7j\2\2\u0080\u0081"+
