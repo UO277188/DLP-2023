@@ -1,0 +1,200 @@
+<html>
+<head>
+<meta charset="utf-8" />
+<style type="text/css">
+.value { font-weight: bold; }
+.dots { color: #bebdbd; }
+.type { color: #BBBBBB; }
+.pos { color: #CCCCCC; }
+.sourceText { color: #BBBBBB; }
+.posText {
+	color: #BBBBBB;
+	text-decoration: underline; font-weight: bold;
+}
+.null {
+	color: #FF0000;
+	font-weight: bold;
+	font-style: italic;
+}
+</style>
+</head>
+
+<body><pre>
+[ASTPrinter] -------------------------------- line:col  line:col
+
+<span class="dots"></span>Programa &rarr;                                                  <span class="pos"><span class="null">null</span>  <span class="null">null</span>   </span>
+<span class="dots">.  </span>variables  <span class="type">List&lt;DefinicionVariable&gt;</span> = 
+<span class="dots">.  </span>structs  <span class="type">List&lt;DefinicionStruct&gt;</span> = 
+<span class="dots">.  .  </span>DefinicionFuncion &rarr;                                   <span class="pos"><span class="null">null</span>  <span class="null">null</span>   </span>
+<span class="dots">.  .  |  </span>params  <span class="type">List&lt;DefinicionVariable&gt;</span> = 
+<span class="dots">.  .  |  .  </span>DefinicionVariable &rarr;                            <span class="pos"><span class="null">null</span>  <span class="null">null</span>   </span>
+<span class="dots">.  .  |  .  |  </span>"<span class="value">base</span>"  
+<span class="dots">.  .  |  .  |  </span><span class="value">TipoReal</span> &rarr;                                   <span class="pos"><span class="null">null</span>  <span class="null">null</span>   </span>
+<span class="dots">.  .  |  .  </span>DefinicionVariable &rarr;                            <span class="pos"><span class="null">null</span>  <span class="null">null</span>   </span>
+<span class="dots">.  .  |  .  |  </span>"<span class="value">exponente</span>"  
+<span class="dots">.  .  |  .  |  </span><span class="value">TipoEntero</span> &rarr;                                 <span class="pos"><span class="null">null</span>  <span class="null">null</span>   </span>
+<span class="dots">.  .  |  </span><span class="value">TipoReal</span> &rarr;                                         <span class="pos"><span class="null">null</span>  <span class="null">null</span>   </span>
+<span class="dots">.  .  |  </span>variablesLocales  <span class="type">List&lt;DefinicionVariable&gt;</span> = 
+<span class="dots">.  .  |  .  </span>DefinicionVariable &rarr;                            <span class="pos"><span class="null">null</span>  <span class="null">null</span>   </span>
+<span class="dots">.  .  |  .  |  </span>"<span class="value">total</span>"  
+<span class="dots">.  .  |  .  |  </span><span class="value">TipoReal</span> &rarr;                                   <span class="pos"><span class="null">null</span>  <span class="null">null</span>   </span>
+<span class="dots">.  .  |  </span>sentencia  <span class="type">List&lt;Sentencia&gt;</span> = 
+<span class="dots">.  .  |  .  </span>If &rarr;                                            <span class="pos"><span class="null">null</span>  <span class="null">null</span>   </span>
+<span class="dots">.  .  |  .  |  </span>ExpresionBinaria &rarr;                           <span class="pos"><span class="null">null</span>  <span class="null">null</span>   </span>
+<span class="dots">.  .  |  .  |  .  </span>"exponente"  <span class="type">Variable.nombre</span>              <span class="pos"><span class="null">null</span>  <span class="null">null</span>   </span>
+<span class="dots">.  .  |  .  |  .  </span>"<span class="value">==</span>"  
+<span class="dots">.  .  |  .  |  .  </span>ConstanteEntero &rarr;                         <span class="pos"><span class="null">null</span>  <span class="null">null</span>   </span>
+<span class="dots">.  .  |  .  |  .  |  </span><span class="value">0</span>  <span class="type">int</span>
+<span class="dots">.  .  |  .  |  </span>verdadero  <span class="type">List&lt;Expresion&gt;</span> = 
+<span class="dots">.  .  |  .  |  .  </span>Asignacion &rarr;                              <span class="pos"><span class="null">null</span>  <span class="null">null</span>   </span>
+<span class="dots">.  .  |  .  |  .  |  </span>"total"  <span class="type">Variable.nombre</span>               <span class="pos"><span class="null">null</span>  <span class="null">null</span>   </span>
+<span class="dots">.  .  |  .  |  .  |  </span>ConstanteReal &rarr;                        <span class="pos"><span class="null">null</span>  <span class="null">null</span>   </span>
+<span class="dots">.  .  |  .  |  .  |  .  </span><span class="value">1.0</span>  <span class="type">double</span>
+<span class="dots">.  .  |  .  |  </span>falso  <span class="type">List&lt;Expresion&gt;</span> = 
+<span class="dots">.  .  |  .  |  .  </span>If &rarr;                                      <span class="pos"><span class="null">null</span>  <span class="null">null</span>   </span>
+<span class="dots">.  .  |  .  |  .  |  </span>ExpresionBinaria &rarr;                     <span class="pos"><span class="null">null</span>  <span class="null">null</span>   </span>
+<span class="dots">.  .  |  .  |  .  |  .  </span>"exponente"  <span class="type">Variable.nombre</span>        <span class="pos"><span class="null">null</span>  <span class="null">null</span>   </span>
+<span class="dots">.  .  |  .  |  .  |  .  </span>"<span class="value"><</span>"  
+<span class="dots">.  .  |  .  |  .  |  .  </span>ConstanteEntero &rarr;                   <span class="pos"><span class="null">null</span>  <span class="null">null</span>   </span>
+<span class="dots">.  .  |  .  |  .  |  .  |  </span><span class="value">0</span>  <span class="type">int</span>
+<span class="dots">.  .  |  .  |  .  |  </span>verdadero  <span class="type">List&lt;Expresion&gt;</span> = 
+<span class="dots">.  .  |  .  |  .  |  .  </span>Asignacion &rarr;                        <span class="pos"><span class="null">null</span>  <span class="null">null</span>   </span>
+<span class="dots">.  .  |  .  |  .  |  .  |  </span>"total"  <span class="type">Variable.nombre</span>         <span class="pos"><span class="null">null</span>  <span class="null">null</span>   </span>
+<span class="dots">.  .  |  .  |  .  |  .  |  </span>ExpresionBinaria &rarr;               <span class="pos"><span class="null">null</span>  <span class="null">null</span>   </span>
+<span class="dots">.  .  |  .  |  .  |  .  |  .  </span>ConstanteReal &rarr;               <span class="pos"><span class="null">null</span>  <span class="null">null</span>   </span>
+<span class="dots">.  .  |  .  |  .  |  .  |  .  |  </span><span class="value">1.0</span>  <span class="type">double</span>
+<span class="dots">.  .  |  .  |  .  |  .  |  .  </span>"<span class="value">/</span>"  
+<span class="dots">.  .  |  .  |  .  |  .  |  .  </span>InvocacionExpresion &rarr;         <span class="pos"><span class="null">null</span>  <span class="null">null</span>   </span>
+<span class="dots">.  .  |  .  |  .  |  .  |  .  |  </span>"<span class="value">potencia</span>"  
+<span class="dots">.  .  |  .  |  .  |  .  |  .  |  </span>params  <span class="type">List&lt;Expresion&gt;</span> = 
+<span class="dots">.  .  |  .  |  .  |  .  |  .  |  .  </span>"base"  <span class="type">Variable.nombre</span> <span class="pos"><span class="null">null</span>  <span class="null">null</span>   </span>
+<span class="dots">.  .  |  .  |  .  |  .  |  .  |  .  </span>ExpresionBinaria &rarr;      <span class="pos"><span class="null">null</span>  <span class="null">null</span>   </span>
+<span class="dots">.  .  |  .  |  .  |  .  |  .  |  .  |  </span>ConstanteEntero &rarr;    <span class="pos"><span class="null">null</span>  <span class="null">null</span>   </span>
+<span class="dots">.  .  |  .  |  .  |  .  |  .  |  .  |  .  </span><span class="value">0</span>  <span class="type">int</span>
+<span class="dots">.  .  |  .  |  .  |  .  |  .  |  .  |  </span>"<span class="value">-</span>"  
+<span class="dots">.  .  |  .  |  .  |  .  |  .  |  .  |  </span>"exponente"  <span class="type">Variable.nombre</span><span class="pos"><span class="null">null</span>  <span class="null">null</span>   </span>
+<span class="dots">.  .  |  .  |  .  |  </span>falso  <span class="type">List&lt;Expresion&gt;</span> = 
+<span class="dots">.  .  |  .  |  .  |  .  </span>Asignacion &rarr;                        <span class="pos"><span class="null">null</span>  <span class="null">null</span>   </span>
+<span class="dots">.  .  |  .  |  .  |  .  |  </span>"total"  <span class="type">Variable.nombre</span>         <span class="pos"><span class="null">null</span>  <span class="null">null</span>   </span>
+<span class="dots">.  .  |  .  |  .  |  .  |  </span>"base"  <span class="type">Variable.nombre</span>          <span class="pos"><span class="null">null</span>  <span class="null">null</span>   </span>
+<span class="dots">.  .  |  .  |  .  |  .  </span>While &rarr;                             <span class="pos"><span class="null">null</span>  <span class="null">null</span>   </span>
+<span class="dots">.  .  |  .  |  .  |  .  |  </span>ExpresionBinaria &rarr;               <span class="pos"><span class="null">null</span>  <span class="null">null</span>   </span>
+<span class="dots">.  .  |  .  |  .  |  .  |  .  </span>"exponente"  <span class="type">Variable.nombre</span>  <span class="pos"><span class="null">null</span>  <span class="null">null</span>   </span>
+<span class="dots">.  .  |  .  |  .  |  .  |  .  </span>"<span class="value">></span>"  
+<span class="dots">.  .  |  .  |  .  |  .  |  .  </span>ConstanteEntero &rarr;             <span class="pos"><span class="null">null</span>  <span class="null">null</span>   </span>
+<span class="dots">.  .  |  .  |  .  |  .  |  .  |  </span><span class="value">1</span>  <span class="type">int</span>
+<span class="dots">.  .  |  .  |  .  |  .  |  </span>sentencia  <span class="type">List&lt;Sentencia&gt;</span> = 
+<span class="dots">.  .  |  .  |  .  |  .  |  .  </span>Asignacion &rarr;                  <span class="pos"><span class="null">null</span>  <span class="null">null</span>   </span>
+<span class="dots">.  .  |  .  |  .  |  .  |  .  |  </span>"total"  <span class="type">Variable.nombre</span>   <span class="pos"><span class="null">null</span>  <span class="null">null</span>   </span>
+<span class="dots">.  .  |  .  |  .  |  .  |  .  |  </span>ExpresionBinaria &rarr;         <span class="pos"><span class="null">null</span>  <span class="null">null</span>   </span>
+<span class="dots">.  .  |  .  |  .  |  .  |  .  |  .  </span>"total"  <span class="type">Variable.nombre</span><span class="pos"><span class="null">null</span>  <span class="null">null</span>   </span>
+<span class="dots">.  .  |  .  |  .  |  .  |  .  |  .  </span>"<span class="value">*</span>"  
+<span class="dots">.  .  |  .  |  .  |  .  |  .  |  .  </span>"base"  <span class="type">Variable.nombre</span> <span class="pos"><span class="null">null</span>  <span class="null">null</span>   </span>
+<span class="dots">.  .  |  .  |  .  |  .  |  .  </span>Asignacion &rarr;                  <span class="pos"><span class="null">null</span>  <span class="null">null</span>   </span>
+<span class="dots">.  .  |  .  |  .  |  .  |  .  |  </span>"exponente"  <span class="type">Variable.nombre</span><span class="pos"><span class="null">null</span>  <span class="null">null</span>   </span>
+<span class="dots">.  .  |  .  |  .  |  .  |  .  |  </span>ExpresionBinaria &rarr;         <span class="pos"><span class="null">null</span>  <span class="null">null</span>   </span>
+<span class="dots">.  .  |  .  |  .  |  .  |  .  |  .  </span>"exponente"  <span class="type">Variable.nombre</span><span class="pos"><span class="null">null</span>  <span class="null">null</span>   </span>
+<span class="dots">.  .  |  .  |  .  |  .  |  .  |  .  </span>"<span class="value">-</span>"  
+<span class="dots">.  .  |  .  |  .  |  .  |  .  |  .  </span>ConstanteEntero &rarr;       <span class="pos"><span class="null">null</span>  <span class="null">null</span>   </span>
+<span class="dots">.  .  |  .  |  .  |  .  |  .  |  .  |  </span><span class="value">1</span>  <span class="type">int</span>
+<span class="dots">.  .  |  .  </span>Return &rarr;                                        <span class="pos"><span class="null">null</span>  <span class="null">null</span>   </span>
+<span class="dots">.  .  |  .  |  </span>"total"  <span class="type">Variable.nombre</span>                     <span class="pos"><span class="null">null</span>  <span class="null">null</span>   </span>
+<span class="dots">.  .  </span>DefinicionFuncion &rarr;                                   <span class="pos"><span class="null">null</span>  <span class="null">null</span>   </span>
+<span class="dots">.  .  |  </span>params  <span class="type">List&lt;DefinicionVariable&gt;</span> = 
+<span class="dots">.  .  |  .  </span>DefinicionVariable &rarr;                            <span class="pos"><span class="null">null</span>  <span class="null">null</span>   </span>
+<span class="dots">.  .  |  .  |  </span>"<span class="value">capital</span>"  
+<span class="dots">.  .  |  .  |  </span><span class="value">TipoReal</span> &rarr;                                   <span class="pos"><span class="null">null</span>  <span class="null">null</span>   </span>
+<span class="dots">.  .  |  .  </span>DefinicionVariable &rarr;                            <span class="pos"><span class="null">null</span>  <span class="null">null</span>   </span>
+<span class="dots">.  .  |  .  |  </span>"<span class="value">meses</span>"  
+<span class="dots">.  .  |  .  |  </span><span class="value">TipoEntero</span> &rarr;                                 <span class="pos"><span class="null">null</span>  <span class="null">null</span>   </span>
+<span class="dots">.  .  |  .  </span>DefinicionVariable &rarr;                            <span class="pos"><span class="null">null</span>  <span class="null">null</span>   </span>
+<span class="dots">.  .  |  .  |  </span>"<span class="value">interes</span>"  
+<span class="dots">.  .  |  .  |  </span><span class="value">TipoReal</span> &rarr;                                   <span class="pos"><span class="null">null</span>  <span class="null">null</span>   </span>
+<span class="dots">.  .  |  </span><span class="value">TipoReal</span> &rarr;                                         <span class="pos"><span class="null">null</span>  <span class="null">null</span>   </span>
+<span class="dots">.  .  |  </span>variablesLocales  <span class="type">List&lt;DefinicionVariable&gt;</span> = 
+<span class="dots">.  .  |  .  </span>DefinicionVariable &rarr;                            <span class="pos"><span class="null">null</span>  <span class="null">null</span>   </span>
+<span class="dots">.  .  |  .  |  </span>"<span class="value">mensual</span>"  
+<span class="dots">.  .  |  .  |  </span><span class="value">TipoReal</span> &rarr;                                   <span class="pos"><span class="null">null</span>  <span class="null">null</span>   </span>
+<span class="dots">.  .  |  </span>sentencia  <span class="type">List&lt;Sentencia&gt;</span> = 
+<span class="dots">.  .  |  .  </span>Asignacion &rarr;                                    <span class="pos"><span class="null">null</span>  <span class="null">null</span>   </span>
+<span class="dots">.  .  |  .  |  </span>"mensual"  <span class="type">Variable.nombre</span>                   <span class="pos"><span class="null">null</span>  <span class="null">null</span>   </span>
+<span class="dots">.  .  |  .  |  </span>ExpresionBinaria &rarr;                           <span class="pos"><span class="null">null</span>  <span class="null">null</span>   </span>
+<span class="dots">.  .  |  .  |  .  </span>"interes"  <span class="type">Variable.nombre</span>                <span class="pos"><span class="null">null</span>  <span class="null">null</span>   </span>
+<span class="dots">.  .  |  .  |  .  </span>"<span class="value">/</span>"  
+<span class="dots">.  .  |  .  |  .  </span>ConstanteReal &rarr;                           <span class="pos"><span class="null">null</span>  <span class="null">null</span>   </span>
+<span class="dots">.  .  |  .  |  .  |  </span><span class="value">12.0</span>  <span class="type">double</span>
+<span class="dots">.  .  |  .  </span>Return &rarr;                                        <span class="pos"><span class="null">null</span>  <span class="null">null</span>   </span>
+<span class="dots">.  .  |  .  |  </span>ExpresionBinaria &rarr;                           <span class="pos"><span class="null">null</span>  <span class="null">null</span>   </span>
+<span class="dots">.  .  |  .  |  .  </span>ExpresionBinaria &rarr;                        <span class="pos"><span class="null">null</span>  <span class="null">null</span>   </span>
+<span class="dots">.  .  |  .  |  .  |  </span>"capital"  <span class="type">Variable.nombre</span>             <span class="pos"><span class="null">null</span>  <span class="null">null</span>   </span>
+<span class="dots">.  .  |  .  |  .  |  </span>"<span class="value">*</span>"  
+<span class="dots">.  .  |  .  |  .  |  </span>"mensual"  <span class="type">Variable.nombre</span>             <span class="pos"><span class="null">null</span>  <span class="null">null</span>   </span>
+<span class="dots">.  .  |  .  |  .  </span>"<span class="value">/</span>"  
+<span class="dots">.  .  |  .  |  .  </span>ExpresionBinaria &rarr;                        <span class="pos"><span class="null">null</span>  <span class="null">null</span>   </span>
+<span class="dots">.  .  |  .  |  .  |  </span>ConstanteReal &rarr;                        <span class="pos"><span class="null">null</span>  <span class="null">null</span>   </span>
+<span class="dots">.  .  |  .  |  .  |  .  </span><span class="value">100.0</span>  <span class="type">double</span>
+<span class="dots">.  .  |  .  |  .  |  </span>"<span class="value">*</span>"  
+<span class="dots">.  .  |  .  |  .  |  </span>ExpresionBinaria &rarr;                     <span class="pos"><span class="null">null</span>  <span class="null">null</span>   </span>
+<span class="dots">.  .  |  .  |  .  |  .  </span>ConstanteReal &rarr;                     <span class="pos"><span class="null">null</span>  <span class="null">null</span>   </span>
+<span class="dots">.  .  |  .  |  .  |  .  |  </span><span class="value">1.0</span>  <span class="type">double</span>
+<span class="dots">.  .  |  .  |  .  |  .  </span>"<span class="value">-</span>"  
+<span class="dots">.  .  |  .  |  .  |  .  </span>InvocacionExpresion &rarr;               <span class="pos"><span class="null">null</span>  <span class="null">null</span>   </span>
+<span class="dots">.  .  |  .  |  .  |  .  |  </span>"<span class="value">potencia</span>"  
+<span class="dots">.  .  |  .  |  .  |  .  |  </span>params  <span class="type">List&lt;Expresion&gt;</span> = 
+<span class="dots">.  .  |  .  |  .  |  .  |  .  </span>ExpresionBinaria &rarr;            <span class="pos"><span class="null">null</span>  <span class="null">null</span>   </span>
+<span class="dots">.  .  |  .  |  .  |  .  |  .  |  </span>ConstanteReal &rarr;            <span class="pos"><span class="null">null</span>  <span class="null">null</span>   </span>
+<span class="dots">.  .  |  .  |  .  |  .  |  .  |  .  </span><span class="value">1.0</span>  <span class="type">double</span>
+<span class="dots">.  .  |  .  |  .  |  .  |  .  |  </span>"<span class="value">+</span>"  
+<span class="dots">.  .  |  .  |  .  |  .  |  .  |  </span>ExpresionBinaria &rarr;         <span class="pos"><span class="null">null</span>  <span class="null">null</span>   </span>
+<span class="dots">.  .  |  .  |  .  |  .  |  .  |  .  </span>"mensual"  <span class="type">Variable.nombre</span><span class="pos"><span class="null">null</span>  <span class="null">null</span>   </span>
+<span class="dots">.  .  |  .  |  .  |  .  |  .  |  .  </span>"<span class="value">/</span>"  
+<span class="dots">.  .  |  .  |  .  |  .  |  .  |  .  </span>ConstanteReal &rarr;         <span class="pos"><span class="null">null</span>  <span class="null">null</span>   </span>
+<span class="dots">.  .  |  .  |  .  |  .  |  .  |  .  |  </span><span class="value">100.0</span>  <span class="type">double</span>
+<span class="dots">.  .  |  .  |  .  |  .  |  .  </span>ExpresionBinaria &rarr;            <span class="pos"><span class="null">null</span>  <span class="null">null</span>   </span>
+<span class="dots">.  .  |  .  |  .  |  .  |  .  |  </span>ConstanteEntero &rarr;          <span class="pos"><span class="null">null</span>  <span class="null">null</span>   </span>
+<span class="dots">.  .  |  .  |  .  |  .  |  .  |  .  </span><span class="value">0</span>  <span class="type">int</span>
+<span class="dots">.  .  |  .  |  .  |  .  |  .  |  </span>"<span class="value">-</span>"  
+<span class="dots">.  .  |  .  |  .  |  .  |  .  |  </span>"meses"  <span class="type">Variable.nombre</span>   <span class="pos"><span class="null">null</span>  <span class="null">null</span>   </span>
+<span class="dots">.  .  </span>DefinicionFuncion &rarr;                                   <span class="pos"><span class="null">null</span>  <span class="null">null</span>   </span>
+<span class="dots">.  .  |  </span>params  <span class="type">List&lt;DefinicionVariable&gt;</span> = 
+<span class="dots">.  .  |  </span><span class="value">TipoVoid</span> &rarr;                                         <span class="pos"><span class="null">null</span>  <span class="null">null</span>   </span>
+<span class="dots">.  .  |  </span>variablesLocales  <span class="type">List&lt;DefinicionVariable&gt;</span> = 
+<span class="dots">.  .  |  .  </span>DefinicionVariable &rarr;                            <span class="pos"><span class="null">null</span>  <span class="null">null</span>   </span>
+<span class="dots">.  .  |  .  |  </span>"<span class="value">precioVivienda</span>"  
+<span class="dots">.  .  |  .  |  </span><span class="value">TipoReal</span> &rarr;                                   <span class="pos"><span class="null">null</span>  <span class="null">null</span>   </span>
+<span class="dots">.  .  |  .  </span>DefinicionVariable &rarr;                            <span class="pos"><span class="null">null</span>  <span class="null">null</span>   </span>
+<span class="dots">.  .  |  .  |  </span>"<span class="value">mesesHipoteca</span>"  
+<span class="dots">.  .  |  .  |  </span><span class="value">TipoEntero</span> &rarr;                                 <span class="pos"><span class="null">null</span>  <span class="null">null</span>   </span>
+<span class="dots">.  .  |  .  </span>DefinicionVariable &rarr;                            <span class="pos"><span class="null">null</span>  <span class="null">null</span>   </span>
+<span class="dots">.  .  |  .  |  </span>"<span class="value">interes</span>"  
+<span class="dots">.  .  |  .  |  </span><span class="value">TipoReal</span> &rarr;                                   <span class="pos"><span class="null">null</span>  <span class="null">null</span>   </span>
+<span class="dots">.  .  |  </span>sentencia  <span class="type">List&lt;Sentencia&gt;</span> = 
+<span class="dots">.  .  |  .  </span>Asignacion &rarr;                                    <span class="pos"><span class="null">null</span>  <span class="null">null</span>   </span>
+<span class="dots">.  .  |  .  |  </span>"precioVivienda"  <span class="type">Variable.nombre</span>            <span class="pos"><span class="null">null</span>  <span class="null">null</span>   </span>
+<span class="dots">.  .  |  .  |  </span>ConstanteReal &rarr;                              <span class="pos"><span class="null">null</span>  <span class="null">null</span>   </span>
+<span class="dots">.  .  |  .  |  .  </span><span class="value">200000.0</span>  <span class="type">double</span>
+<span class="dots">.  .  |  .  </span>Asignacion &rarr;                                    <span class="pos"><span class="null">null</span>  <span class="null">null</span>   </span>
+<span class="dots">.  .  |  .  |  </span>"mesesHipoteca"  <span class="type">Variable.nombre</span>             <span class="pos"><span class="null">null</span>  <span class="null">null</span>   </span>
+<span class="dots">.  .  |  .  |  </span>ExpresionBinaria &rarr;                           <span class="pos"><span class="null">null</span>  <span class="null">null</span>   </span>
+<span class="dots">.  .  |  .  |  .  </span>ConstanteEntero &rarr;                         <span class="pos"><span class="null">null</span>  <span class="null">null</span>   </span>
+<span class="dots">.  .  |  .  |  .  |  </span><span class="value">30</span>  <span class="type">int</span>
+<span class="dots">.  .  |  .  |  .  </span>"<span class="value">*</span>"  
+<span class="dots">.  .  |  .  |  .  </span>ConstanteEntero &rarr;                         <span class="pos"><span class="null">null</span>  <span class="null">null</span>   </span>
+<span class="dots">.  .  |  .  |  .  |  </span><span class="value">12</span>  <span class="type">int</span>
+<span class="dots">.  .  |  .  </span>Asignacion &rarr;                                    <span class="pos"><span class="null">null</span>  <span class="null">null</span>   </span>
+<span class="dots">.  .  |  .  |  </span>"interes"  <span class="type">Variable.nombre</span>                   <span class="pos"><span class="null">null</span>  <span class="null">null</span>   </span>
+<span class="dots">.  .  |  .  |  </span>ConstanteReal &rarr;                              <span class="pos"><span class="null">null</span>  <span class="null">null</span>   </span>
+<span class="dots">.  .  |  .  |  .  </span><span class="value">2.04</span>  <span class="type">double</span>
+<span class="dots">.  .  |  .  </span>Print &rarr;                                         <span class="pos"><span class="null">null</span>  <span class="null">null</span>   </span>
+<span class="dots">.  .  |  .  |  </span>InvocacionExpresion &rarr;                        <span class="pos"><span class="null">null</span>  <span class="null">null</span>   </span>
+<span class="dots">.  .  |  .  |  .  </span>"<span class="value">letraHipoteca</span>"  
+<span class="dots">.  .  |  .  |  .  </span>params  <span class="type">List&lt;Expresion&gt;</span> = 
+<span class="dots">.  .  |  .  |  .  |  </span>"precioVivienda"  <span class="type">Variable.nombre</span>      <span class="pos"><span class="null">null</span>  <span class="null">null</span>   </span>
+<span class="dots">.  .  |  .  |  .  |  </span>"mesesHipoteca"  <span class="type">Variable.nombre</span>       <span class="pos"><span class="null">null</span>  <span class="null">null</span>   </span>
+<span class="dots">.  .  |  .  |  .  |  </span>"interes"  <span class="type">Variable.nombre</span>             <span class="pos"><span class="null">null</span>  <span class="null">null</span>   </span>
+<span class="dots">.  </span>funciones  <span class="type">List&lt;DefinicionFuncion&gt;</span> = 
+
+[ASTPrinter] --------------------------------
+</pre>
+</body>
+</html>

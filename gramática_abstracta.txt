@@ -2,26 +2,33 @@ CATEGORIES
 sentencia, expresion, tipo
 
 NODES
-programa -> variables:defVar* structs:defStruct* funciones:defFunc*;
-defFunc -> params:defVar* tipo variablesLocales:defVar* sentencia*;
-defVar -> nombre:string tipo;
-defStruct -> nombre:string campos:defVar*;
+programa -> variables:definicionVariable* structs:definicionStruct* funciones:definicionFuncion*;
+definicionFuncion -> params:definicionVariable* tipo variablesLocales:definicionVariable* sentencia*;
+definicionVariable -> nombre:string tipo;
+definicionStruct -> nombre:string campos:definicionVariable*;
 
 tipoEntero:tipo -> ;
 tipoReal:tipo -> ;
 tipoChar:tipo -> ;
+tipoArray:tipo -> longitud:int tipo;
+tipoStruct:tipo -> nombre:string;
+tipoVoid:tipo -> ;
 
-print:sentencia -> expresion;
+print:sentencia -> expresion?;
 read:sentencia -> expresion;
-asignacion:sentencia -> izq:expresion der:expresion;
-if:sentencia -> condicion:expresion verdadero:expresion falso:expresion;
+asignacion:sentencia -> izquierda:expresion derecha:expresion;
+if:sentencia -> condicion:expresion verdadero:expresion* falso:expresion*;
 while:sentencia -> condicion:expresion sentencia*;
-invocacion:sentencia -> nombre:string params:defVar*;
-return:sentencia -> expresion;
+invocacion:sentencia -> nombre:string params:definicionVariable*;
+return:sentencia -> expresion?;
 
-constanteEntero:expresion -> valor:string;
-constanteReal:expresion -> valor:string;
+constanteEntero:expresion -> valor:int;
+constanteReal:expresion -> valor:double;
 constanteChar:expresion -> valor:string;
 variable:expresion -> nombre:string;
-expresionAritmetica:expresion -> izq:expresion operador:string der:expresion;
+expresionBinaria:expresion -> izq:expresion operador:string der:expresion;
+expresionUnaria:expresion -> expresion operador:string;
 conversion:expresion -> tipo expresion;
+invocacionExpresion:expresion -> nombre:string params:expresion*;
+accesoArray:expresion -> array:expresion indice:expresion;
+accesoCampo:expresion -> struct:expresion campo:string;

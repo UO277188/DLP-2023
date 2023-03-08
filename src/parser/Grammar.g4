@@ -1,70 +1,113 @@
 grammar Grammar;
 import Lexicon;
 
-start: ('var' defVar ';' | defStruct | defFunc)* EOF ;
+@parser::header {
+    import ast.*;
+}
 
-defFunc:
-    IDENT '(' funcDefParamsOpt ')' (':' tipo)? '{' ('var' defVar ';')* sentencia* '}'
+start returns[Programa ast]
+    : { List<DefinicionVariable> varDefs = new ArrayList<DefinicionVariable>();
+        List<DefinicionFuncion> funcDefs = new ArrayList<DefinicionFuncion>();
+        List<DefinicionStruct> structDefs = new ArrayList<DefinicionStruct>();
+      }
+    ('var' defVar ';'   { varDefs.add($defVar.ast); }
+        | defStruct     { structDefs.add($defStruct.ast); }
+        | defFunc       { funcDefs.add($defFunc.ast); }
+    )* EOF
+    {$ast = new Programa(varDefs, funcDefs, structDefs); }
     ;
 
-defStruct:
-    'struct' IDENT '{' (defVar ';')* '}' ';'
+defVar returns[DefinicionVariable ast]
+    : IDENT ':' tipo { $ast = new DefinicionVariable($IDENT.text, $tipo.ast); }
     ;
 
-tipo:
-    'int'
-	| 'float'
-	| 'char'
-	| IDENT
-	| '[' LITENT ']' tipo;
+defFunc returns[DefinicionFuncion ast]
+    : { List<DefinicionVariable> varDefs = new ArrayList<DefinicionVariable>();
+        List<Sentencia> sentencias = new ArrayList<Sentencia>();
+        Tipo tipo = new TipoVoid();
+    }
+    IDENT '(' funcDefParams ')' (':' tipo { tipo = $tipo.ast; } )? '{'
+        ('var' defVar ';' { varDefs.add($defVar.ast); } )*
+        (sentencia { sentencias.add($sentencia.ast); } )*
+    '}'
+    { $ast = new DefinicionFuncion($funcDefParams.ast, tipo, varDefs, sentencias); }
+    ;
 
-sentencia:
-    ('print'|'printsp'|'println') expr? ';'
+defStruct returns[DefinicionStruct ast]
+    : { List<DefinicionVariable> varDefs = new ArrayList<DefinicionVariable>(); }
+    'struct' IDENT '{' (defVar ';' { varDefs.add($defVar.ast); } )* '}' ';'
+    { $ast = new DefinicionStruct($IDENT.text, varDefs); }
+    ;
+
+tipo returns[Tipo ast]
+    : 'int'                     { $ast = new TipoEntero(); }
+	| 'float'                   { $ast = new TipoReal(); }
+	| 'char'                    { $ast = new TipoChar(); }
+	| IDENT                     { $ast = new TipoStruct($IDENT.text); }
+    | '[' LITENT ']' tipo      { $ast = new TipoArray(Integer.parseInt($LITENT.text), $tipo.ast); }
+    ;
+
+sentencia returns[Sentencia ast]
+    : ('print'|'printsp'|'println') expr? ';'
+        { $ast = new Print($expr.ast); }
 	| 'read' expr ';'
-	| expr '=' expr ';'
-	| 'if' '(' expr ')' '{' sentencia* '}' ('else' '{' sentencia* '}')?
-	| 'while' '(' expr ')' '{' sentencia* '}'
-	| IDENT '(' params* ')' ';'
+        { $ast = new Read($expr.ast); }
+	| e1=expr '=' e2=expr ';'
+        { $ast = new Asignacion($e1.ast, $e2.ast); }
+	| { List<Sentencia> verdadero = new ArrayList<Sentencia>(); }
+      { List<Sentencia> falso = new ArrayList<Sentencia>(); }
+      'if' '(' expr ')' '{'
+	        (v=sentencia { verdadero.add($v.ast); } )*
+	   '}'  ('else' '{'
+	        (f=sentencia { falso.add($f.ast); } )*
+	   '}')?
+        { $ast = new If($expr.ast, verdadero, falso); }
+	| 'while' '(' expr ')'
+        { List<Sentencia> cuerpo = new ArrayList<Sentencia>(); }
+	    '{' (sentencia { cuerpo.add($sentencia.ast); } )* '}'
+	    { $ast = new While($expr.ast, cuerpo); }
+	| IDENT '(' params ')' ';'
+	    { $ast = new Invocacion($IDENT.text, $params.ast); }
 	| 'return' expr? ';'
+	    { $ast = new Return($expr.ast); }
 	;
 
-expr:
-    LITENT
-	| LITREAL
-	| LITCHAR
-	| IDENT
-	| expr ('*'|'/') expr
-	| expr ('+'|'-') expr
-	| expr '%' expr
-	| expr '&&' expr
-	| expr ('||'|'!') expr
-	| expr ('<'|'>'|'>='|'<=') expr
-	| expr ('=='|'!=') expr
-	| '(' expr ')'
+expr returns[Expresion ast]
+    : LITENT    { $ast = new ConstanteEntero(Integer.parseInt($LITENT.text)); }
+	| LITREAL   { $ast = new ConstanteReal(Double.parseDouble($LITREAL.text)); }
+	| LITCHAR   { $ast = new ConstanteChar($LITCHAR.text); }
+	| IDENT     { $ast = new Variable($IDENT.text); }
+	| e1=expr '[' e2=expr ']'
+	    { $ast = new AccesoArray($e1.ast, $e2.ast); }
+	| e1=expr '.' e2=expr
+	    { $ast = new AccesoCampo($e1.ast, $e2.ast); }
 	| '<' tipo '>' '(' expr ')'
-	| IDENT '(' paramOpt ')'
-	| expr '[' expr ']'
-	| expr '.' expr
+	    { $ast = new Conversion($tipo.ast, $expr.ast); }
+	| '(' expr ')'
+	    { $ast = $expr.ast; }
+	| OP='!' expr
+	    { $ast = new ExpresionUnaria($expr.ast, $OP.text); }
+	| e1=expr OP=('*'|'/'|'%') e2=expr
+	    { $ast = new ExpresionBinaria($e1.ast, $OP.text, $e2.ast); }
+	| e1=expr OP=('+'|'-') e2=expr
+	    { $ast = new ExpresionBinaria($e1.ast, $OP.text, $e2.ast); }
+	| e1=expr OP=('<'|'>'|'>='|'<=') e2=expr
+	    { $ast = new ExpresionBinaria($e1.ast, $OP.text, $e2.ast); }
+	| e1=expr OP=('=='|'!=') e2=expr
+	    { $ast = new ExpresionBinaria($e1.ast, $OP.text, $e2.ast); }
+	| e1=expr OP='&&' e2=expr
+	    { $ast = new ExpresionBinaria($e1.ast, $OP.text, $e2.ast); }
+	| e1=expr OP='||' e2=expr
+	    { $ast = new ExpresionBinaria($e1.ast, $OP.text, $e2.ast); }
+	| IDENT '(' params ')'
+	    { $ast = new InvocacionExpresion($IDENT.text, $params.ast); }
 	;
 
-defVar:
-    IDENT ':' tipo
+params returns[List<Expresion> ast = new ArrayList<Expresion>()]
+    : (e1=expr { $ast.add($e1.ast); } (',' e2=expr { $ast.add($e2.ast); })*)?
     ;
 
-paramOpt:
-    params
+funcDefParams returns[List<DefinicionVariable> ast = new ArrayList<DefinicionVariable>()]
+    : (d1=defVar { $ast.add($d1.ast); } (',' d2=defVar { $ast.add($d2.ast); })*)?
     |
-    ;
-params:
-    expr
-    | params ',' expr
-    ;
-
-funcDefParamsOpt:
-    funcDefParams
-    |
-    ;
-funcDefParams:
-    defVar
-    | funcDefParams ',' defVar
     ;

@@ -1,20 +1,23 @@
 /**
  * Tutorial de Diseño de Lenguajes de Programación
+ *
  * @author Raúl Izquierdo
  */
 
 package main;
 
-import java.io.*;
+import ast.AST;
+import codegeneration.CodeGeneration;
+import org.antlr.v4.runtime.CharStreams;
+import org.antlr.v4.runtime.CommonTokenStream;
+import parser.GrammarLexer;
+import parser.GrammarParser;
+import semantic.SemanticAnalisys;
+import visitor.ASTPrinter;
 
-import org.antlr.v4.runtime.*;
-
-import ast.*;
-import visitor.*;
-
-import parser.*;
-import semantic.*;
-import codegeneration.*;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.Writer;
 
 /**
  * Clase que inicia el compilador e invoca a todas sus fases.
@@ -52,8 +55,8 @@ public class Main {
         AST ast = null;
 
         // IMPORTANTE: Cuando se genere el AST, INTERCAMBIAR las dos líneas siguientes:
-        parser.start();
-        // ast = parser.start().ast;
+        //parser.start();
+        ast = parser.start().ast;
 
         if (parser.getNumberOfSyntaxErrors() > 0 || ast == null) { // Hay errores o el AST no se ha implementado aún
             errorManager.notify("El AST no ha sido creado.");
