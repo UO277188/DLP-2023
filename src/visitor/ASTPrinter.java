@@ -106,12 +106,13 @@ public class ASTPrinter extends DefaultVisitor {
 		return null;
 	}
 
-	//	class DefinicionFuncion { List<DefinicionVariable> params;  Tipo tipo;  List<DefinicionVariable> variablesLocales;  List<Sentencia> sentencia; }
+	//	class DefinicionFuncion { String nombre;  List<DefinicionVariable> params;  Tipo tipo;  List<DefinicionVariable> variablesLocales;  List<Sentencia> sentencia; }
 	public Object visit(DefinicionFuncion node, Object param) {
 		int indent = ((Integer)param).intValue();
 
 		printName(indent, "DefinicionFuncion", node, false);
 
+		print(indent + 1, "nombre", "String", node.getNombre());
 		visit(indent + 1, "params", "List<DefinicionVariable>",node.getParams());
 		visit(indent + 1, "tipo", "Tipo",node.getTipo());
 		visit(indent + 1, "variablesLocales", "List<DefinicionVariable>",node.getVariablesLocales());
@@ -196,13 +197,14 @@ public class ASTPrinter extends DefaultVisitor {
 		return null;
 	}
 
-	//	class Print { Expresion expresion; }
+	//	class Print { Expresion expresion;  String tipo_print; }
 	public Object visit(Print node, Object param) {
 		int indent = ((Integer)param).intValue();
 
 		printName(indent, "Print", node, false);
 
 		visit(indent + 1, "expresion", "Expresion",node.getExpresion());
+		print(indent + 1, "tipo_print", "String", node.getTipo_print());
 		return null;
 	}
 
@@ -227,15 +229,15 @@ public class ASTPrinter extends DefaultVisitor {
 		return null;
 	}
 
-	//	class If { Expresion condicion;  List<Expresion> verdadero;  List<Expresion> falso; }
+	//	class If { Expresion condicion;  List<Sentencia> verdadero;  List<Sentencia> falso; }
 	public Object visit(If node, Object param) {
 		int indent = ((Integer)param).intValue();
 
 		printName(indent, "If", node, false);
 
 		visit(indent + 1, "condicion", "Expresion",node.getCondicion());
-		visit(indent + 1, "verdadero", "List<Expresion>",node.getVerdadero());
-		visit(indent + 1, "falso", "List<Expresion>",node.getFalso());
+		visit(indent + 1, "verdadero", "List<Sentencia>",node.getVerdadero());
+		visit(indent + 1, "falso", "List<Sentencia>",node.getFalso());
 		return null;
 	}
 
@@ -261,13 +263,13 @@ public class ASTPrinter extends DefaultVisitor {
 		return null;
 	}
 
-	//	class Return { Expresion expresion; }
+	//	class Return { List<Expresion> expresion; }
 	public Object visit(Return node, Object param) {
 		int indent = ((Integer)param).intValue();
 
 		printName(indent, "Return", node, false);
 
-		visit(indent + 1, "expresion", "Expresion",node.getExpresion());
+		visit(indent + 1, "expresion", "List<Expresion>",node.getExpresion());
 		return null;
 	}
 
@@ -363,14 +365,14 @@ public class ASTPrinter extends DefaultVisitor {
 		return null;
 	}
 
-	//	class AccesoCampo { Expresion struct;  String campo; }
+	//	class AccesoCampo { Expresion struct;  Expresion campo; }
 	public Object visit(AccesoCampo node, Object param) {
 		int indent = ((Integer)param).intValue();
 
 		printName(indent, "AccesoCampo", node, false);
 
 		visit(indent + 1, "struct", "Expresion",node.getStruct());
-		print(indent + 1, "campo", "String", node.getCampo());
+		visit(indent + 1, "campo", "Expresion",node.getCampo());
 		return null;
 	}
 

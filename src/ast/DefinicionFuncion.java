@@ -9,11 +9,12 @@ import org.antlr.v4.runtime.*;
 
 import visitor.*;
 
-//	definicionFuncion -> params:definicionVariable*  tipo:tipo  variablesLocales:definicionVariable*  sentencia:sentencia*
+//	definicionFuncion -> nombre:String  params:definicionVariable*  tipo:tipo  variablesLocales:definicionVariable*  sentencia:sentencia*
 
 public class DefinicionFuncion extends AbstractAST  {
 
-	public DefinicionFuncion(List<DefinicionVariable> params, Tipo tipo, List<DefinicionVariable> variablesLocales, List<Sentencia> sentencia) {
+	public DefinicionFuncion(String nombre, List<DefinicionVariable> params, Tipo tipo, List<DefinicionVariable> variablesLocales, List<Sentencia> sentencia) {
+		this.nombre = nombre;
 		this.params = params;
 		this.tipo = tipo;
 		this.variablesLocales = variablesLocales;
@@ -24,7 +25,8 @@ public class DefinicionFuncion extends AbstractAST  {
        setPositions(params, tipo, variablesLocales, sentencia);
 	}
 
-	public DefinicionFuncion(Object params, Object tipo, Object variablesLocales, Object sentencia) {
+	public DefinicionFuncion(Object nombre, Object params, Object tipo, Object variablesLocales, Object sentencia) {
+		this.nombre = (nombre instanceof Token) ? ((Token)nombre).getText() : (String) nombre;
 		this.params = this.<DefinicionVariable>getAstFromContexts(params);
 		this.tipo = (Tipo) getAST(tipo);
 		this.variablesLocales = this.<DefinicionVariable>getAstFromContexts(variablesLocales);
@@ -32,7 +34,14 @@ public class DefinicionFuncion extends AbstractAST  {
 
        // Lo siguiente se puede borrar si no se quiere la posicion en el fichero.
        // Obtiene la linea/columna a partir de las de los hijos.
-       setPositions(params, tipo, variablesLocales, sentencia);
+       setPositions(nombre, params, tipo, variablesLocales, sentencia);
+	}
+
+	public String getNombre() {
+		return nombre;
+	}
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
 	}
 
 	public List<DefinicionVariable> getParams() {
@@ -68,12 +77,13 @@ public class DefinicionFuncion extends AbstractAST  {
 		return v.visit(this, param);
 	}
 
+	private String nombre;
 	private List<DefinicionVariable> params;
 	private Tipo tipo;
 	private List<DefinicionVariable> variablesLocales;
 	private List<Sentencia> sentencia;
 
 	public String toString() {
-       return "{params:" + getParams() + ", tipo:" + getTipo() + ", variablesLocales:" + getVariablesLocales() + ", sentencia:" + getSentencia() + "}";
+       return "{nombre:" + getNombre() + ", params:" + getParams() + ", tipo:" + getTipo() + ", variablesLocales:" + getVariablesLocales() + ", sentencia:" + getSentencia() + "}";
    }
 }

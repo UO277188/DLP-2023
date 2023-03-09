@@ -58,7 +58,7 @@ public class <nombre clase> extends DefaultVisitor {
 		return null;
 	}
 
-	//	class DefinicionFuncion { List<DefinicionVariable> params;  Tipo tipo;  List<DefinicionVariable> variablesLocales;  List<Sentencia> sentencia; }
+	//	class DefinicionFuncion { String nombre;  List<DefinicionVariable> params;  Tipo tipo;  List<DefinicionVariable> variablesLocales;  List<Sentencia> sentencia; }
 	public Object visit(DefinicionFuncion node, Object param) {
 
 		// super.visit(node, param);
@@ -140,7 +140,7 @@ public class <nombre clase> extends DefaultVisitor {
 		return null;
 	}
 
-	//	class Print { Expresion expresion; }
+	//	class Print { Expresion expresion;  String tipo_print; }
 	public Object visit(Print node, Object param) {
 
 		// super.visit(node, param);
@@ -176,7 +176,7 @@ public class <nombre clase> extends DefaultVisitor {
 		return null;
 	}
 
-	//	class If { Expresion condicion;  List<Expresion> verdadero;  List<Expresion> falso; }
+	//	class If { Expresion condicion;  List<Sentencia> verdadero;  List<Sentencia> falso; }
 	public Object visit(If node, Object param) {
 
 		// super.visit(node, param);
@@ -185,11 +185,11 @@ public class <nombre clase> extends DefaultVisitor {
 			node.getCondicion().accept(this, param);
 
 		if (node.getVerdadero() != null)
-			for (Expresion child : node.getVerdadero())
+			for (Sentencia child : node.getVerdadero())
 				child.accept(this, param);
 
 		if (node.getFalso() != null)
-			for (Expresion child : node.getFalso())
+			for (Sentencia child : node.getFalso())
 				child.accept(this, param);
 
 		return null;
@@ -222,13 +222,14 @@ public class <nombre clase> extends DefaultVisitor {
 		return null;
 	}
 
-	//	class Return { Expresion expresion; }
+	//	class Return { List<Expresion> expresion; }
 	public Object visit(Return node, Object param) {
 
 		// super.visit(node, param);
 
 		if (node.getExpresion() != null)
-			node.getExpresion().accept(this, param);
+			for (Expresion child : node.getExpresion())
+				child.accept(this, param);
 
 		return null;
 	}
@@ -318,13 +319,16 @@ public class <nombre clase> extends DefaultVisitor {
 		return null;
 	}
 
-	//	class AccesoCampo { Expresion struct;  String campo; }
+	//	class AccesoCampo { Expresion struct;  Expresion campo; }
 	public Object visit(AccesoCampo node, Object param) {
 
 		// super.visit(node, param);
 
 		if (node.getStruct() != null)
 			node.getStruct().accept(this, param);
+
+		if (node.getCampo() != null)
+			node.getCampo().accept(this, param);
 
 		return null;
 	}

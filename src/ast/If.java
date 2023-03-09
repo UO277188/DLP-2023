@@ -9,11 +9,11 @@ import org.antlr.v4.runtime.*;
 
 import visitor.*;
 
-//	if:sentencia -> condicion:expresion  verdadero:expresion*  falso:expresion*
+//	if:sentencia -> condicion:expresion  verdadero:sentencia*  falso:sentencia*
 
 public class If extends AbstractSentencia {
 
-	public If(Expresion condicion, List<Expresion> verdadero, List<Expresion> falso) {
+	public If(Expresion condicion, List<Sentencia> verdadero, List<Sentencia> falso) {
 		this.condicion = condicion;
 		this.verdadero = verdadero;
 		this.falso = falso;
@@ -25,8 +25,8 @@ public class If extends AbstractSentencia {
 
 	public If(Object condicion, Object verdadero, Object falso) {
 		this.condicion = (Expresion) getAST(condicion);
-		this.verdadero = this.<Expresion>getAstFromContexts(verdadero);
-		this.falso = this.<Expresion>getAstFromContexts(falso);
+		this.verdadero = this.<Sentencia>getAstFromContexts(verdadero);
+		this.falso = this.<Sentencia>getAstFromContexts(falso);
 
        // Lo siguiente se puede borrar si no se quiere la posicion en el fichero.
        // Obtiene la linea/columna a partir de las de los hijos.
@@ -40,17 +40,17 @@ public class If extends AbstractSentencia {
 		this.condicion = condicion;
 	}
 
-	public List<Expresion> getVerdadero() {
+	public List<Sentencia> getVerdadero() {
 		return verdadero;
 	}
-	public void setVerdadero(List<Expresion> verdadero) {
+	public void setVerdadero(List<Sentencia> verdadero) {
 		this.verdadero = verdadero;
 	}
 
-	public List<Expresion> getFalso() {
+	public List<Sentencia> getFalso() {
 		return falso;
 	}
-	public void setFalso(List<Expresion> falso) {
+	public void setFalso(List<Sentencia> falso) {
 		this.falso = falso;
 	}
 
@@ -60,8 +60,8 @@ public class If extends AbstractSentencia {
 	}
 
 	private Expresion condicion;
-	private List<Expresion> verdadero;
-	private List<Expresion> falso;
+	private List<Sentencia> verdadero;
+	private List<Sentencia> falso;
 
 	public String toString() {
        return "{condicion:" + getCondicion() + ", verdadero:" + getVerdadero() + ", falso:" + getFalso() + "}";

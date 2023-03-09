@@ -1,7 +1,7 @@
 /*
  Hipoteca.txt v1.3
 
-- Programa de ejemplo que muestra las caracterÃ­sticas del lenguaje
+- Programa de ejemplo que muestra las características del lenguaje
 - La sintaxis tiene que ser obligatoriamente la que se muestra en este ejemplo
 
 */
@@ -14,7 +14,7 @@ potencia(base:float, exponente:int):float {
 	} else {
 		if (exponente < 0) {
 			total = 1.0 / potencia(base, 0 - exponente);
-		} else {
+		} else { 
 			total = base;
 			while (exponente > 1) {
 				total = total * base;
@@ -25,7 +25,7 @@ potencia(base:float, exponente:int):float {
 	return total;
 }
 
-
+	
 letraHipoteca(capital:float, meses:int, interes:float):float {
 	var mensual:float;
 
@@ -46,10 +46,10 @@ main() {
 */
 	precioVivienda = 200000.0;
 	mesesHipoteca = 30 * 12;
-	interes = 2.04;
+	interes = 2.04;	
 
 	println letraHipoteca(precioVivienda, mesesHipoteca, interes);
 
-//	Con los datos anteriores deberÃ­an salir (redondeando) 743 euros de letra al mes
+//	Con los datos anteriores deberían salir (redondeando) 743 euros de letra al mes
 
 }

@@ -4,15 +4,14 @@
 
 package ast;
 
-import org.antlr.v4.runtime.*;
-
+import java.util.*;
 import visitor.*;
 
-//	return:sentencia -> expresion:expresion
+//	return:sentencia -> expresion:expresion*
 
 public class Return extends AbstractSentencia {
 
-	public Return(Expresion expresion) {
+	public Return(List<Expresion> expresion) {
 		this.expresion = expresion;
 
        // Lo siguiente se puede borrar si no se quiere la posicion en el fichero.
@@ -21,17 +20,17 @@ public class Return extends AbstractSentencia {
 	}
 
 	public Return(Object expresion) {
-		this.expresion = (Expresion) getAST(expresion);
+		this.expresion = this.<Expresion>getAstFromContexts(expresion);
 
        // Lo siguiente se puede borrar si no se quiere la posicion en el fichero.
        // Obtiene la linea/columna a partir de las de los hijos.
        setPositions(expresion);
 	}
 
-	public Expresion getExpresion() {
+	public List<Expresion> getExpresion() {
 		return expresion;
 	}
-	public void setExpresion(Expresion expresion) {
+	public void setExpresion(List<Expresion> expresion) {
 		this.expresion = expresion;
 	}
 
@@ -40,7 +39,7 @@ public class Return extends AbstractSentencia {
 		return v.visit(this, param);
 	}
 
-	private Expresion expresion;
+	private List<Expresion> expresion;
 
 	public String toString() {
        return "{expresion:" + getExpresion() + "}";

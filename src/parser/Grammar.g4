@@ -14,11 +14,11 @@ start returns[Programa ast]
         | defStruct     { structDefs.add($defStruct.ast); }
         | defFunc       { funcDefs.add($defFunc.ast); }
     )* EOF
-    {$ast = new Programa(varDefs, funcDefs, structDefs); }
+    {$ast = new Programa(varDefs, structDefs, funcDefs); }
     ;
 
 defVar returns[DefinicionVariable ast]
-    : IDENT ':' tipo { $ast = new DefinicionVariable($IDENT.text, $tipo.ast); }
+    : IDENT ':' tipo { $ast = new DefinicionVariable($IDENT, $tipo.ast); }
     ;
 
 defFunc returns[DefinicionFuncion ast]
@@ -30,26 +30,26 @@ defFunc returns[DefinicionFuncion ast]
         ('var' defVar ';' { varDefs.add($defVar.ast); } )*
         (sentencia { sentencias.add($sentencia.ast); } )*
     '}'
-    { $ast = new DefinicionFuncion($funcDefParams.ast, tipo, varDefs, sentencias); }
+    { $ast = new DefinicionFuncion($IDENT, $funcDefParams.ast, tipo, varDefs, sentencias); }
     ;
 
 defStruct returns[DefinicionStruct ast]
     : { List<DefinicionVariable> varDefs = new ArrayList<DefinicionVariable>(); }
     'struct' IDENT '{' (defVar ';' { varDefs.add($defVar.ast); } )* '}' ';'
-    { $ast = new DefinicionStruct($IDENT.text, varDefs); }
+    { $ast = new DefinicionStruct($IDENT, varDefs); }
     ;
 
 tipo returns[Tipo ast]
     : 'int'                     { $ast = new TipoEntero(); }
 	| 'float'                   { $ast = new TipoReal(); }
 	| 'char'                    { $ast = new TipoChar(); }
-	| IDENT                     { $ast = new TipoStruct($IDENT.text); }
-    | '[' LITENT ']' tipo      { $ast = new TipoArray(Integer.parseInt($LITENT.text), $tipo.ast); }
+	| IDENT                     { $ast = new TipoStruct($IDENT); }
+    | '[' LITENT ']' tipo      { $ast = new TipoArray($LITENT, $tipo.ast); }
     ;
 
 sentencia returns[Sentencia ast]
-    : ('print'|'printsp'|'println') expr? ';'
-        { $ast = new Print($expr.ast); }
+    : TIPO_PRINT=('print'|'printsp'|'println') expr? ';'
+        { $ast = new Print($expr.ast, $TIPO_PRINT); }
 	| 'read' expr ';'
         { $ast = new Read($expr.ast); }
 	| e1=expr '=' e2=expr ';'
@@ -67,16 +67,17 @@ sentencia returns[Sentencia ast]
 	    '{' (sentencia { cuerpo.add($sentencia.ast); } )* '}'
 	    { $ast = new While($expr.ast, cuerpo); }
 	| IDENT '(' params ')' ';'
-	    { $ast = new Invocacion($IDENT.text, $params.ast); }
-	| 'return' expr? ';'
-	    { $ast = new Return($expr.ast); }
+	    { $ast = new Invocacion($IDENT, $params.ast); }
+	| { List<Expresion> valor = new ArrayList<Expresion>(); }
+      'return' (expr { valor.add($expr.ast); } )? ';'
+	    { $ast = new Return(valor); }
 	;
 
 expr returns[Expresion ast]
-    : LITENT    { $ast = new ConstanteEntero(Integer.parseInt($LITENT.text)); }
-	| LITREAL   { $ast = new ConstanteReal(Double.parseDouble($LITREAL.text)); }
-	| LITCHAR   { $ast = new ConstanteChar($LITCHAR.text); }
-	| IDENT     { $ast = new Variable($IDENT.text); }
+    : LITENT    { $ast = new ConstanteEntero($LITENT); }
+	| LITREAL   { $ast = new ConstanteReal($LITREAL); }
+	| LITCHAR   { $ast = new ConstanteChar($LITCHAR); }
+	| IDENT     { $ast = new Variable($IDENT); }
 	| e1=expr '[' e2=expr ']'
 	    { $ast = new AccesoArray($e1.ast, $e2.ast); }
 	| e1=expr '.' e2=expr
@@ -86,21 +87,21 @@ expr returns[Expresion ast]
 	| '(' expr ')'
 	    { $ast = $expr.ast; }
 	| OP='!' expr
-	    { $ast = new ExpresionUnaria($expr.ast, $OP.text); }
+	    { $ast = new ExpresionUnaria($expr.ast, $OP); }
 	| e1=expr OP=('*'|'/'|'%') e2=expr
-	    { $ast = new ExpresionBinaria($e1.ast, $OP.text, $e2.ast); }
+	    { $ast = new ExpresionBinaria($e1.ast, $OP, $e2.ast); }
 	| e1=expr OP=('+'|'-') e2=expr
-	    { $ast = new ExpresionBinaria($e1.ast, $OP.text, $e2.ast); }
+	    { $ast = new ExpresionBinaria($e1.ast, $OP, $e2.ast); }
 	| e1=expr OP=('<'|'>'|'>='|'<=') e2=expr
-	    { $ast = new ExpresionBinaria($e1.ast, $OP.text, $e2.ast); }
+	    { $ast = new ExpresionBinaria($e1.ast, $OP, $e2.ast); }
 	| e1=expr OP=('=='|'!=') e2=expr
-	    { $ast = new ExpresionBinaria($e1.ast, $OP.text, $e2.ast); }
+	    { $ast = new ExpresionBinaria($e1.ast, $OP, $e2.ast); }
 	| e1=expr OP='&&' e2=expr
-	    { $ast = new ExpresionBinaria($e1.ast, $OP.text, $e2.ast); }
+	    { $ast = new ExpresionBinaria($e1.ast, $OP, $e2.ast); }
 	| e1=expr OP='||' e2=expr
-	    { $ast = new ExpresionBinaria($e1.ast, $OP.text, $e2.ast); }
+	    { $ast = new ExpresionBinaria($e1.ast, $OP, $e2.ast); }
 	| IDENT '(' params ')'
-	    { $ast = new InvocacionExpresion($IDENT.text, $params.ast); }
+	    { $ast = new InvocacionExpresion($IDENT, $params.ast); }
 	;
 
 params returns[List<Expresion> ast = new ArrayList<Expresion>()]

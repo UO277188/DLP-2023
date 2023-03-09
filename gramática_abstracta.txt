@@ -3,7 +3,7 @@ sentencia, expresion, tipo
 
 NODES
 programa -> variables:definicionVariable* structs:definicionStruct* funciones:definicionFuncion*;
-definicionFuncion -> params:definicionVariable* tipo variablesLocales:definicionVariable* sentencia*;
+definicionFuncion -> nombre:string params:definicionVariable* tipo variablesLocales:definicionVariable* sentencia*;
 definicionVariable -> nombre:string tipo;
 definicionStruct -> nombre:string campos:definicionVariable*;
 
@@ -14,13 +14,13 @@ tipoArray:tipo -> longitud:int tipo;
 tipoStruct:tipo -> nombre:string;
 tipoVoid:tipo -> ;
 
-print:sentencia -> expresion?;
+print:sentencia -> expresion? tipo_print:string;
 read:sentencia -> expresion;
 asignacion:sentencia -> izquierda:expresion derecha:expresion;
-if:sentencia -> condicion:expresion verdadero:expresion* falso:expresion*;
+if:sentencia -> condicion:expresion verdadero:sentencia* falso:sentencia*;
 while:sentencia -> condicion:expresion sentencia*;
 invocacion:sentencia -> nombre:string params:definicionVariable*;
-return:sentencia -> expresion?;
+return:sentencia -> expresion*;
 
 constanteEntero:expresion -> valor:int;
 constanteReal:expresion -> valor:double;
@@ -31,4 +31,4 @@ expresionUnaria:expresion -> expresion operador:string;
 conversion:expresion -> tipo expresion;
 invocacionExpresion:expresion -> nombre:string params:expresion*;
 accesoArray:expresion -> array:expresion indice:expresion;
-accesoCampo:expresion -> struct:expresion campo:string;
+accesoCampo:expresion -> struct:expresion campo:expresion;

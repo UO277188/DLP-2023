@@ -8,22 +8,22 @@ import org.antlr.v4.runtime.*;
 
 import visitor.*;
 
-//	accesoCampo:expresion -> struct:expresion  campo:String
+//	accesoCampo:expresion -> struct:expresion  campo:expresion
 
 public class AccesoCampo extends AbstractExpresion {
 
-	public AccesoCampo(Expresion struct, String campo) {
+	public AccesoCampo(Expresion struct, Expresion campo) {
 		this.struct = struct;
 		this.campo = campo;
 
        // Lo siguiente se puede borrar si no se quiere la posicion en el fichero.
        // Obtiene la linea/columna a partir de las de los hijos.
-       setPositions(struct);
+       setPositions(struct, campo);
 	}
 
 	public AccesoCampo(Object struct, Object campo) {
 		this.struct = (Expresion) getAST(struct);
-		this.campo = (campo instanceof Token) ? ((Token)campo).getText() : (String) campo;
+		this.campo = (Expresion) getAST(campo);
 
        // Lo siguiente se puede borrar si no se quiere la posicion en el fichero.
        // Obtiene la linea/columna a partir de las de los hijos.
@@ -37,10 +37,10 @@ public class AccesoCampo extends AbstractExpresion {
 		this.struct = struct;
 	}
 
-	public String getCampo() {
+	public Expresion getCampo() {
 		return campo;
 	}
-	public void setCampo(String campo) {
+	public void setCampo(Expresion campo) {
 		this.campo = campo;
 	}
 
@@ -50,7 +50,7 @@ public class AccesoCampo extends AbstractExpresion {
 	}
 
 	private Expresion struct;
-	private String campo;
+	private Expresion campo;
 
 	public String toString() {
        return "{struct:" + getStruct() + ", campo:" + getCampo() + "}";
