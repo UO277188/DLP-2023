@@ -78,10 +78,10 @@ expr returns[Expresion ast]
 	| LITREAL   { $ast = new ConstanteReal($LITREAL); }
 	| LITCHAR   { $ast = new ConstanteChar($LITCHAR); }
 	| IDENT     { $ast = new Variable($IDENT); }
-	| e1=expr '[' e2=expr ']'
-	    { $ast = new AccesoArray($e1.ast, $e2.ast); }
 	| e1=expr '.' e2=expr
 	    { $ast = new AccesoCampo($e1.ast, $e2.ast); }
+	| e1=expr '[' e2=expr ']'
+	    { $ast = new AccesoArray($e1.ast, $e2.ast); }
 	| '<' tipo '>' '(' expr ')'
 	    { $ast = new Conversion($tipo.ast, $expr.ast); }
 	| '(' expr ')'

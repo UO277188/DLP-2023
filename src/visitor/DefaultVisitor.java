@@ -117,7 +117,7 @@ public class DefaultVisitor implements Visitor {
 		return null;
 	}
 
-	//	class Invocacion { String nombre;  List<DefinicionVariable> params; }
+	//	class Invocacion { String nombre;  List<Expresion> params; }
 	public Object visit(Invocacion node, Object param) {
 		visitChildren(node.getParams(), param);
 		return null;

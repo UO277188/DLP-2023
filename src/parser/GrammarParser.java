@@ -1,4 +1,4 @@
-// Generated from ..\..\src\parser\Grammar.g4 by ANTLR 4.7.2
+// Generated from ../../src/parser/Grammar.g4 by ANTLR 4.7.2
 package parser;
 
     import ast.*;
@@ -908,11 +908,11 @@ public class GrammarParser extends Parser {
 						_localctx.e1 = _prevctx;
 						pushNewRecursionContext(_localctx, _startState, RULE_expr);
 						setState(226);
-						if (!(precpred(_ctx, 11))) throw new FailedPredicateException(this, "precpred(_ctx, 11)");
+						if (!(precpred(_ctx, 12))) throw new FailedPredicateException(this, "precpred(_ctx, 12)");
 						setState(227);
 						match(T__22);
 						setState(228);
-						((ExprContext)_localctx).e2 = ((ExprContext)_localctx).expr = expr(12);
+						((ExprContext)_localctx).e2 = ((ExprContext)_localctx).expr = expr(13);
 						 ((ExprContext)_localctx).ast =  new AccesoCampo(((ExprContext)_localctx).e1.ast, ((ExprContext)_localctx).e2.ast); 
 						}
 						break;
@@ -1049,7 +1049,7 @@ public class GrammarParser extends Parser {
 						_localctx.e1 = _prevctx;
 						pushNewRecursionContext(_localctx, _startState, RULE_expr);
 						setState(261);
-						if (!(precpred(_ctx, 12))) throw new FailedPredicateException(this, "precpred(_ctx, 12)");
+						if (!(precpred(_ctx, 11))) throw new FailedPredicateException(this, "precpred(_ctx, 11)");
 						setState(262);
 						match(T__11);
 						setState(263);
@@ -1228,7 +1228,7 @@ public class GrammarParser extends Parser {
 	private boolean expr_sempred(ExprContext _localctx, int predIndex) {
 		switch (predIndex) {
 		case 0:
-			return precpred(_ctx, 11);
+			return precpred(_ctx, 12);
 		case 1:
 			return precpred(_ctx, 7);
 		case 2:
@@ -1242,7 +1242,7 @@ public class GrammarParser extends Parser {
 		case 6:
 			return precpred(_ctx, 2);
 		case 7:
-			return precpred(_ctx, 12);
+			return precpred(_ctx, 11);
 		}
 		return true;
 	}
@@ -1323,8 +1323,8 @@ public class GrammarParser extends Parser {
 		"\u00df\5\20\t\2\u00df\u00e0\7\7\2\2\u00e0\u00e1\b\b\1\2\u00e1\u00e3\3"+
 		"\2\2\2\u00e2\u00c2\3\2\2\2\u00e2\u00c5\3\2\2\2\u00e2\u00c7\3\2\2\2\u00e2"+
 		"\u00c9\3\2\2\2\u00e2\u00cb\3\2\2\2\u00e2\u00d3\3\2\2\2\u00e2\u00d8\3\2"+
-		"\2\2\u00e2\u00dc\3\2\2\2\u00e3\u010f\3\2\2\2\u00e4\u00e5\f\r\2\2\u00e5"+
-		"\u00e6\7\31\2\2\u00e6\u00e7\5\16\b\16\u00e7\u00e8\b\b\1\2\u00e8\u010e"+
+		"\2\2\u00e2\u00dc\3\2\2\2\u00e3\u010f\3\2\2\2\u00e4\u00e5\f\16\2\2\u00e5"+
+		"\u00e6\7\31\2\2\u00e6\u00e7\5\16\b\17\u00e7\u00e8\b\b\1\2\u00e8\u010e"+
 		"\3\2\2\2\u00e9\u00ea\f\t\2\2\u00ea\u00eb\t\3\2\2\u00eb\u00ec\5\16\b\n"+
 		"\u00ec\u00ed\b\b\1\2\u00ed\u010e\3\2\2\2\u00ee\u00ef\f\b\2\2\u00ef\u00f0"+
 		"\t\4\2\2\u00f0\u00f1\5\16\b\t\u00f1\u00f2\b\b\1\2\u00f2\u010e\3\2\2\2"+
@@ -1333,7 +1333,7 @@ public class GrammarParser extends Parser {
 		"\u00fb\5\16\b\7\u00fb\u00fc\b\b\1\2\u00fc\u010e\3\2\2\2\u00fd\u00fe\f"+
 		"\5\2\2\u00fe\u00ff\7&\2\2\u00ff\u0100\5\16\b\6\u0100\u0101\b\b\1\2\u0101"+
 		"\u010e\3\2\2\2\u0102\u0103\f\4\2\2\u0103\u0104\7\'\2\2\u0104\u0105\5\16"+
-		"\b\5\u0105\u0106\b\b\1\2\u0106\u010e\3\2\2\2\u0107\u0108\f\16\2\2\u0108"+
+		"\b\5\u0105\u0106\b\b\1\2\u0106\u010e\3\2\2\2\u0107\u0108\f\r\2\2\u0108"+
 		"\u0109\7\16\2\2\u0109\u010a\5\16\b\2\u010a\u010b\7\17\2\2\u010b\u010c"+
 		"\b\b\1\2\u010c\u010e\3\2\2\2\u010d\u00e4\3\2\2\2\u010d\u00e9\3\2\2\2\u010d"+
 		"\u00ee\3\2\2\2\u010d\u00f3\3\2\2\2\u010d\u00f8\3\2\2\2\u010d\u00fd\3\2"+

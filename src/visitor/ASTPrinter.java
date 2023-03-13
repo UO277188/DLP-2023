@@ -252,14 +252,14 @@ public class ASTPrinter extends DefaultVisitor {
 		return null;
 	}
 
-	//	class Invocacion { String nombre;  List<DefinicionVariable> params; }
+	//	class Invocacion { String nombre;  List<Expresion> params; }
 	public Object visit(Invocacion node, Object param) {
 		int indent = ((Integer)param).intValue();
 
 		printName(indent, "Invocacion", node, false);
 
 		print(indent + 1, "nombre", "String", node.getNombre());
-		visit(indent + 1, "params", "List<DefinicionVariable>",node.getParams());
+		visit(indent + 1, "params", "List<Expresion>",node.getParams());
 		return null;
 	}
 

@@ -9,11 +9,11 @@ import org.antlr.v4.runtime.*;
 
 import visitor.*;
 
-//	invocacion:sentencia -> nombre:String  params:definicionVariable*
+//	invocacion:sentencia -> nombre:String  params:expresion*
 
 public class Invocacion extends AbstractSentencia {
 
-	public Invocacion(String nombre, List<DefinicionVariable> params) {
+	public Invocacion(String nombre, List<Expresion> params) {
 		this.nombre = nombre;
 		this.params = params;
 
@@ -24,7 +24,7 @@ public class Invocacion extends AbstractSentencia {
 
 	public Invocacion(Object nombre, Object params) {
 		this.nombre = (nombre instanceof Token) ? ((Token)nombre).getText() : (String) nombre;
-		this.params = this.<DefinicionVariable>getAstFromContexts(params);
+		this.params = this.<Expresion>getAstFromContexts(params);
 
        // Lo siguiente se puede borrar si no se quiere la posicion en el fichero.
        // Obtiene la linea/columna a partir de las de los hijos.
@@ -38,10 +38,10 @@ public class Invocacion extends AbstractSentencia {
 		this.nombre = nombre;
 	}
 
-	public List<DefinicionVariable> getParams() {
+	public List<Expresion> getParams() {
 		return params;
 	}
-	public void setParams(List<DefinicionVariable> params) {
+	public void setParams(List<Expresion> params) {
 		this.params = params;
 	}
 
@@ -51,7 +51,7 @@ public class Invocacion extends AbstractSentencia {
 	}
 
 	private String nombre;
-	private List<DefinicionVariable> params;
+	private List<Expresion> params;
 
 	public String toString() {
        return "{nombre:" + getNombre() + ", params:" + getParams() + "}";

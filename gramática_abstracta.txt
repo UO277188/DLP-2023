@@ -19,7 +19,7 @@ read:sentencia -> expresion;
 asignacion:sentencia -> izquierda:expresion derecha:expresion;
 if:sentencia -> condicion:expresion verdadero:sentencia* falso:sentencia*;
 while:sentencia -> condicion:expresion sentencia*;
-invocacion:sentencia -> nombre:string params:definicionVariable*;
+invocacion:sentencia -> nombre:string params:expresion*;
 return:sentencia -> expresion*;
 
 constanteEntero:expresion -> valor:int;
