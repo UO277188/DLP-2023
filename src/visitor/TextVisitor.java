@@ -10,7 +10,8 @@ public class TextVisitor extends DefaultVisitor {
 
     private List<String> sourceLines;
     private static String ls = System.getProperty("line.separator");
-    private PrintWriter writer;
+    private static PrintWriter writer;
+    private int indentacion = 0;
 
     private TextVisitor(PrintWriter writer, List<String> sourceLines) {
         this.writer = writer;
@@ -61,6 +62,13 @@ public class TextVisitor extends DefaultVisitor {
         }
     }
 
+    public static void printIndent(int indentation, String string) {
+        for (int i = 0; i < indentation; i++) {
+            writer.print("\t");
+        }
+        writer.print(string);
+    }
+
     //	class Programa { List<DefinicionVariable> variables;  List<DefinicionStruct> structs;  List<DefinicionFuncion> funciones; }
     public Object visit(Programa node, Object param) {
 
@@ -68,17 +76,17 @@ public class TextVisitor extends DefaultVisitor {
 
         if (node.getVariables() != null)
             for (DefinicionVariable child : node.getVariables()) {
-                child.accept(this, param);
-                writer.print(";\n");
+                child.accept(this, 0);
+                printIndent(0, ";\n");
             }
 
         if (node.getStructs() != null)
             for (DefinicionStruct child : node.getStructs())
-                child.accept(this, param);
+                child.accept(this, 0);
 
         if (node.getFunciones() != null)
             for (DefinicionFuncion child : node.getFunciones())
-                child.accept(this, param);
+                child.accept(this, 0);
 
         return null;
     }
@@ -87,39 +95,37 @@ public class TextVisitor extends DefaultVisitor {
     public Object visit(DefinicionFuncion node, Object param) {
 
         // super.visit(node, param);
-        writer.print(node.getNombre());
-        writer.print("(");
+        printIndent((Integer) param, node.getNombre());
+        printIndent(0, "(");
 
         if (node.getParams() != null)
             for (DefinicionVariable child : node.getParams()) {
                 child.accept(this, param);
-                writer.print(", ");
+                printIndent(0, ", ");
             }
 
-        writer.print(")");
+        printIndent(0, ")");
 
         if (node.getTipo() != null) {
-            if(!(node.getTipo() instanceof TipoVoid))
-                writer.print(":");
+            if (!(node.getTipo() instanceof TipoVoid))
+                printIndent(0, ":");
             node.getTipo().accept(this, param);
         }
 
-        writer.print("{\n");
+        printIndent((Integer) param, "{\n");
 
         if (node.getVariablesLocales() != null)
             for (DefinicionVariable child : node.getVariablesLocales()) {
-                writer.print("\t");
-                child.accept(this, param);
-                writer.print(";\n");
+                child.accept(this, (Integer) param + 1);
+                printIndent(0, ";\n");
             }
 
         if (node.getSentencia() != null)
             for (Sentencia child : node.getSentencia()) {
-                writer.print("\t");
-                child.accept(this, param);
+                child.accept(this, (Integer) (param) + 1);
             }
 
-        writer.print("}\n");
+        printIndent((Integer) param, "\n}\n");
         return null;
     }
 
@@ -127,10 +133,10 @@ public class TextVisitor extends DefaultVisitor {
     public Object visit(DefinicionVariable node, Object param) {
 
         // super.visit(node, param);
-        writer.print(node.getNombre());
-        writer.print(":");
+        printIndent((Integer) param, node.getNombre());
+        printIndent(0, ":");
         if (node.getTipo() != null)
-            node.getTipo().accept(this, param);
+            node.getTipo().accept(this, 0);
 
         return null;
     }
@@ -139,36 +145,35 @@ public class TextVisitor extends DefaultVisitor {
     public Object visit(DefinicionStruct node, Object param) {
 
         // super.visit(node, param);
-        writer.print("struct ");
-        writer.print(node.getNombre());
-        writer.print("{\n");
+        printIndent((Integer) param, "struct ");
+        printIndent((Integer) param, node.getNombre());
+        printIndent((Integer) param, "{\n");
 
         if (node.getCampos() != null)
             for (DefinicionVariable child : node.getCampos()) {
-                writer.print("\t");
-                child.accept(this, param);
-                writer.print(";\n");
+                child.accept(this, (Integer) param + 1);
+                printIndent(0, ";\n");
             }
 
-        writer.print("}\n");
+        printIndent((Integer) param, "}\n");
         return null;
     }
 
     //	class TipoEntero {  }
     public Object visit(TipoEntero node, Object param) {
-        writer.print("int");
+        printIndent((Integer) param, "int");
         return null;
     }
 
     //	class TipoReal {  }
     public Object visit(TipoReal node, Object param) {
-        writer.print("float");
+        printIndent((Integer) param, "float");
         return null;
     }
 
     //	class TipoChar {  }
     public Object visit(TipoChar node, Object param) {
-        writer.print("char");
+        printIndent((Integer) param, "char");
         return null;
     }
 
@@ -185,7 +190,7 @@ public class TextVisitor extends DefaultVisitor {
 
     //	class TipoStruct { String nombre; }
     public Object visit(TipoStruct node, Object param) {
-        writer.print(node.getNombre());
+        printIndent((Integer) param, node.getNombre());
         return null;
     }
 
@@ -198,12 +203,12 @@ public class TextVisitor extends DefaultVisitor {
     public Object visit(Print node, Object param) {
 
         // super.visit(node, param);
-        writer.print(node.getTipo_print()+" ");
+        printIndent((Integer) param, node.getTipo_print() + " ");
 
         if (node.getExpresion() != null)
-            node.getExpresion().accept(this, param);
+            node.getExpresion().accept(this, 0);
 
-        writer.print(";\n");
+        printIndent(0, ";\n");
         return null;
     }
 
@@ -211,12 +216,12 @@ public class TextVisitor extends DefaultVisitor {
     public Object visit(Read node, Object param) {
 
         // super.visit(node, param);
-        writer.print("read ");
+        printIndent((Integer) param, "read ");
 
         if (node.getExpresion() != null)
-            node.getExpresion().accept(this, param);
+            node.getExpresion().accept(this, 0);
 
-        writer.print(";\n");
+        printIndent(0, ";\n");
         return null;
     }
 
@@ -224,16 +229,17 @@ public class TextVisitor extends DefaultVisitor {
     public Object visit(Asignacion node, Object param) {
 
         // super.visit(node, param);
+        printIndent((Integer) param, "");
 
         if (node.getIzquierda() != null)
             node.getIzquierda().accept(this, param);
 
-        writer.print(" = ");
+        printIndent(0, " = ");
 
         if (node.getDerecha() != null)
-            node.getDerecha().accept(this, param);
+            node.getDerecha().accept(this, 0);
 
-        writer.print(";\n");
+        printIndent(0, ";\n");
         return null;
     }
 
@@ -242,29 +248,27 @@ public class TextVisitor extends DefaultVisitor {
 
         // super.visit(node, param);
 
-        writer.print("if(");
+        printIndent((Integer) param, "if(");
 
         if (node.getCondicion() != null)
-            node.getCondicion().accept(this, param);
+            node.getCondicion().accept(this, 0);
 
-        writer.print(")");
-        writer.print("{\n");
+        printIndent(0, ")");
+        printIndent(0, "{\n");
 
         if (node.getVerdadero() != null)
             for (Sentencia child : node.getVerdadero()) {
-                writer.print("\t");
-                child.accept(this, param);
+                child.accept(this, (Integer) param + 1);
             }
 
-        writer.print("\n}");
+        printIndent((Integer) param, "}");
 
-        if (node.getFalso() != null) {
-            writer.print(" else {\n");
+        if (!node.getFalso().isEmpty()) {
+            printIndent(0, " else {\n");
             for (Sentencia child : node.getFalso()) {
-                writer.print("\t");
-                child.accept(this, param);
+                child.accept(this, (Integer) param + 1);
             }
-            writer.print("}\n");
+            printIndent((Integer) param, "}\n");
         }
 
         return null;
@@ -274,21 +278,20 @@ public class TextVisitor extends DefaultVisitor {
     public Object visit(While node, Object param) {
 
         // super.visit(node, param);
-        writer.print("while(");
+        printIndent((Integer) param, "while(");
 
         if (node.getCondicion() != null)
-            node.getCondicion().accept(this, param);
+            node.getCondicion().accept(this, 0);
 
-        writer.print(")");
-        writer.print("{\n");
+        printIndent(0, ")");
+        printIndent(0, "{\n");
 
         if (node.getSentencia() != null)
             for (Sentencia child : node.getSentencia()) {
-                writer.print("\t");
-                child.accept(this, param);
+                child.accept(this, (Integer) param + 1);
             }
 
-        writer.print("}\n");
+        printIndent((Integer) param, "}\n");
         return null;
     }
 
@@ -297,13 +300,13 @@ public class TextVisitor extends DefaultVisitor {
 
         // super.visit(node, param);
 
-        writer.print(node.getNombre() + "(");
+        printIndent((Integer) param, node.getNombre() + "(");
 
         if (node.getParams() != null)
             for (Expresion child : node.getParams())
                 child.accept(this, param);
 
-        writer.print(");");
+        printIndent(0, ");\n");
         return null;
     }
 
@@ -311,37 +314,37 @@ public class TextVisitor extends DefaultVisitor {
     public Object visit(Return node, Object param) {
 
         // super.visit(node, param);
-        writer.print("return ");
+        printIndent((Integer) param, "return ");
 
         if (node.getExpresion() != null)
             for (Expresion child : node.getExpresion())
                 child.accept(this, param);
 
-        writer.print(";\n");
+        printIndent(0, ";\n");
         return null;
     }
 
     //	class ConstanteEntero { int valor; }
     public Object visit(ConstanteEntero node, Object param) {
-        writer.print(node.getValor());
+        printIndent(0, node.getValor() + "");
         return null;
     }
 
     //	class ConstanteReal { double valor; }
     public Object visit(ConstanteReal node, Object param) {
-        writer.print(node.getValor());
+        printIndent(0, node.getValor() + "");
         return null;
     }
 
     //	class ConstanteChar { String valor; }
     public Object visit(ConstanteChar node, Object param) {
-        writer.print(node.getValor());
+        printIndent(0, node.getValor());
         return null;
     }
 
     //	class Variable { String nombre; }
     public Object visit(Variable node, Object param) {
-        writer.print(node.getNombre());
+        printIndent(0, node.getNombre());
         return null;
     }
 
@@ -349,17 +352,17 @@ public class TextVisitor extends DefaultVisitor {
     public Object visit(ExpresionBinaria node, Object param) {
 
         // super.visit(node, param);
-        writer.print("(");
+        printIndent(0, "(");
 
         if (node.getIzq() != null)
             node.getIzq().accept(this, param);
 
-        writer.print(node.getOperador());
+        printIndent(0, node.getOperador());
 
         if (node.getDer() != null)
             node.getDer().accept(this, param);
 
-        writer.print(")");
+        printIndent(0, ")");
         return null;
     }
 
@@ -367,7 +370,7 @@ public class TextVisitor extends DefaultVisitor {
     public Object visit(ExpresionUnaria node, Object param) {
 
         // super.visit(node, param);
-        writer.print(node.getOperador());
+        printIndent(0, node.getOperador());
         if (node.getExpresion() != null)
             node.getExpresion().accept(this, param);
 
@@ -378,17 +381,17 @@ public class TextVisitor extends DefaultVisitor {
     public Object visit(Conversion node, Object param) {
 
         // super.visit(node, param);
-        writer.print("<");
+        printIndent(0, "<");
 
         if (node.getTipo() != null)
             node.getTipo().accept(this, param);
 
-        writer.print(">(");
+        printIndent(0, ">(");
 
         if (node.getExpresion() != null)
             node.getExpresion().accept(this, param);
 
-        writer.print(")");
+        printIndent(0, ")");
         return null;
     }
 
@@ -396,13 +399,13 @@ public class TextVisitor extends DefaultVisitor {
     public Object visit(InvocacionExpresion node, Object param) {
 
         // super.visit(node, param);
-        writer.print(node.getNombre() + "(");
+        printIndent(0, node.getNombre() + "(");
 
         if (node.getParams() != null)
             for (Expresion child : node.getParams())
                 child.accept(this, param);
 
-        writer.print(")");
+        printIndent(0, ")");
         return null;
     }
 
@@ -412,12 +415,12 @@ public class TextVisitor extends DefaultVisitor {
         // super.visit(node, param);
 
         if (node.getArray() != null)
-            node.getArray().accept(this, param);
+            node.getArray().accept(this, 0);
 
-        writer.print("[");
+        printIndent(0, "[");
         if (node.getIndice() != null)
-            node.getIndice().accept(this, param);
-        writer.print("]");
+            node.getIndice().accept(this, 0);
+        printIndent(0, "]");
 
         return null;
     }
@@ -428,10 +431,10 @@ public class TextVisitor extends DefaultVisitor {
         // super.visit(node, param);
 
         if (node.getStruct() != null)
-            node.getStruct().accept(this, param);
-        writer.print(".");
+            node.getStruct().accept(this, 0);
+        printIndent(0, ".");
         if (node.getCampo() != null)
-            node.getCampo().accept(this, param);
+            node.getCampo().accept(this, 0);
 
         return null;
     }
