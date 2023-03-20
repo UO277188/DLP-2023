@@ -56,4 +56,9 @@ public class InvocacionExpresion extends AbstractExpresion {
 	public String toString() {
        return "{nombre:" + getNombre() + ", params:" + getParams() + "}";
    }
+
+   private DefinicionFuncion definicion;
+	public void setDefinicion(DefinicionFuncion definicion) {
+		this.definicion=definicion;
+	}
 }

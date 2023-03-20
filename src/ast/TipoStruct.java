@@ -41,4 +41,9 @@ public class TipoStruct extends AbstractTipo {
 	public String toString() {
        return "{nombre:" + getNombre() + "}";
    }
+
+   private DefinicionStruct definicion;
+    public void setDefinicion(DefinicionStruct definicion) {
+		this.definicion=definicion;
+    }
 }

@@ -92,14 +92,25 @@ public class <nombre clase> extends DefaultVisitor {
 		return null;
 	}
 
-	//	class DefinicionStruct { String nombre;  List<DefinicionVariable> campos; }
+	//	class DefinicionStruct { String nombre;  List<DefinicionCampo> campos; }
 	public Object visit(DefinicionStruct node, Object param) {
 
 		// super.visit(node, param);
 
 		if (node.getCampos() != null)
-			for (DefinicionVariable child : node.getCampos())
+			for (DefinicionCampo child : node.getCampos())
 				child.accept(this, param);
+
+		return null;
+	}
+
+	//	class DefinicionCampo { String nombre;  Tipo tipo; }
+	public Object visit(DefinicionCampo node, Object param) {
+
+		// super.visit(node, param);
+
+		if (node.getTipo() != null)
+			node.getTipo().accept(this, param);
 
 		return null;
 	}

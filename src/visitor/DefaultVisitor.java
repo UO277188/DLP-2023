@@ -39,9 +39,16 @@ public class DefaultVisitor implements Visitor {
 		return null;
 	}
 
-	//	class DefinicionStruct { String nombre;  List<DefinicionVariable> campos; }
+	//	class DefinicionStruct { String nombre;  List<DefinicionCampo> campos; }
 	public Object visit(DefinicionStruct node, Object param) {
 		visitChildren(node.getCampos(), param);
+		return null;
+	}
+
+	//	class DefinicionCampo { String nombre;  Tipo tipo; }
+	public Object visit(DefinicionCampo node, Object param) {
+		if (node.getTipo() != null)
+			node.getTipo().accept(this, param);
 		return null;
 	}
 

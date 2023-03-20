@@ -9,11 +9,11 @@ import org.antlr.v4.runtime.*;
 
 import visitor.*;
 
-//	definicionStruct -> nombre:String  campos:definicionVariable*
+//	definicionStruct -> nombre:String  campos:definicionCampo*
 
 public class DefinicionStruct extends AbstractAST  {
 
-	public DefinicionStruct(String nombre, List<DefinicionVariable> campos) {
+	public DefinicionStruct(String nombre, List<DefinicionCampo> campos) {
 		this.nombre = nombre;
 		this.campos = campos;
 
@@ -24,7 +24,7 @@ public class DefinicionStruct extends AbstractAST  {
 
 	public DefinicionStruct(Object nombre, Object campos) {
 		this.nombre = (nombre instanceof Token) ? ((Token)nombre).getText() : (String) nombre;
-		this.campos = this.<DefinicionVariable>getAstFromContexts(campos);
+		this.campos = this.<DefinicionCampo>getAstFromContexts(campos);
 
        // Lo siguiente se puede borrar si no se quiere la posicion en el fichero.
        // Obtiene la linea/columna a partir de las de los hijos.
@@ -38,10 +38,10 @@ public class DefinicionStruct extends AbstractAST  {
 		this.nombre = nombre;
 	}
 
-	public List<DefinicionVariable> getCampos() {
+	public List<DefinicionCampo> getCampos() {
 		return campos;
 	}
-	public void setCampos(List<DefinicionVariable> campos) {
+	public void setCampos(List<DefinicionCampo> campos) {
 		this.campos = campos;
 	}
 
@@ -51,7 +51,7 @@ public class DefinicionStruct extends AbstractAST  {
 	}
 
 	private String nombre;
-	private List<DefinicionVariable> campos;
+	private List<DefinicionCampo> campos;
 
 	public String toString() {
        return "{nombre:" + getNombre() + ", campos:" + getCampos() + "}";

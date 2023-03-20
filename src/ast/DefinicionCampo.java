@@ -4,31 +4,30 @@
 
 package ast;
 
-import java.util.*;
 import org.antlr.v4.runtime.*;
 
 import visitor.*;
 
-//	invocacion:sentencia -> nombre:String  params:expresion*
+//	definicionCampo -> nombre:String  tipo:tipo
 
-public class Invocacion extends AbstractSentencia {
+public class DefinicionCampo extends AbstractAST  {
 
-	public Invocacion(String nombre, List<Expresion> params) {
+	public DefinicionCampo(String nombre, Tipo tipo) {
 		this.nombre = nombre;
-		this.params = params;
+		this.tipo = tipo;
 
        // Lo siguiente se puede borrar si no se quiere la posicion en el fichero.
        // Obtiene la linea/columna a partir de las de los hijos.
-       setPositions(params);
+       setPositions(tipo);
 	}
 
-	public Invocacion(Object nombre, Object params) {
+	public DefinicionCampo(Object nombre, Object tipo) {
 		this.nombre = (nombre instanceof Token) ? ((Token)nombre).getText() : (String) nombre;
-		this.params = this.<Expresion>getAstFromContexts(params);
+		this.tipo = (Tipo) getAST(tipo);
 
        // Lo siguiente se puede borrar si no se quiere la posicion en el fichero.
        // Obtiene la linea/columna a partir de las de los hijos.
-       setPositions(nombre, params);
+       setPositions(nombre, tipo);
 	}
 
 	public String getNombre() {
@@ -38,11 +37,11 @@ public class Invocacion extends AbstractSentencia {
 		this.nombre = nombre;
 	}
 
-	public List<Expresion> getParams() {
-		return params;
+	public Tipo getTipo() {
+		return tipo;
 	}
-	public void setParams(List<Expresion> params) {
-		this.params = params;
+	public void setTipo(Tipo tipo) {
+		this.tipo = tipo;
 	}
 
 	@Override
@@ -51,14 +50,9 @@ public class Invocacion extends AbstractSentencia {
 	}
 
 	private String nombre;
-	private List<Expresion> params;
+	private Tipo tipo;
 
 	public String toString() {
-       return "{nombre:" + getNombre() + ", params:" + getParams() + "}";
+       return "{nombre:" + getNombre() + ", tipo:" + getTipo() + "}";
    }
-
-   private DefinicionFuncion definicion;
-	public void setDefinicion(DefinicionFuncion definicion) {
-		this.definicion=definicion;
-	}
 }

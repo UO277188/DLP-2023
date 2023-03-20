@@ -131,14 +131,25 @@ public class ASTPrinter extends DefaultVisitor {
 		return null;
 	}
 
-	//	class DefinicionStruct { String nombre;  List<DefinicionVariable> campos; }
+	//	class DefinicionStruct { String nombre;  List<DefinicionCampo> campos; }
 	public Object visit(DefinicionStruct node, Object param) {
 		int indent = ((Integer)param).intValue();
 
 		printName(indent, "DefinicionStruct", node, false);
 
 		print(indent + 1, "nombre", "String", node.getNombre());
-		visit(indent + 1, "campos", "List<DefinicionVariable>",node.getCampos());
+		visit(indent + 1, "campos", "List<DefinicionCampo>",node.getCampos());
+		return null;
+	}
+
+	//	class DefinicionCampo { String nombre;  Tipo tipo; }
+	public Object visit(DefinicionCampo node, Object param) {
+		int indent = ((Integer)param).intValue();
+
+		printName(indent, "DefinicionCampo", node, false);
+
+		print(indent + 1, "nombre", "String", node.getNombre());
+		visit(indent + 1, "tipo", "Tipo",node.getTipo());
 		return null;
 	}
 

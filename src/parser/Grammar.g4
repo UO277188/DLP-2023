@@ -34,9 +34,13 @@ defFunc returns[DefinicionFuncion ast]
     ;
 
 defStruct returns[DefinicionStruct ast]
-    : { List<DefinicionVariable> varDefs = new ArrayList<DefinicionVariable>(); }
-    'struct' IDENT '{' (defVar ';' { varDefs.add($defVar.ast); } )* '}' ';'
-    { $ast = new DefinicionStruct($IDENT, varDefs); }
+    : { List<DefinicionCampo> defsCampo = new ArrayList<DefinicionCampo>(); }
+    'struct' IDENT '{' (defCampo ';' { defsCampo.add($defCampo.ast); } )* '}' ';'
+    { $ast = new DefinicionStruct($IDENT, defsCampo); }
+    ;
+
+defCampo returns[DefinicionCampo ast]
+    : IDENT ':' tipo { $ast = new DefinicionCampo($IDENT, $tipo.ast); }
     ;
 
 tipo returns[Tipo ast]

@@ -150,7 +150,7 @@ public class TextVisitor extends DefaultVisitor {
         printIndent((Integer) param, "{\n");
 
         if (node.getCampos() != null)
-            for (DefinicionVariable child : node.getCampos()) {
+            for (DefinicionCampo child : node.getCampos()) {
                 child.accept(this, (Integer) param + 1);
                 printIndent(0, ";\n");
             }

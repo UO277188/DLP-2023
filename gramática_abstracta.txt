@@ -5,7 +5,8 @@ NODES
 programa -> variables:definicionVariable* structs:definicionStruct* funciones:definicionFuncion*;
 definicionFuncion -> nombre:string params:definicionVariable* tipo variablesLocales:definicionVariable* sentencia*;
 definicionVariable -> nombre:string tipo;
-definicionStruct -> nombre:string campos:definicionVariable*;
+definicionStruct -> nombre:string campos:definicionCampo*;
+definicionCampo -> nombre:string tipo;
 
 tipoEntero:tipo -> ;
 tipoReal:tipo -> ;
