@@ -8,14 +8,11 @@ import java.util.List;
 
 public class TextVisitor extends DefaultVisitor {
 
-    private List<String> sourceLines;
     private static String ls = System.getProperty("line.separator");
     private static PrintWriter writer;
-    private int indentacion = 0;
 
     private TextVisitor(PrintWriter writer, List<String> sourceLines) {
         this.writer = writer;
-        this.sourceLines = sourceLines;
     }
 
     public static void toText(String inputFile, AST raiz, String filename) {
@@ -73,20 +70,14 @@ public class TextVisitor extends DefaultVisitor {
     public Object visit(Programa node, Object param) {
 
         // super.visit(node, param);
-
-        if (node.getVariables() != null)
-            for (DefinicionVariable child : node.getVariables()) {
-                child.accept(this, 0);
+        for (Definicion def : node.getDefiniciones()) {
+            if (def instanceof DefinicionVariable) {
+                printIndent(0, "var ");
+                def.accept(this, 0);
                 printIndent(0, ";\n");
-            }
-
-        if (node.getStructs() != null)
-            for (DefinicionStruct child : node.getStructs())
-                child.accept(this, 0);
-
-        if (node.getFunciones() != null)
-            for (DefinicionFuncion child : node.getFunciones())
-                child.accept(this, 0);
+            } else
+                def.accept(this, 0);
+        }
 
         return null;
     }
@@ -98,11 +89,13 @@ public class TextVisitor extends DefaultVisitor {
         printIndent((Integer) param, node.getNombre());
         printIndent(0, "(");
 
-        if (node.getParams() != null)
-            for (DefinicionVariable child : node.getParams()) {
-                child.accept(this, param);
+        if (node.getParams() != null && !node.getParams().isEmpty()) {
+            for (int i = 0; i < node.getParams().size() - 1; i++) {
+                node.getParams().get(i).accept(this, param);
                 printIndent(0, ", ");
             }
+            node.getParams().get(node.getParams().size() - 1).accept(this, param);
+        }
 
         printIndent(0, ")");
 
@@ -116,12 +109,13 @@ public class TextVisitor extends DefaultVisitor {
 
         if (node.getVariablesLocales() != null)
             for (DefinicionVariable child : node.getVariablesLocales()) {
-                child.accept(this, (Integer) param + 1);
+                printIndent((Integer) param + 1, "var ");
+                child.accept(this, 0);
                 printIndent(0, ";\n");
             }
 
-        if (node.getSentencia() != null)
-            for (Sentencia child : node.getSentencia()) {
+        if (node.getSentencias() != null)
+            for (Sentencia child : node.getSentencias()) {
                 child.accept(this, (Integer) (param) + 1);
             }
 
@@ -149,13 +143,21 @@ public class TextVisitor extends DefaultVisitor {
         printIndent((Integer) param, node.getNombre());
         printIndent((Integer) param, "{\n");
 
-        if (node.getCampos() != null)
-            for (DefinicionCampo child : node.getCampos()) {
-                child.accept(this, (Integer) param + 1);
-                printIndent(0, ";\n");
-            }
+        for (DefinicionCampo child : node.getCampos()) {
+            child.accept(this, (Integer) param + 1);
+            printIndent(0, ";\n");
+        }
 
-        printIndent((Integer) param, "}\n");
+        printIndent((Integer) param, "};\n");
+        return null;
+    }
+
+    public Object visit(DefinicionCampo node, Object param) {
+        printIndent((Integer) param, node.getNombre());
+        printIndent(0, ":");
+        if (node.getTipo() != null)
+            node.getTipo().accept(this, 0);
+
         return null;
     }
 
@@ -181,7 +183,9 @@ public class TextVisitor extends DefaultVisitor {
     public Object visit(TipoArray node, Object param) {
 
         // super.visit(node, param);
-
+        printIndent((Integer) param, "[");
+        printIndent(0, node.getLongitud() + "");
+        printIndent(0, "]");
         if (node.getTipo() != null)
             node.getTipo().accept(this, param);
 
@@ -302,9 +306,13 @@ public class TextVisitor extends DefaultVisitor {
 
         printIndent((Integer) param, node.getNombre() + "(");
 
-        if (node.getParams() != null)
-            for (Expresion child : node.getParams())
-                child.accept(this, param);
+        if (node.getParams() != null && !node.getParams().isEmpty()) {
+            for (int i = 0; i < node.getParams().size() - 1; i++) {
+                node.getParams().get(i).accept(this, param);
+                printIndent(0, ", ");
+            }
+            node.getParams().get(node.getParams().size() - 1).accept(this, param);
+        }
 
         printIndent(0, ");\n");
         return null;
@@ -401,9 +409,13 @@ public class TextVisitor extends DefaultVisitor {
         // super.visit(node, param);
         printIndent(0, node.getNombre() + "(");
 
-        if (node.getParams() != null)
-            for (Expresion child : node.getParams())
-                child.accept(this, param);
+        if (node.getParams() != null && !node.getParams().isEmpty()) {
+            for (int i = 0; i < node.getParams().size() - 1; i++) {
+                node.getParams().get(i).accept(this, param);
+                printIndent(0, ", ");
+            }
+            node.getParams().get(node.getParams().size() - 1).accept(this, param);
+        }
 
         printIndent(0, ")");
         return null;

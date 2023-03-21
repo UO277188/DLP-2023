@@ -9,9 +9,9 @@ import org.antlr.v4.runtime.*;
 
 import visitor.*;
 
-//	definicionStruct -> nombre:String  campos:definicionCampo*
+//	definicionStruct:definicion -> nombre:String  campos:definicionCampo*
 
-public class DefinicionStruct extends AbstractAST  {
+public class DefinicionStruct extends AbstractDefinicion {
 
 	public DefinicionStruct(String nombre, List<DefinicionCampo> campos) {
 		this.nombre = nombre;

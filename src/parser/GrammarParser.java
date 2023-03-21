@@ -1,4 +1,4 @@
-// Generated from ../../src/parser/Grammar.g4 by ANTLR 4.7.2
+// Generated from ..\..\src\parser\Grammar.g4 by ANTLR 4.7.2
 package parser;
 
     import ast.*;
@@ -146,10 +146,7 @@ public class GrammarParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			 List<DefinicionVariable> varDefs = new ArrayList<DefinicionVariable>();
-			        List<DefinicionFuncion> funcDefs = new ArrayList<DefinicionFuncion>();
-			        List<DefinicionStruct> structDefs = new ArrayList<DefinicionStruct>();
-			      
+			  List<Definicion> defs = new ArrayList<Definicion>(); 
 			setState(34);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
@@ -166,21 +163,21 @@ public class GrammarParser extends Parser {
 					((StartContext)_localctx).defVar = defVar();
 					setState(23);
 					match(T__1);
-					 varDefs.add(((StartContext)_localctx).defVar.ast); 
+					 defs.add(((StartContext)_localctx).defVar.ast); 
 					}
 					break;
 				case T__7:
 					{
 					setState(26);
 					((StartContext)_localctx).defStruct = defStruct();
-					 structDefs.add(((StartContext)_localctx).defStruct.ast); 
+					 defs.add(((StartContext)_localctx).defStruct.ast); 
 					}
 					break;
 				case IDENT:
 					{
 					setState(29);
 					((StartContext)_localctx).defFunc = defFunc();
-					 funcDefs.add(((StartContext)_localctx).defFunc.ast); 
+					 defs.add(((StartContext)_localctx).defFunc.ast); 
 					}
 					break;
 				default:
@@ -193,7 +190,7 @@ public class GrammarParser extends Parser {
 			}
 			setState(37);
 			match(EOF);
-			((StartContext)_localctx).ast =  new Programa(varDefs, structDefs, funcDefs); 
+			((StartContext)_localctx).ast =  new Programa(defs); 
 			}
 		}
 		catch (RecognitionException re) {

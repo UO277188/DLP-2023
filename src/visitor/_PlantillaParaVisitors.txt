@@ -38,27 +38,19 @@ public class <nombre clase> extends DefaultVisitor {
 	//		es la llamada a 'super.visit' la que debería ser borrada.
 	// ---------------------------------------------------------
 
-	//	class Programa { List<DefinicionVariable> variables;  List<DefinicionStruct> structs;  List<DefinicionFuncion> funciones; }
+	//	class Programa { List<Definicion> definiciones; }
 	public Object visit(Programa node, Object param) {
 
 		// super.visit(node, param);
 
-		if (node.getVariables() != null)
-			for (DefinicionVariable child : node.getVariables())
-				child.accept(this, param);
-
-		if (node.getStructs() != null)
-			for (DefinicionStruct child : node.getStructs())
-				child.accept(this, param);
-
-		if (node.getFunciones() != null)
-			for (DefinicionFuncion child : node.getFunciones())
+		if (node.getDefiniciones() != null)
+			for (Definicion child : node.getDefiniciones())
 				child.accept(this, param);
 
 		return null;
 	}
 
-	//	class DefinicionFuncion { String nombre;  List<DefinicionVariable> params;  Tipo tipo;  List<DefinicionVariable> variablesLocales;  List<Sentencia> sentencia; }
+	//	class DefinicionFuncion { String nombre;  List<DefinicionVariable> params;  Tipo tipo;  List<DefinicionVariable> variablesLocales;  List<Sentencia> sentencias; }
 	public Object visit(DefinicionFuncion node, Object param) {
 
 		// super.visit(node, param);
@@ -74,8 +66,8 @@ public class <nombre clase> extends DefaultVisitor {
 			for (DefinicionVariable child : node.getVariablesLocales())
 				child.accept(this, param);
 
-		if (node.getSentencia() != null)
-			for (Sentencia child : node.getSentencia())
+		if (node.getSentencias() != null)
+			for (Sentencia child : node.getSentencias())
 				child.accept(this, param);
 
 		return null;

@@ -8,9 +8,9 @@ import org.antlr.v4.runtime.*;
 
 import visitor.*;
 
-//	definicionCampo -> nombre:String  tipo:tipo
+//	definicionCampo:definicion -> nombre:String  tipo:tipo
 
-public class DefinicionCampo extends AbstractAST  {
+public class DefinicionCampo extends AbstractDefinicion {
 
 	public DefinicionCampo(String nombre, Tipo tipo) {
 		this.nombre = nombre;

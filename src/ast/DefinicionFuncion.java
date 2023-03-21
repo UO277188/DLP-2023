@@ -9,32 +9,32 @@ import org.antlr.v4.runtime.*;
 
 import visitor.*;
 
-//	definicionFuncion -> nombre:String  params:definicionVariable*  tipo:tipo  variablesLocales:definicionVariable*  sentencia:sentencia*
+//	definicionFuncion:definicion -> nombre:String  params:definicionVariable*  tipo:tipo  variablesLocales:definicionVariable*  sentencias:sentencia*
 
-public class DefinicionFuncion extends AbstractAST  {
+public class DefinicionFuncion extends AbstractDefinicion {
 
-	public DefinicionFuncion(String nombre, List<DefinicionVariable> params, Tipo tipo, List<DefinicionVariable> variablesLocales, List<Sentencia> sentencia) {
+	public DefinicionFuncion(String nombre, List<DefinicionVariable> params, Tipo tipo, List<DefinicionVariable> variablesLocales, List<Sentencia> sentencias) {
 		this.nombre = nombre;
 		this.params = params;
 		this.tipo = tipo;
 		this.variablesLocales = variablesLocales;
-		this.sentencia = sentencia;
+		this.sentencias = sentencias;
 
        // Lo siguiente se puede borrar si no se quiere la posicion en el fichero.
        // Obtiene la linea/columna a partir de las de los hijos.
-       setPositions(params, tipo, variablesLocales, sentencia);
+       setPositions(params, tipo, variablesLocales, sentencias);
 	}
 
-	public DefinicionFuncion(Object nombre, Object params, Object tipo, Object variablesLocales, Object sentencia) {
+	public DefinicionFuncion(Object nombre, Object params, Object tipo, Object variablesLocales, Object sentencias) {
 		this.nombre = (nombre instanceof Token) ? ((Token)nombre).getText() : (String) nombre;
 		this.params = this.<DefinicionVariable>getAstFromContexts(params);
 		this.tipo = (Tipo) getAST(tipo);
 		this.variablesLocales = this.<DefinicionVariable>getAstFromContexts(variablesLocales);
-		this.sentencia = this.<Sentencia>getAstFromContexts(sentencia);
+		this.sentencias = this.<Sentencia>getAstFromContexts(sentencias);
 
        // Lo siguiente se puede borrar si no se quiere la posicion en el fichero.
        // Obtiene la linea/columna a partir de las de los hijos.
-       setPositions(nombre, params, tipo, variablesLocales, sentencia);
+       setPositions(nombre, params, tipo, variablesLocales, sentencias);
 	}
 
 	public String getNombre() {
@@ -65,11 +65,11 @@ public class DefinicionFuncion extends AbstractAST  {
 		this.variablesLocales = variablesLocales;
 	}
 
-	public List<Sentencia> getSentencia() {
-		return sentencia;
+	public List<Sentencia> getSentencias() {
+		return sentencias;
 	}
-	public void setSentencia(List<Sentencia> sentencia) {
-		this.sentencia = sentencia;
+	public void setSentencias(List<Sentencia> sentencias) {
+		this.sentencias = sentencias;
 	}
 
 	@Override
@@ -81,9 +81,9 @@ public class DefinicionFuncion extends AbstractAST  {
 	private List<DefinicionVariable> params;
 	private Tipo tipo;
 	private List<DefinicionVariable> variablesLocales;
-	private List<Sentencia> sentencia;
+	private List<Sentencia> sentencias;
 
 	public String toString() {
-       return "{nombre:" + getNombre() + ", params:" + getParams() + ", tipo:" + getTipo() + ", variablesLocales:" + getVariablesLocales() + ", sentencia:" + getSentencia() + "}";
+       return "{nombre:" + getNombre() + ", params:" + getParams() + ", tipo:" + getTipo() + ", variablesLocales:" + getVariablesLocales() + ", sentencias:" + getSentencias() + "}";
    }
 }

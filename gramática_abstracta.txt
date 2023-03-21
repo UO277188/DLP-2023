@@ -1,12 +1,12 @@
 CATEGORIES
-sentencia, expresion, tipo
+sentencia, expresion, tipo, definicion
 
 NODES
-programa -> variables:definicionVariable* structs:definicionStruct* funciones:definicionFuncion*;
-definicionFuncion -> nombre:string params:definicionVariable* tipo variablesLocales:definicionVariable* sentencia*;
-definicionVariable -> nombre:string tipo;
-definicionStruct -> nombre:string campos:definicionCampo*;
-definicionCampo -> nombre:string tipo;
+programa -> definiciones:definicion*;
+definicionFuncion:definicion -> nombre:string params:definicionVariable* tipo variablesLocales:definicionVariable* sentencias:sentencia*;
+definicionVariable:definicion -> nombre:string tipo;
+definicionStruct:definicion -> nombre:string campos:definicionCampo*;
+definicionCampo:definicion -> nombre:string tipo;
 
 tipoEntero:tipo -> ;
 tipoReal:tipo -> ;

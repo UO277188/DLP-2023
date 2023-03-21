@@ -1,0 +1,31 @@
+[TextVisitor]
+var a:int;
+var b:char;
+var d:float;
+var e:float;
+var a:[20]int;
+dobleSuma(z:int, b:int, z:float):int{
+	var local1:int;
+	var local2:int;
+	var local1:int;
+	var b:float;
+	var d:int;
+	print a;
+	print d;
+	print b;
+	print c;
+	print local2;
+
+}
+prueba(){
+	print z;
+	print local2;
+
+}
+main(){
+	dobleSuma(5.6);
+
+}
+
+
+[TextVisitor]

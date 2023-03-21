@@ -94,19 +94,17 @@ public class ASTPrinter extends DefaultVisitor {
     }
 
     // ----------------------------------------------
-	//	class Programa { List<DefinicionVariable> variables;  List<DefinicionStruct> structs;  List<DefinicionFuncion> funciones; }
+	//	class Programa { List<Definicion> definiciones; }
 	public Object visit(Programa node, Object param) {
 		int indent = ((Integer)param).intValue();
 
 		printName(indent, "Programa", node, false);
 
-		visit(indent + 1, "variables", "List<DefinicionVariable>",node.getVariables());
-		visit(indent + 1, "structs", "List<DefinicionStruct>",node.getStructs());
-		visit(indent + 1, "funciones", "List<DefinicionFuncion>",node.getFunciones());
+		visit(indent + 1, "definiciones", "List<Definicion>",node.getDefiniciones());
 		return null;
 	}
 
-	//	class DefinicionFuncion { String nombre;  List<DefinicionVariable> params;  Tipo tipo;  List<DefinicionVariable> variablesLocales;  List<Sentencia> sentencia; }
+	//	class DefinicionFuncion { String nombre;  List<DefinicionVariable> params;  Tipo tipo;  List<DefinicionVariable> variablesLocales;  List<Sentencia> sentencias; }
 	public Object visit(DefinicionFuncion node, Object param) {
 		int indent = ((Integer)param).intValue();
 
@@ -116,7 +114,7 @@ public class ASTPrinter extends DefaultVisitor {
 		visit(indent + 1, "params", "List<DefinicionVariable>",node.getParams());
 		visit(indent + 1, "tipo", "Tipo",node.getTipo());
 		visit(indent + 1, "variablesLocales", "List<DefinicionVariable>",node.getVariablesLocales());
-		visit(indent + 1, "sentencia", "List<Sentencia>",node.getSentencia());
+		visit(indent + 1, "sentencias", "List<Sentencia>",node.getSentencias());
 		return null;
 	}
 

@@ -14,21 +14,19 @@ DefaultVisitor. Implementación base del visitor para ser derivada por nuevos vi
 */
 public class DefaultVisitor implements Visitor {
 
-	//	class Programa { List<DefinicionVariable> variables;  List<DefinicionStruct> structs;  List<DefinicionFuncion> funciones; }
+	//	class Programa { List<Definicion> definiciones; }
 	public Object visit(Programa node, Object param) {
-		visitChildren(node.getVariables(), param);
-		visitChildren(node.getStructs(), param);
-		visitChildren(node.getFunciones(), param);
+		visitChildren(node.getDefiniciones(), param);
 		return null;
 	}
 
-	//	class DefinicionFuncion { String nombre;  List<DefinicionVariable> params;  Tipo tipo;  List<DefinicionVariable> variablesLocales;  List<Sentencia> sentencia; }
+	//	class DefinicionFuncion { String nombre;  List<DefinicionVariable> params;  Tipo tipo;  List<DefinicionVariable> variablesLocales;  List<Sentencia> sentencias; }
 	public Object visit(DefinicionFuncion node, Object param) {
 		visitChildren(node.getParams(), param);
 		if (node.getTipo() != null)
 			node.getTipo().accept(this, param);
 		visitChildren(node.getVariablesLocales(), param);
-		visitChildren(node.getSentencia(), param);
+		visitChildren(node.getSentencias(), param);
 		return null;
 	}
 

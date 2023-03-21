@@ -56,9 +56,4 @@ public class Invocacion extends AbstractSentencia {
 	public String toString() {
        return "{nombre:" + getNombre() + ", params:" + getParams() + "}";
    }
-
-   private DefinicionFuncion definicion;
-	public void setDefinicion(DefinicionFuncion definicion) {
-		this.definicion=definicion;
-	}
 }

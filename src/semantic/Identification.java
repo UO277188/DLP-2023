@@ -1,13 +1,14 @@
 /**
  * Tutorial de Diseño de Lenguajes de Programación
+ *
  * @author Raúl Izquierdo
  */
 
 package semantic;
 
 import ast.*;
-import main.*;
-import visitor.*;
+import main.ErrorManager;
+import visitor.DefaultVisitor;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -19,49 +20,84 @@ public class Identification extends DefaultVisitor {
         this.errorManager = errorManager;
     }
 
-    // # --------------------      FUNCIONES        ---------------------
 
-    public Object visit(DefinicionFuncion node, Object param){
-        DefinicionFuncion definicion = funciones.get(node.getNombre());
-        predicado(definicion == null, "Función ya definida: " + node.getNombre(), node);
-        funciones.put(node.getNombre(), node);
-        node.getSentencia().stream().forEach(n -> n.accept(this, param));
+    @Override
+    public Object visit(Programa node, Object param) {
+        st.set();
+        for (Definicion def : node.getDefiniciones())
+            def.accept(this, param);
+        st.reset();
         return null;
     }
 
-    public Object visit(Invocacion node, Object param){
-        DefinicionFuncion definicion = funciones.get(node.getNombre());
-        predicado(definicion != null, "Función no definida: " + node.getNombre(), node);
-        node.setDefinicion(definicion);
+    @Override
+    public Object visit(DefinicionFuncion node, Object param) {
+        predicado(funciones.put(node.getNombre(), node) == null,
+                "Función ya definida: " + node.getNombre(), node);
+        st.set();
+        for (DefinicionVariable var : node.getParams())
+            var.accept(this, param);
+        for (DefinicionVariable var : node.getVariablesLocales())
+            var.accept(this, param);
+        for (Sentencia sentencia : node.getSentencias())
+            sentencia.accept(this, param);
+        st.reset();
         return null;
     }
 
-    public Object visit(InvocacionExpresion node, Object param){
-        DefinicionFuncion definicion = funciones.get(node.getNombre());
-        predicado(definicion != null, "Función no definida: " + node.getNombre(), node);
-        node.setDefinicion(definicion);
-        return null;
+    @Override
+    public Object visit(DefinicionVariable node, Object param) {
+        if (st.getFromTop(node.getNombre()) != null) {
+            error("Variable ya definida: " + node.getNombre(), node.getStart());
+            return null;
+        } else {
+            st.put(node.getNombre(), node);
+            node.getTipo().accept(this, param);
+            return null;
+        }
     }
 
-    // # --------------------      ESTRUCTURAS        ---------------------
-
-    public Object visit(DefinicionStruct node, Object param){
-        DefinicionStruct struct = structs.get(node.getNombre());
-        predicado(struct == null, "Estructura ya definida: " + node.getNombre(), node);
-        structs.put(node.getNombre(), node);
-
+    @Override
+    public Object visit(DefinicionStruct node, Object param) {
+        predicado(structs.put(node.getNombre(), node) == null,
+                "Struct ya definido: " + node.getNombre(), node);
+        st.set();
         Map<String, Long> campos = node.getCampos().stream()
                 .collect(Collectors.groupingBy(c -> c.getNombre(), Collectors.counting()));
         campos.forEach((c, count) -> {
-            predicado(count==1, "Campo repetido: "+c, node);
+            predicado(count == 1, "Campo repetido: " + c, node);
         });
+        st.reset();
         return null;
     }
 
-    public Object visit(TipoStruct node, Object param){
+    public Object visit(TipoStruct node, Object param) {
         DefinicionStruct definicion = structs.get(node.getNombre());
         predicado(definicion != null, "Estructura no definida: " + node.getNombre(), node);
         node.setDefinicion(definicion);
+        return null;
+    }
+
+    @Override
+    public Object visit(Invocacion node, Object param) {
+        DefinicionFuncion def = funciones.get(node.getNombre());
+        predicado(def != null, "No se ha encontrado la función " + node.getNombre(), node);
+        super.visit(node, param);
+        return null;
+    }
+
+    @Override
+    public Object visit(InvocacionExpresion node, Object param) {
+        DefinicionFuncion def = funciones.get(node.getNombre());
+        predicado(def != null, "No se ha encontrado la función " + node.getNombre(), node);
+        super.visit(node, param);
+        return null;
+    }
+
+    @Override
+    public Object visit(Variable node, Object param) {
+        predicado(st.getFromAny(node.getNombre()) == null,
+                "No se ha encontrado la variable " + node.getNombre(), node);
         return null;
     }
 
@@ -85,4 +121,6 @@ public class Identification extends DefaultVisitor {
 
     private Map<String, DefinicionFuncion> funciones = new HashMap<String, DefinicionFuncion>();
     private Map<String, DefinicionStruct> structs = new HashMap<String, DefinicionStruct>();
+
+    private ContextMap<String, DefinicionVariable> st = new ContextMap<>();
 }

@@ -6,15 +6,12 @@ import Lexicon;
 }
 
 start returns[Programa ast]
-    : { List<DefinicionVariable> varDefs = new ArrayList<DefinicionVariable>();
-        List<DefinicionFuncion> funcDefs = new ArrayList<DefinicionFuncion>();
-        List<DefinicionStruct> structDefs = new ArrayList<DefinicionStruct>();
-      }
-    ('var' defVar ';'   { varDefs.add($defVar.ast); }
-        | defStruct     { structDefs.add($defStruct.ast); }
-        | defFunc       { funcDefs.add($defFunc.ast); }
+     : {  List<Definicion> defs = new ArrayList<Definicion>(); }
+    ('var' defVar ';'   { defs.add($defVar.ast); }
+        | defStruct     { defs.add($defStruct.ast); }
+        | defFunc       { defs.add($defFunc.ast); }
     )* EOF
-    {$ast = new Programa(varDefs, structDefs, funcDefs); }
+    {$ast = new Programa(defs); }
     ;
 
 defVar returns[DefinicionVariable ast]

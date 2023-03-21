@@ -8,9 +8,9 @@ import org.antlr.v4.runtime.*;
 
 import visitor.*;
 
-//	definicionVariable -> nombre:String  tipo:tipo
+//	definicionVariable:definicion -> nombre:String  tipo:tipo
 
-public class DefinicionVariable extends AbstractAST  {
+public class DefinicionVariable extends AbstractDefinicion {
 
 	public DefinicionVariable(String nombre, Tipo tipo) {
 		this.nombre = nombre;
