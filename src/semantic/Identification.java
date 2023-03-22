@@ -96,7 +96,7 @@ public class Identification extends DefaultVisitor {
 
     @Override
     public Object visit(Variable node, Object param) {
-        predicado(st.getFromAny(node.getNombre()) == null,
+        predicado(st.getFromAny(node.getNombre()) != null,
                 "No se ha encontrado la variable " + node.getNombre(), node);
         return null;
     }
