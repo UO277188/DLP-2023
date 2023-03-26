@@ -62,11 +62,17 @@ public class Identification extends DefaultVisitor {
         predicado(structs.put(node.getNombre(), node) == null,
                 "Struct ya definido: " + node.getNombre(), node);
         st.set();
+
+        // comprueba campos duplicados
         Map<String, Long> campos = node.getCampos().stream()
                 .collect(Collectors.groupingBy(c -> c.getNombre(), Collectors.counting()));
         campos.forEach((c, count) -> {
             predicado(count == 1, "Campo repetido: " + c, node);
         });
+
+        // guarda los campos
+        node.getCampos().stream().forEach(c -> camposStructs.put(node.getNombre(), c.getNombre()));
+
         st.reset();
         return null;
     }
@@ -96,7 +102,7 @@ public class Identification extends DefaultVisitor {
 
     @Override
     public Object visit(Variable node, Object param) {
-        predicado(st.getFromAny(node.getNombre()) != null,
+        predicado(st.getFromAny(node.getNombre()) != null || camposStructs.containsValue(node.getNombre()),
                 "No se ha encontrado la variable " + node.getNombre(), node);
         return null;
     }
@@ -121,6 +127,7 @@ public class Identification extends DefaultVisitor {
 
     private Map<String, DefinicionFuncion> funciones = new HashMap<String, DefinicionFuncion>();
     private Map<String, DefinicionStruct> structs = new HashMap<String, DefinicionStruct>();
+    private Map<String, String> camposStructs = new HashMap<>();
 
     private ContextMap<String, DefinicionVariable> st = new ContextMap<>();
 }
