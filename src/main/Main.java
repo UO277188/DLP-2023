@@ -31,7 +31,7 @@ import java.io.Writer;
  * - Para Generación de Código: 'MemoryAllocation.java' y 'CodeSelection.java'.
  */
 public class Main {
-    public static final String INPUT_FILE = "ejemplosSemanticoIdent/prog2.txt"; // Fichero de prueba durante el desarrollo
+    public static final String INPUT_FILE = "ejemplo.txt"; // Fichero de prueba durante el desarrollo
     public static final String OUTPUT_FILE = "output.txt";
 
     public static void main(String[] args) throws Exception {

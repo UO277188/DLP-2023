@@ -10,7 +10,9 @@ import ast.*;
 import main.ErrorManager;
 import visitor.DefaultVisitor;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -70,9 +72,6 @@ public class Identification extends DefaultVisitor {
             predicado(count == 1, "Campo repetido: " + c, node);
         });
 
-        // guarda los campos
-        node.getCampos().stream().forEach(c -> camposStructs.put(node.getNombre(), c.getNombre()));
-
         st.reset();
         return null;
     }
@@ -102,7 +101,9 @@ public class Identification extends DefaultVisitor {
 
     @Override
     public Object visit(Variable node, Object param) {
-        predicado(st.getFromAny(node.getNombre()) != null || camposStructs.containsValue(node.getNombre()),
+        List<String> campos = new ArrayList<>();
+        structs.values().forEach(d -> d.getCampos().forEach(c -> campos.add(c.getNombre())));
+        predicado(st.getFromAny(node.getNombre()) != null || campos.contains(node.getNombre()),
                 "No se ha encontrado la variable " + node.getNombre(), node);
         return null;
     }
@@ -127,7 +128,5 @@ public class Identification extends DefaultVisitor {
 
     private Map<String, DefinicionFuncion> funciones = new HashMap<String, DefinicionFuncion>();
     private Map<String, DefinicionStruct> structs = new HashMap<String, DefinicionStruct>();
-    private Map<String, String> camposStructs = new HashMap<>();
-
-    private ContextMap<String, DefinicionVariable> st = new ContextMap<>();
+    private ContextMap<String, Definicion> st = new ContextMap<>();
 }

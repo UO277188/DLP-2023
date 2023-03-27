@@ -4,8 +4,6 @@
 
 package ast;
 
-import org.antlr.v4.runtime.*;
-
 import visitor.*;
 
 //	conversion:expresion -> tipo:tipo  expresion:expresion
@@ -13,7 +11,7 @@ import visitor.*;
 public class Conversion extends AbstractExpresion {
 
 	public Conversion(Tipo tipo, Expresion expresion) {
-		this.tipo = tipo;
+		this.nuevoTipo = tipo;
 		this.expresion = expresion;
 
        // Lo siguiente se puede borrar si no se quiere la posicion en el fichero.
@@ -22,7 +20,7 @@ public class Conversion extends AbstractExpresion {
 	}
 
 	public Conversion(Object tipo, Object expresion) {
-		this.tipo = (Tipo) getAST(tipo);
+		this.nuevoTipo = (Tipo) getAST(tipo);
 		this.expresion = (Expresion) getAST(expresion);
 
        // Lo siguiente se puede borrar si no se quiere la posicion en el fichero.
@@ -30,11 +28,11 @@ public class Conversion extends AbstractExpresion {
        setPositions(tipo, expresion);
 	}
 
-	public Tipo getTipo() {
-		return tipo;
+	public Tipo getNuevoTipo() {
+		return nuevoTipo;
 	}
-	public void setTipo(Tipo tipo) {
-		this.tipo = tipo;
+	public void setNuevoTipo(Tipo nuevoTipo) {
+		this.nuevoTipo = nuevoTipo;
 	}
 
 	public Expresion getExpresion() {
@@ -49,10 +47,10 @@ public class Conversion extends AbstractExpresion {
 		return v.visit(this, param);
 	}
 
-	private Tipo tipo;
+	private Tipo nuevoTipo;
 	private Expresion expresion;
 
 	public String toString() {
-       return "{tipo:" + getTipo() + ", expresion:" + getExpresion() + "}";
+       return "{tipo:" + getNuevoTipo() + ", expresion:" + getExpresion() + "}";
    }
 }

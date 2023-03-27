@@ -318,11 +318,23 @@ public class ASTPrinter extends DefaultVisitor {
 		return null;
 	}
 
-	//	class ExpresionBinaria { Expresion izq;  String operador;  Expresion der; }
-	public Object visit(ExpresionBinaria node, Object param) {
+	//	class ExpresionAritmetica { Expresion izq;  String operador;  Expresion der; }
+	public Object visit(ExpresionAritmetica node, Object param) {
 		int indent = ((Integer)param).intValue();
 
-		printName(indent, "ExpresionBinaria", node, false);
+		printName(indent, "ExpresionAritmetica", node, false);
+
+		visit(indent + 1, "izq", "Expresion",node.getIzq());
+		print(indent + 1, "operador", "String", node.getOperador());
+		visit(indent + 1, "der", "Expresion",node.getDer());
+		return null;
+	}
+
+	//	class ExpresionLogica { Expresion izq;  String operador;  Expresion der; }
+	public Object visit(ExpresionLogica node, Object param) {
+		int indent = ((Integer)param).intValue();
+
+		printName(indent, "ExpresionLogica", node, false);
 
 		visit(indent + 1, "izq", "Expresion",node.getIzq());
 		print(indent + 1, "operador", "String", node.getOperador());
@@ -347,7 +359,7 @@ public class ASTPrinter extends DefaultVisitor {
 
 		printName(indent, "Conversion", node, false);
 
-		visit(indent + 1, "tipo", "Tipo",node.getTipo());
+		visit(indent + 1, "tipo", "Tipo",node.getNuevoTipo());
 		visit(indent + 1, "expresion", "Expresion",node.getExpresion());
 		return null;
 	}

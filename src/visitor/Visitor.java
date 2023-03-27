@@ -29,7 +29,8 @@ public interface Visitor {
 	public Object visit(ConstanteReal node, Object param);
 	public Object visit(ConstanteChar node, Object param);
 	public Object visit(Variable node, Object param);
-	public Object visit(ExpresionBinaria node, Object param);
+	public Object visit(ExpresionAritmetica node, Object param);
+	public Object visit(ExpresionLogica node, Object param);
 	public Object visit(ExpresionUnaria node, Object param);
 	public Object visit(Conversion node, Object param);
 	public Object visit(InvocacionExpresion node, Object param);

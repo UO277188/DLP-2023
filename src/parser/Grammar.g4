@@ -90,17 +90,17 @@ expr returns[Expresion ast]
 	| OP='!' expr
 	    { $ast = new ExpresionUnaria($expr.ast, $OP); }
 	| e1=expr OP=('*'|'/'|'%') e2=expr
-	    { $ast = new ExpresionBinaria($e1.ast, $OP, $e2.ast); }
+	    { $ast = new ExpresionAritmetica($e1.ast, $OP, $e2.ast); }
 	| e1=expr OP=('+'|'-') e2=expr
-	    { $ast = new ExpresionBinaria($e1.ast, $OP, $e2.ast); }
+	    { $ast = new ExpresionAritmetica($e1.ast, $OP, $e2.ast); }
 	| e1=expr OP=('<'|'>'|'>='|'<=') e2=expr
-	    { $ast = new ExpresionBinaria($e1.ast, $OP, $e2.ast); }
+	    { $ast = new ExpresionLogica($e1.ast, $OP, $e2.ast); }
 	| e1=expr OP=('=='|'!=') e2=expr
-	    { $ast = new ExpresionBinaria($e1.ast, $OP, $e2.ast); }
+	    { $ast = new ExpresionLogica($e1.ast, $OP, $e2.ast); }
 	| e1=expr OP='&&' e2=expr
-	    { $ast = new ExpresionBinaria($e1.ast, $OP, $e2.ast); }
+	    { $ast = new ExpresionLogica($e1.ast, $OP, $e2.ast); }
 	| e1=expr OP='||' e2=expr
-	    { $ast = new ExpresionBinaria($e1.ast, $OP, $e2.ast); }
+	    { $ast = new ExpresionLogica($e1.ast, $OP, $e2.ast); }
 	| IDENT '(' params ')'
 	    { $ast = new InvocacionExpresion($IDENT, $params.ast); }
 	;

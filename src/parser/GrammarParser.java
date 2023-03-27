@@ -1,4 +1,4 @@
-// Generated from ..\..\src\parser\Grammar.g4 by ANTLR 4.7.2
+// Generated from ../../src/parser/Grammar.g4 by ANTLR 4.7.2
 package parser;
 
     import ast.*;
@@ -975,7 +975,7 @@ public class GrammarParser extends Parser {
 						}
 						setState(240);
 						((ExprContext)_localctx).e2 = ((ExprContext)_localctx).expr = expr(8);
-						 ((ExprContext)_localctx).ast =  new ExpresionBinaria(((ExprContext)_localctx).e1.ast, ((ExprContext)_localctx).OP, ((ExprContext)_localctx).e2.ast); 
+						 ((ExprContext)_localctx).ast =  new ExpresionAritmetica(((ExprContext)_localctx).e1.ast, ((ExprContext)_localctx).OP, ((ExprContext)_localctx).e2.ast); 
 						}
 						break;
 					case 3:
@@ -999,7 +999,7 @@ public class GrammarParser extends Parser {
 						}
 						setState(245);
 						((ExprContext)_localctx).e2 = ((ExprContext)_localctx).expr = expr(7);
-						 ((ExprContext)_localctx).ast =  new ExpresionBinaria(((ExprContext)_localctx).e1.ast, ((ExprContext)_localctx).OP, ((ExprContext)_localctx).e2.ast); 
+						 ((ExprContext)_localctx).ast =  new ExpresionAritmetica(((ExprContext)_localctx).e1.ast, ((ExprContext)_localctx).OP, ((ExprContext)_localctx).e2.ast); 
 						}
 						break;
 					case 4:
@@ -1023,7 +1023,7 @@ public class GrammarParser extends Parser {
 						}
 						setState(250);
 						((ExprContext)_localctx).e2 = ((ExprContext)_localctx).expr = expr(6);
-						 ((ExprContext)_localctx).ast =  new ExpresionBinaria(((ExprContext)_localctx).e1.ast, ((ExprContext)_localctx).OP, ((ExprContext)_localctx).e2.ast); 
+						 ((ExprContext)_localctx).ast =  new ExpresionLogica(((ExprContext)_localctx).e1.ast, ((ExprContext)_localctx).OP, ((ExprContext)_localctx).e2.ast); 
 						}
 						break;
 					case 5:
@@ -1047,7 +1047,7 @@ public class GrammarParser extends Parser {
 						}
 						setState(255);
 						((ExprContext)_localctx).e2 = ((ExprContext)_localctx).expr = expr(5);
-						 ((ExprContext)_localctx).ast =  new ExpresionBinaria(((ExprContext)_localctx).e1.ast, ((ExprContext)_localctx).OP, ((ExprContext)_localctx).e2.ast); 
+						 ((ExprContext)_localctx).ast =  new ExpresionLogica(((ExprContext)_localctx).e1.ast, ((ExprContext)_localctx).OP, ((ExprContext)_localctx).e2.ast); 
 						}
 						break;
 					case 6:
@@ -1062,7 +1062,7 @@ public class GrammarParser extends Parser {
 						((ExprContext)_localctx).OP = match(T__35);
 						setState(260);
 						((ExprContext)_localctx).e2 = ((ExprContext)_localctx).expr = expr(4);
-						 ((ExprContext)_localctx).ast =  new ExpresionBinaria(((ExprContext)_localctx).e1.ast, ((ExprContext)_localctx).OP, ((ExprContext)_localctx).e2.ast); 
+						 ((ExprContext)_localctx).ast =  new ExpresionLogica(((ExprContext)_localctx).e1.ast, ((ExprContext)_localctx).OP, ((ExprContext)_localctx).e2.ast); 
 						}
 						break;
 					case 7:
@@ -1077,7 +1077,7 @@ public class GrammarParser extends Parser {
 						((ExprContext)_localctx).OP = match(T__36);
 						setState(265);
 						((ExprContext)_localctx).e2 = ((ExprContext)_localctx).expr = expr(3);
-						 ((ExprContext)_localctx).ast =  new ExpresionBinaria(((ExprContext)_localctx).e1.ast, ((ExprContext)_localctx).OP, ((ExprContext)_localctx).e2.ast); 
+						 ((ExprContext)_localctx).ast =  new ExpresionLogica(((ExprContext)_localctx).e1.ast, ((ExprContext)_localctx).OP, ((ExprContext)_localctx).e2.ast); 
 						}
 						break;
 					case 8:

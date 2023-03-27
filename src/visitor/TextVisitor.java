@@ -357,7 +357,24 @@ public class TextVisitor extends DefaultVisitor {
     }
 
     //	class ExpresionBinaria { Expresion izq;  String operador;  Expresion der; }
-    public Object visit(ExpresionBinaria node, Object param) {
+    public Object visit(ExpresionAritmetica node, Object param) {
+
+        // super.visit(node, param);
+        printIndent(0, "(");
+
+        if (node.getIzq() != null)
+            node.getIzq().accept(this, param);
+
+        printIndent(0, node.getOperador());
+
+        if (node.getDer() != null)
+            node.getDer().accept(this, param);
+
+        printIndent(0, ")");
+        return null;
+    }
+
+    public Object visit(ExpresionLogica node, Object param) {
 
         // super.visit(node, param);
         printIndent(0, "(");
@@ -391,8 +408,8 @@ public class TextVisitor extends DefaultVisitor {
         // super.visit(node, param);
         printIndent(0, "<");
 
-        if (node.getTipo() != null)
-            node.getTipo().accept(this, param);
+        if (node.getNuevoTipo() != null)
+            node.getNuevoTipo().accept(this, param);
 
         printIndent(0, ">(");
 

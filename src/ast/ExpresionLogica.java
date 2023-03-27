@@ -8,11 +8,11 @@ import org.antlr.v4.runtime.*;
 
 import visitor.*;
 
-//	expresionBinaria:expresion -> izq:expresion  operador:String  der:expresion
+//	expresionLogica:expresion -> izq:expresion  operador:String  der:expresion
 
-public class ExpresionBinaria extends AbstractExpresion {
+public class ExpresionLogica extends AbstractExpresion {
 
-	public ExpresionBinaria(Expresion izq, String operador, Expresion der) {
+	public ExpresionLogica(Expresion izq, String operador, Expresion der) {
 		this.izq = izq;
 		this.operador = operador;
 		this.der = der;
@@ -22,7 +22,7 @@ public class ExpresionBinaria extends AbstractExpresion {
        setPositions(izq, der);
 	}
 
-	public ExpresionBinaria(Object izq, Object operador, Object der) {
+	public ExpresionLogica(Object izq, Object operador, Object der) {
 		this.izq = (Expresion) getAST(izq);
 		this.operador = (operador instanceof Token) ? ((Token)operador).getText() : (String) operador;
 		this.der = (Expresion) getAST(der);
