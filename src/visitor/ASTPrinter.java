@@ -342,6 +342,18 @@ public class ASTPrinter extends DefaultVisitor {
 		return null;
 	}
 
+	//	class Comparacion { Expresion izq;  String operador;  Expresion der; }
+	public Object visit(Comparacion node, Object param) {
+		int indent = ((Integer)param).intValue();
+
+		printName(indent, "Comparacion", node, false);
+
+		visit(indent + 1, "izq", "Expresion",node.getIzq());
+		print(indent + 1, "operador", "String", node.getOperador());
+		visit(indent + 1, "der", "Expresion",node.getDer());
+		return null;
+	}
+
 	//	class ExpresionUnaria { Expresion expresion;  String operador; }
 	public Object visit(ExpresionUnaria node, Object param) {
 		int indent = ((Integer)param).intValue();
@@ -353,13 +365,13 @@ public class ASTPrinter extends DefaultVisitor {
 		return null;
 	}
 
-	//	class Conversion { Tipo tipo;  Expresion expresion; }
+	//	class Conversion { Tipo nuevoTipo;  Expresion expresion; }
 	public Object visit(Conversion node, Object param) {
 		int indent = ((Integer)param).intValue();
 
 		printName(indent, "Conversion", node, false);
 
-		visit(indent + 1, "tipo", "Tipo",node.getNuevoTipo());
+		visit(indent + 1, "nuevoTipo", "Tipo",node.getNuevoTipo());
 		visit(indent + 1, "expresion", "Expresion",node.getExpresion());
 		return null;
 	}

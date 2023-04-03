@@ -1,4 +1,4 @@
-// Generated from ../../src/parser/Grammar.g4 by ANTLR 4.7.2
+// Generated from ..\..\src\parser\Grammar.g4 by ANTLR 4.7.2
 package parser;
 
     import ast.*;
@@ -1023,7 +1023,7 @@ public class GrammarParser extends Parser {
 						}
 						setState(250);
 						((ExprContext)_localctx).e2 = ((ExprContext)_localctx).expr = expr(6);
-						 ((ExprContext)_localctx).ast =  new ExpresionLogica(((ExprContext)_localctx).e1.ast, ((ExprContext)_localctx).OP, ((ExprContext)_localctx).e2.ast); 
+						 ((ExprContext)_localctx).ast =  new Comparacion(((ExprContext)_localctx).e1.ast, ((ExprContext)_localctx).OP, ((ExprContext)_localctx).e2.ast); 
 						}
 						break;
 					case 5:
@@ -1047,7 +1047,7 @@ public class GrammarParser extends Parser {
 						}
 						setState(255);
 						((ExprContext)_localctx).e2 = ((ExprContext)_localctx).expr = expr(5);
-						 ((ExprContext)_localctx).ast =  new ExpresionLogica(((ExprContext)_localctx).e1.ast, ((ExprContext)_localctx).OP, ((ExprContext)_localctx).e2.ast); 
+						 ((ExprContext)_localctx).ast =  new Comparacion(((ExprContext)_localctx).e1.ast, ((ExprContext)_localctx).OP, ((ExprContext)_localctx).e2.ast); 
 						}
 						break;
 					case 6:

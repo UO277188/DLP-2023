@@ -285,6 +285,20 @@ public class <nombre clase> extends DefaultVisitor {
 		return null;
 	}
 
+	//	class Comparacion { Expresion izq;  String operador;  Expresion der; }
+	public Object visit(Comparacion node, Object param) {
+
+		// super.visit(node, param);
+
+		if (node.getIzq() != null)
+			node.getIzq().accept(this, param);
+
+		if (node.getDer() != null)
+			node.getDer().accept(this, param);
+
+		return null;
+	}
+
 	//	class ExpresionUnaria { Expresion expresion;  String operador; }
 	public Object visit(ExpresionUnaria node, Object param) {
 
@@ -296,13 +310,13 @@ public class <nombre clase> extends DefaultVisitor {
 		return null;
 	}
 
-	//	class Conversion { Tipo tipo;  Expresion expresion; }
+	//	class Conversion { Tipo nuevoTipo;  Expresion expresion; }
 	public Object visit(Conversion node, Object param) {
 
 		// super.visit(node, param);
 
-		if (node.getTipo() != null)
-			node.getTipo().accept(this, param);
+		if (node.getNuevoTipo() != null)
+			node.getNuevoTipo().accept(this, param);
 
 		if (node.getExpresion() != null)
 			node.getExpresion().accept(this, param);

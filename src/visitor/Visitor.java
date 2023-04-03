@@ -31,6 +31,7 @@ public interface Visitor {
 	public Object visit(Variable node, Object param);
 	public Object visit(ExpresionAritmetica node, Object param);
 	public Object visit(ExpresionLogica node, Object param);
+	public Object visit(Comparacion node, Object param);
 	public Object visit(ExpresionUnaria node, Object param);
 	public Object visit(Conversion node, Object param);
 	public Object visit(InvocacionExpresion node, Object param);

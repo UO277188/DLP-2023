@@ -391,6 +391,23 @@ public class TextVisitor extends DefaultVisitor {
         return null;
     }
 
+    public Object visit(Comparacion node, Object param) {
+
+        // super.visit(node, param);
+        printIndent(0, "(");
+
+        if (node.getIzq() != null)
+            node.getIzq().accept(this, param);
+
+        printIndent(0, node.getOperador());
+
+        if (node.getDer() != null)
+            node.getDer().accept(this, param);
+
+        printIndent(0, ")");
+        return null;
+    }
+
     //	class ExpresionUnaria { Expresion expresion;  String operador; }
     public Object visit(ExpresionUnaria node, Object param) {
 

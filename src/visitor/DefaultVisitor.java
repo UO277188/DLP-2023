@@ -172,6 +172,15 @@ public class DefaultVisitor implements Visitor {
 		return null;
 	}
 
+	//	class Comparacion { Expresion izq;  String operador;  Expresion der; }
+	public Object visit(Comparacion node, Object param) {
+		if (node.getIzq() != null)
+			node.getIzq().accept(this, param);
+		if (node.getDer() != null)
+			node.getDer().accept(this, param);
+		return null;
+	}
+
 	//	class ExpresionUnaria { Expresion expresion;  String operador; }
 	public Object visit(ExpresionUnaria node, Object param) {
 		if (node.getExpresion() != null)
@@ -179,7 +188,7 @@ public class DefaultVisitor implements Visitor {
 		return null;
 	}
 
-	//	class Conversion { Tipo tipo;  Expresion expresion; }
+	//	class Conversion { Tipo nuevoTipo;  Expresion expresion; }
 	public Object visit(Conversion node, Object param) {
 		if (node.getNuevoTipo() != null)
 			node.getNuevoTipo().accept(this, param);

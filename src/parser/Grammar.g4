@@ -94,9 +94,9 @@ expr returns[Expresion ast]
 	| e1=expr OP=('+'|'-') e2=expr
 	    { $ast = new ExpresionAritmetica($e1.ast, $OP, $e2.ast); }
 	| e1=expr OP=('<'|'>'|'>='|'<=') e2=expr
-	    { $ast = new ExpresionLogica($e1.ast, $OP, $e2.ast); }
+	    { $ast = new Comparacion($e1.ast, $OP, $e2.ast); }
 	| e1=expr OP=('=='|'!=') e2=expr
-	    { $ast = new ExpresionLogica($e1.ast, $OP, $e2.ast); }
+	    { $ast = new Comparacion($e1.ast, $OP, $e2.ast); }
 	| e1=expr OP='&&' e2=expr
 	    { $ast = new ExpresionLogica($e1.ast, $OP, $e2.ast); }
 	| e1=expr OP='||' e2=expr
