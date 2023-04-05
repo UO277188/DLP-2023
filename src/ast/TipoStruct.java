@@ -7,45 +7,59 @@ package ast;
 import org.antlr.v4.runtime.Token;
 import visitor.Visitor;
 
-//	tipoStruct:tipo -> nombre:String
+import java.util.List;
+
+//	tipoStruct:tipo -> nombre:String  campos:campo*
 
 public class TipoStruct extends AbstractTipo {
 
-	public TipoStruct(String nombre) {
-		this.nombre = nombre;
-	}
+    public TipoStruct(String nombre, List<Campo> campos) {
+        this.nombre = nombre;
+        this.campos = campos;
 
-	public TipoStruct(Object nombre) {
-		this.nombre = (nombre instanceof Token) ? ((Token) nombre).getText() : (String) nombre;
+        // Lo siguiente se puede borrar si no se quiere la posicion en el fichero.
+        // Obtiene la linea/columna a partir de las de los hijos.
+        setPositions(campos);
+    }
 
-		// Lo siguiente se puede borrar si no se quiere la posicion en el fichero.
-		// Obtiene la linea/columna a partir de las de los hijos.
-		setPositions(nombre);
-	}
+    public TipoStruct(Object nombre, Object campos) {
+        this.nombre = (nombre instanceof Token) ? ((Token) nombre).getText() : (String) nombre;
+        this.campos = this.<Campo>getAstFromContexts(campos);
 
-	public String getNombre() {
-		return nombre;
-	}
+        // Lo siguiente se puede borrar si no se quiere la posicion en el fichero.
+        // Obtiene la linea/columna a partir de las de los hijos.
+        setPositions(nombre, campos);
+    }
 
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
+    public String getNombre() {
+        return nombre;
+    }
 
-	@Override
-	public Object accept(Visitor v, Object param) {
-		return v.visit(this, param);
-	}
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
 
-	private String nombre;
+    public List<Campo> getCampos() {
+        return campos;
+    }
 
-	public String toString() {
-		return "{nombre:" + getNombre() + "}";
-	}
+    public void setCampos(List<Campo> campos) {
+        this.campos = campos;
+    }
 
+    @Override
+    public Object accept(Visitor v, Object param) {
+        return v.visit(this, param);
+    }
 
-	private DefinicionStruct definicion;
+    private String nombre;
+    private List<Campo> campos;
 
-	public void setDefinicion(DefinicionStruct definicion) {
-		this.definicion = definicion;
-	}
+    public String toString() {
+        return "{nombre:" + getNombre() + ", campos:" + getCampos() + "}";
+    }
+
+    public void addCampo(Campo c) {
+        this.campos.add(c);
+    }
 }

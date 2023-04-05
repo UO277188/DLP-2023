@@ -129,22 +129,22 @@ public class ASTPrinter extends DefaultVisitor {
 		return null;
 	}
 
-	//	class DefinicionStruct { String nombre;  List<DefinicionCampo> campos; }
+	//	class DefinicionStruct { String nombre;  List<Campo> campos; }
 	public Object visit(DefinicionStruct node, Object param) {
 		int indent = ((Integer)param).intValue();
 
 		printName(indent, "DefinicionStruct", node, false);
 
 		print(indent + 1, "nombre", "String", node.getNombre());
-		visit(indent + 1, "campos", "List<DefinicionCampo>",node.getCampos());
+		visit(indent + 1, "campos", "List<Campo>",node.getCampos());
 		return null;
 	}
 
-	//	class DefinicionCampo { String nombre;  Tipo tipo; }
-	public Object visit(DefinicionCampo node, Object param) {
+	//	class Campo { String nombre;  Tipo tipo; }
+	public Object visit(Campo node, Object param) {
 		int indent = ((Integer)param).intValue();
 
-		printName(indent, "DefinicionCampo", node, false);
+		printName(indent, "Campo", node, false);
 
 		print(indent + 1, "nombre", "String", node.getNombre());
 		visit(indent + 1, "tipo", "Tipo",node.getTipo());
@@ -189,11 +189,14 @@ public class ASTPrinter extends DefaultVisitor {
 		return null;
 	}
 
-	//	class TipoStruct { String nombre; }
+	//	class TipoStruct { String nombre;  List<Campo> campos; }
 	public Object visit(TipoStruct node, Object param) {
 		int indent = ((Integer)param).intValue();
 
-		printCompact(indent, "TipoStruct", node, "nombre", node.getNombre());
+		printName(indent, "TipoStruct", node, false);
+
+		print(indent + 1, "nombre", "String", node.getNombre());
+		visit(indent + 1, "campos", "List<Campo>",node.getCampos());
 		return null;
 	}
 

@@ -5,14 +5,15 @@ NODES
 programa -> definiciones:definicion*;
 definicionFuncion:definicion -> nombre:string params:definicionVariable* tipo variablesLocales:definicionVariable* sentencias:sentencia*;
 definicionVariable:definicion -> nombre:string tipo;
-definicionStruct:definicion -> nombre:string campos:definicionCampo*;
-definicionCampo:definicion -> nombre:string tipo;
+definicionStruct:definicion -> nombre:string campos:campo*;
+
+campo:definicion -> nombre:string tipo;
 
 tipoEntero:tipo -> ;
 tipoReal:tipo -> ;
 tipoChar:tipo -> ;
 tipoArray:tipo -> longitud:int tipo;
-tipoStruct:tipo -> nombre:string;
+tipoStruct:tipo -> nombre:string campos:campo*;
 tipoVoid:tipo -> ;
 
 print:sentencia -> expresion? tipo_print:string;

@@ -29,11 +29,11 @@ public class GrammarParser extends Parser {
 		WS=45;
 	public static final int
 		RULE_start = 0, RULE_defVar = 1, RULE_defFunc = 2, RULE_defStruct = 3, 
-		RULE_defCampo = 4, RULE_tipo = 5, RULE_sentencia = 6, RULE_expr = 7, RULE_params = 8, 
+		RULE_campo = 4, RULE_tipo = 5, RULE_sentencia = 6, RULE_expr = 7, RULE_params = 8, 
 		RULE_funcDefParams = 9;
 	private static String[] makeRuleNames() {
 		return new String[] {
-			"start", "defVar", "defFunc", "defStruct", "defCampo", "tipo", "sentencia", 
+			"start", "defVar", "defFunc", "defStruct", "campo", "tipo", "sentencia", 
 			"expr", "params", "funcDefParams"
 		};
 	}
@@ -363,13 +363,13 @@ public class GrammarParser extends Parser {
 	public static class DefStructContext extends ParserRuleContext {
 		public DefinicionStruct ast;
 		public Token IDENT;
-		public DefCampoContext defCampo;
+		public CampoContext campo;
 		public TerminalNode IDENT() { return getToken(GrammarParser.IDENT, 0); }
-		public List<DefCampoContext> defCampo() {
-			return getRuleContexts(DefCampoContext.class);
+		public List<CampoContext> campo() {
+			return getRuleContexts(CampoContext.class);
 		}
-		public DefCampoContext defCampo(int i) {
-			return getRuleContext(DefCampoContext.class,i);
+		public CampoContext campo(int i) {
+			return getRuleContext(CampoContext.class,i);
 		}
 		public DefStructContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -384,7 +384,7 @@ public class GrammarParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			 List<DefinicionCampo> defsCampo = new ArrayList<DefinicionCampo>(); 
+			 List<Campo> campos = new ArrayList<Campo>(); 
 			setState(79);
 			match(T__7);
 			setState(80);
@@ -398,10 +398,10 @@ public class GrammarParser extends Parser {
 				{
 				{
 				setState(82);
-				((DefStructContext)_localctx).defCampo = defCampo();
+				((DefStructContext)_localctx).campo = campo();
 				setState(83);
 				match(T__1);
-				 defsCampo.add(((DefStructContext)_localctx).defCampo.ast); 
+				 campos.add(((DefStructContext)_localctx).campo.ast); 
 				}
 				}
 				setState(90);
@@ -412,7 +412,7 @@ public class GrammarParser extends Parser {
 			match(T__6);
 			setState(92);
 			match(T__1);
-			 ((DefStructContext)_localctx).ast =  new DefinicionStruct(((DefStructContext)_localctx).IDENT, defsCampo); 
+			 ((DefStructContext)_localctx).ast =  new DefinicionStruct(((DefStructContext)_localctx).IDENT, campos); 
 			}
 		}
 		catch (RecognitionException re) {
@@ -426,33 +426,33 @@ public class GrammarParser extends Parser {
 		return _localctx;
 	}
 
-	public static class DefCampoContext extends ParserRuleContext {
-		public DefinicionCampo ast;
+	public static class CampoContext extends ParserRuleContext {
+		public Campo ast;
 		public Token IDENT;
 		public TipoContext tipo;
 		public TerminalNode IDENT() { return getToken(GrammarParser.IDENT, 0); }
 		public TipoContext tipo() {
 			return getRuleContext(TipoContext.class,0);
 		}
-		public DefCampoContext(ParserRuleContext parent, int invokingState) {
+		public CampoContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_defCampo; }
+		@Override public int getRuleIndex() { return RULE_campo; }
 	}
 
-	public final DefCampoContext defCampo() throws RecognitionException {
-		DefCampoContext _localctx = new DefCampoContext(_ctx, getState());
-		enterRule(_localctx, 8, RULE_defCampo);
+	public final CampoContext campo() throws RecognitionException {
+		CampoContext _localctx = new CampoContext(_ctx, getState());
+		enterRule(_localctx, 8, RULE_campo);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
 			setState(95);
-			((DefCampoContext)_localctx).IDENT = match(IDENT);
+			((CampoContext)_localctx).IDENT = match(IDENT);
 			setState(96);
 			match(T__2);
 			setState(97);
-			((DefCampoContext)_localctx).tipo = tipo();
-			 ((DefCampoContext)_localctx).ast =  new DefinicionCampo(((DefCampoContext)_localctx).IDENT, ((DefCampoContext)_localctx).tipo.ast); 
+			((CampoContext)_localctx).tipo = tipo();
+			 ((CampoContext)_localctx).ast =  new Campo(((CampoContext)_localctx).IDENT, ((CampoContext)_localctx).tipo.ast); 
 			}
 		}
 		catch (RecognitionException re) {
@@ -518,7 +518,7 @@ public class GrammarParser extends Parser {
 				{
 				setState(106);
 				((TipoContext)_localctx).IDENT = match(IDENT);
-				 ((TipoContext)_localctx).ast =  new TipoStruct(((TipoContext)_localctx).IDENT); 
+				 ((TipoContext)_localctx).ast =  new TipoStruct(((TipoContext)_localctx).IDENT, new ArrayList<Campo>()); 
 				}
 				break;
 			case T__11:

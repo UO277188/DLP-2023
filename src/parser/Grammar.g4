@@ -31,20 +31,20 @@ defFunc returns[DefinicionFuncion ast]
     ;
 
 defStruct returns[DefinicionStruct ast]
-    : { List<DefinicionCampo> defsCampo = new ArrayList<DefinicionCampo>(); }
-    'struct' IDENT '{' (defCampo ';' { defsCampo.add($defCampo.ast); } )* '}' ';'
-    { $ast = new DefinicionStruct($IDENT, defsCampo); }
+    : { List<Campo> campos = new ArrayList<Campo>(); }
+    'struct' IDENT '{' (campo ';' { campos.add($campo.ast); } )* '}' ';'
+    { $ast = new DefinicionStruct($IDENT, campos); }
     ;
 
-defCampo returns[DefinicionCampo ast]
-    : IDENT ':' tipo { $ast = new DefinicionCampo($IDENT, $tipo.ast); }
+campo returns[Campo ast]
+    : IDENT ':' tipo { $ast = new Campo($IDENT, $tipo.ast); }
     ;
 
 tipo returns[Tipo ast]
     : 'int'                     { $ast = new TipoEntero(); }
 	| 'float'                   { $ast = new TipoReal(); }
 	| 'char'                    { $ast = new TipoChar(); }
-	| IDENT                     { $ast = new TipoStruct($IDENT); }
+	| IDENT                     { $ast = new TipoStruct($IDENT, new ArrayList<Campo>()); }
     | '[' LITENT ']' tipo      { $ast = new TipoArray($LITENT, $tipo.ast); }
     ;
 

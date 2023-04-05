@@ -34,8 +34,10 @@ public class Identification extends DefaultVisitor {
 
     @Override
     public Object visit(DefinicionFuncion node, Object param) {
-        predicado(funciones.put(node.getNombre(), node) == null,
-                "Función ya definida: " + node.getNombre(), node);
+        if (st.getFromAny(node.getNombre()) != null)
+            error("Función ya definida: " + node.getNombre(), node.getStart());
+        else
+            st.put(node.getNombre(), node);
         st.set();
         for (DefinicionVariable var : node.getParams())
             var.accept(this, param);
@@ -78,14 +80,17 @@ public class Identification extends DefaultVisitor {
 
     public Object visit(TipoStruct node, Object param) {
         DefinicionStruct definicion = structs.get(node.getNombre());
-        predicado(definicion != null, "Estructura no definida: " + node.getNombre(), node);
-        node.setDefinicion(definicion);
+        if (definicion != null) {
+            for (Campo c : definicion.getCampos())
+                node.addCampo(new Campo(c.getNombre(), c.getTipo()));
+        } else
+            error("Variable ya definida: " + node.getNombre(), node.getStart());
         return null;
     }
 
     @Override
     public Object visit(Invocacion node, Object param) {
-        DefinicionFuncion def = funciones.get(node.getNombre());
+        DefinicionFuncion def = (DefinicionFuncion) st.getFromAny(node.getNombre());
         predicado(def != null, "No se ha encontrado la función " + node.getNombre(), node);
         super.visit(node, param);
         return null;
@@ -93,7 +98,7 @@ public class Identification extends DefaultVisitor {
 
     @Override
     public Object visit(InvocacionExpresion node, Object param) {
-        DefinicionFuncion def = funciones.get(node.getNombre());
+        DefinicionFuncion def = (DefinicionFuncion) st.getFromAny(node.getNombre());
         predicado(def != null, "No se ha encontrado la función " + node.getNombre(), node);
         super.visit(node, param);
         return null;
@@ -105,6 +110,11 @@ public class Identification extends DefaultVisitor {
         structs.values().forEach(d -> d.getCampos().forEach(c -> campos.add(c.getNombre())));
         predicado(st.getFromAny(node.getNombre()) != null || campos.contains(node.getNombre()),
                 "No se ha encontrado la variable " + node.getNombre(), node);
+        return null;
+    }
+
+    @Override
+    public Object visit(AccesoCampo node, Object param) {
         return null;
     }
 
@@ -126,7 +136,6 @@ public class Identification extends DefaultVisitor {
 
     private ErrorManager errorManager;
 
-    private Map<String, DefinicionFuncion> funciones = new HashMap<String, DefinicionFuncion>();
     private Map<String, DefinicionStruct> structs = new HashMap<String, DefinicionStruct>();
     private ContextMap<String, Definicion> st = new ContextMap<>();
 }

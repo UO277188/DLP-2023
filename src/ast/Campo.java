@@ -8,11 +8,11 @@ import org.antlr.v4.runtime.*;
 
 import visitor.*;
 
-//	definicionCampo:definicion -> nombre:String  tipo:tipo
+//	campo:definicion -> nombre:String  tipo:tipo
 
-public class DefinicionCampo extends AbstractDefinicion {
+public class Campo extends AbstractDefinicion {
 
-	public DefinicionCampo(String nombre, Tipo tipo) {
+	public Campo(String nombre, Tipo tipo) {
 		this.nombre = nombre;
 		this.tipo = tipo;
 
@@ -21,7 +21,7 @@ public class DefinicionCampo extends AbstractDefinicion {
        setPositions(tipo);
 	}
 
-	public DefinicionCampo(Object nombre, Object tipo) {
+	public Campo(Object nombre, Object tipo) {
 		this.nombre = (nombre instanceof Token) ? ((Token)nombre).getText() : (String) nombre;
 		this.tipo = (Tipo) getAST(tipo);
 

@@ -143,7 +143,7 @@ public class TextVisitor extends DefaultVisitor {
         printIndent((Integer) param, node.getNombre());
         printIndent((Integer) param, "{\n");
 
-        for (DefinicionCampo child : node.getCampos()) {
+        for (Campo child : node.getCampos()) {
             child.accept(this, (Integer) param + 1);
             printIndent(0, ";\n");
         }
@@ -152,7 +152,7 @@ public class TextVisitor extends DefaultVisitor {
         return null;
     }
 
-    public Object visit(DefinicionCampo node, Object param) {
+    public Object visit(Campo node, Object param) {
         printIndent((Integer) param, node.getNombre());
         printIndent(0, ":");
         if (node.getTipo() != null)
