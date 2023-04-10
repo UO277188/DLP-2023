@@ -6,4 +6,9 @@ package ast;
 
 public interface Expresion extends AST {
 
+    Tipo getTipo();
+    void setTipo(Tipo t);
+
+    boolean isModificable();
+    void setModificable(boolean modificable);
 }

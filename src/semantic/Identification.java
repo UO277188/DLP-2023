@@ -54,6 +54,10 @@ public class Identification extends DefaultVisitor {
         if (st.getFromTop(node.getNombre()) != null) {
             error("Variable ya definida: " + node.getNombre(), node.getStart());
             return null;
+        } else if (node.getTipo() instanceof TipoStruct &&
+                structs.get(((TipoStruct) node.getTipo()).getNombre())==null) {
+                error("Tipo struct no definido: " + node.getNombre(), node.getStart());
+                return null;
         } else {
             st.put(node.getNombre(), node);
             node.getTipo().accept(this, param);
@@ -84,7 +88,7 @@ public class Identification extends DefaultVisitor {
             for (Campo c : definicion.getCampos())
                 node.addCampo(new Campo(c.getNombre(), c.getTipo()));
         } else
-            error("Variable ya definida: " + node.getNombre(), node.getStart());
+            error("Struct ya definido: " + node.getNombre(), node.getStart());
         return null;
     }
 
@@ -106,15 +110,19 @@ public class Identification extends DefaultVisitor {
 
     @Override
     public Object visit(Variable node, Object param) {
-        List<String> campos = new ArrayList<>();
-        structs.values().forEach(d -> d.getCampos().forEach(c -> campos.add(c.getNombre())));
-        predicado(st.getFromAny(node.getNombre()) != null || campos.contains(node.getNombre()),
-                "No se ha encontrado la variable " + node.getNombre(), node);
+        if(param!=null && (boolean)param)
+            if(st.getFromAny(node.getNombre()) == null)
+                error("No se ha encontrado la variable " + node.getNombre(), node.getStart());
+            else {
+                node.setDefinicion((DefinicionVariable) st.getFromTop(node.getNombre()));
+            }
         return null;
     }
 
     @Override
     public Object visit(AccesoCampo node, Object param) {
+        node.getStruct().accept(this, true);
+        node.getCampo().accept(this, false);
         return null;
     }
 
