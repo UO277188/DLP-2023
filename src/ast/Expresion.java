@@ -5,10 +5,11 @@
 package ast;
 
 public interface Expresion extends AST {
-
     Tipo getTipo();
+
     void setTipo(Tipo t);
 
-    boolean isModificable();
+    public boolean isModificable();
+
     void setModificable(boolean modificable);
 }

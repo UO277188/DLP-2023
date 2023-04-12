@@ -8,6 +8,7 @@ import org.antlr.v4.runtime.Token;
 import visitor.Visitor;
 
 import java.util.List;
+import java.util.Optional;
 
 //	tipoStruct:tipo -> nombre:String  campos:campo*
 
@@ -41,6 +42,11 @@ public class TipoStruct extends AbstractTipo {
 
     public List<Campo> getCampos() {
         return campos;
+    }
+
+    public Campo getCampo(String nombre) {
+        Optional<Campo> campo = getCampos().stream().filter(c -> c.getNombre().equals(nombre)).findFirst();
+        return campo.orElse(null);
     }
 
     public void setCampos(List<Campo> campos) {

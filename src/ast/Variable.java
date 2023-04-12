@@ -4,51 +4,52 @@
 
 package ast;
 
-import org.antlr.v4.runtime.*;
-
-import visitor.*;
+import org.antlr.v4.runtime.Token;
+import visitor.Visitor;
 
 //	variable:expresion -> nombre:String
 
 public class Variable extends AbstractExpresion {
 
-	public Variable(String nombre) {
-		this.nombre = nombre;
-	}
+    public Variable(String nombre) {
+        this.nombre = nombre;
+    }
 
-	public Variable(Object nombre) {
-		this.nombre = (nombre instanceof Token) ? ((Token)nombre).getText() : (String) nombre;
+    public Variable(Object nombre) {
+        this.nombre = (nombre instanceof Token) ? ((Token) nombre).getText() : (String) nombre;
 
-       // Lo siguiente se puede borrar si no se quiere la posicion en el fichero.
-       // Obtiene la linea/columna a partir de las de los hijos.
-       setPositions(nombre);
-	}
+        // Lo siguiente se puede borrar si no se quiere la posicion en el fichero.
+        // Obtiene la linea/columna a partir de las de los hijos.
+        setPositions(nombre);
+    }
 
-	public String getNombre() {
-		return nombre;
-	}
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
+    public String getNombre() {
+        return nombre;
+    }
 
-	@Override
-	public Object accept(Visitor v, Object param) { 
-		return v.visit(this, param);
-	}
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
 
-	private String nombre;
+    @Override
+    public Object accept(Visitor v, Object param) {
+        return v.visit(this, param);
+    }
 
-	public String toString() {
-       return "{nombre:" + getNombre() + "}";
-   }
+    private String nombre;
 
-   private DefinicionVariable def;
+    public String toString() {
+        return "{nombre:" + getNombre() + "}";
+    }
 
-	public DefinicionVariable getDefinicion() {
-		return def;
-	}
 
-	public void setDefinicion(DefinicionVariable def) {
-		this.def = def;
-	}
+    private DefinicionVariable def;
+
+    public DefinicionVariable getDefinicion() {
+        return def;
+    }
+
+    public void setDefinicion(DefinicionVariable def) {
+        this.def = def;
+    }
 }

@@ -10,9 +10,7 @@ import ast.*;
 import main.ErrorManager;
 import visitor.DefaultVisitor;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -54,10 +52,6 @@ public class Identification extends DefaultVisitor {
         if (st.getFromTop(node.getNombre()) != null) {
             error("Variable ya definida: " + node.getNombre(), node.getStart());
             return null;
-        } else if (node.getTipo() instanceof TipoStruct &&
-                structs.get(((TipoStruct) node.getTipo()).getNombre())==null) {
-                error("Tipo struct no definido: " + node.getNombre(), node.getStart());
-                return null;
         } else {
             st.put(node.getNombre(), node);
             node.getTipo().accept(this, param);
@@ -88,14 +82,17 @@ public class Identification extends DefaultVisitor {
             for (Campo c : definicion.getCampos())
                 node.addCampo(new Campo(c.getNombre(), c.getTipo()));
         } else
-            error("Struct ya definido: " + node.getNombre(), node.getStart());
+            error("Estructura no definida: " + node.getNombre(), node.getStart());
         return null;
     }
 
     @Override
     public Object visit(Invocacion node, Object param) {
         DefinicionFuncion def = (DefinicionFuncion) st.getFromAny(node.getNombre());
-        predicado(def != null, "No se ha encontrado la función " + node.getNombre(), node);
+        if (def != null)
+            node.setDefinicion(def);
+        else
+            error("No se ha encontrado la función " + node.getNombre(), node.getStart());
         super.visit(node, param);
         return null;
     }
@@ -103,19 +100,30 @@ public class Identification extends DefaultVisitor {
     @Override
     public Object visit(InvocacionExpresion node, Object param) {
         DefinicionFuncion def = (DefinicionFuncion) st.getFromAny(node.getNombre());
-        predicado(def != null, "No se ha encontrado la función " + node.getNombre(), node);
+        if (def != null)
+            node.setDefinicion(def);
+        else
+            error("No se ha encontrado la función " + node.getNombre(), node.getStart());
         super.visit(node, param);
         return null;
     }
 
     @Override
     public Object visit(Variable node, Object param) {
-        if(param!=null && (boolean)param)
-            if(st.getFromAny(node.getNombre()) == null)
-                error("No se ha encontrado la variable " + node.getNombre(), node.getStart());
-            else {
-                node.setDefinicion((DefinicionVariable) st.getFromTop(node.getNombre()));
+        // si se viene de un acceso a campo
+        if (param != null) {
+            // si es la parte izquierda
+            if ((boolean) param) {
+                if (st.getFromAny(node.getNombre()) != null)
+                    node.setDefinicion((DefinicionVariable) st.getFromAny(node.getNombre()));
             }
+        } else {
+            if (st.getFromAny(node.getNombre()) != null)
+                node.setDefinicion((DefinicionVariable) st.getFromAny(node.getNombre()));
+            else
+                error("Variable no definida: " + node.getNombre(), node.getStart());
+        }
+
         return null;
     }
 
