@@ -44,7 +44,7 @@ public class TypeChecking extends DefaultVisitor {
             // si es parámetro de función
             if ((boolean) param)
                 predicado(esTipoPrimitivo(node.getTipo()),
-                        "El tipo del Print no es primitivo", node);
+                        "El tipo no es primitivo", node);
 
         return null;
     }
@@ -53,14 +53,14 @@ public class TypeChecking extends DefaultVisitor {
     public Object visit(Print node, Object param) {
         node.getExpresion().accept(this, param);
         predicado(esTipoPrimitivo(node.getExpresion().getTipo()),
-                "El tipo del Read no es primitivo", node);
+                "El tipo del Print no es primitivo", node);
         return null;
     }
 
     @Override
     public Object visit(Read node, Object param) {
         node.getExpresion().accept(this, param);
-        predicado(esTipoPrimitivo(node.getExpresion().getTipo()), "El tipo no es primitivo", node);
+        predicado(esTipoPrimitivo(node.getExpresion().getTipo()), "El tipo del Read no es primitivo", node);
         predicado(node.getExpresion().isModificable(), "El tipo no es modificable", node);
         return null;
     }
@@ -292,6 +292,7 @@ public class TypeChecking extends DefaultVisitor {
         if (node.getArray().getTipo() instanceof TipoArray) {
             TipoArray tipo = (TipoArray) node.getArray().getTipo();
             node.setTipo(tipo.getTipo());
+            node.setModificable(true);
         }
 
         return null;
@@ -305,6 +306,7 @@ public class TypeChecking extends DefaultVisitor {
         if (node.getStruct().getTipo() instanceof TipoStruct) {
             node.getCampo().accept(this, node.getStruct().getTipo());
             node.setTipo(node.getCampo().getTipo());
+            node.setModificable(true);
         }
         return null;
     }
