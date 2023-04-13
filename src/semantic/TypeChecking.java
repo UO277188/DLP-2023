@@ -43,7 +43,8 @@ public class TypeChecking extends DefaultVisitor {
         if (param != null)
             // si es parámetro de función
             if ((boolean) param)
-                predicado(esTipoPrimitivo(node.getTipo()), "El tipo no es primitivo", node);
+                predicado(esTipoPrimitivo(node.getTipo()),
+                        "El tipo del Print no es primitivo", node);
 
         return null;
     }
@@ -51,7 +52,8 @@ public class TypeChecking extends DefaultVisitor {
     @Override
     public Object visit(Print node, Object param) {
         node.getExpresion().accept(this, param);
-        predicado(esTipoPrimitivo(node.getExpresion().getTipo()), "El tipo no es primitivo", node);
+        predicado(esTipoPrimitivo(node.getExpresion().getTipo()),
+                "El tipo del Read no es primitivo", node);
         return null;
     }
 
@@ -68,6 +70,7 @@ public class TypeChecking extends DefaultVisitor {
         node.getIzquierda().accept(this, param);
         node.getDerecha().accept(this, param);
 
+        predicado(esTipoPrimitivo(node.getIzquierda().getTipo()), "El tipo de la izquierda no es primitivo", node);
         predicado(esTipoPrimitivo(node.getDerecha().getTipo()), "El tipo de la derecha no es primitivo", node);
         predicado(node.getIzquierda().isModificable(), "El valor de la izquierda no es modificable", node);
         predicado(mismoTipo(node.getIzquierda().getTipo(), node.getDerecha().getTipo()), "No coinciden los tipos", node);
@@ -78,6 +81,12 @@ public class TypeChecking extends DefaultVisitor {
     public Object visit(If node, Object param) {
         node.getCondicion().accept(this, param);
         predicado(node.getCondicion().getTipo() instanceof TipoEntero, "El tipo de la condición no es entero", node);
+
+        for (Sentencia s : node.getVerdadero())
+            s.accept(this, param);
+        for (Sentencia s : node.getFalso())
+            s.accept(this, param);
+
         return null;
     }
 
@@ -85,6 +94,9 @@ public class TypeChecking extends DefaultVisitor {
     public Object visit(While node, Object param) {
         node.getCondicion().accept(this, param);
         predicado(node.getCondicion().getTipo() instanceof TipoEntero, "El tipo de la condición no es entero", node);
+
+        for (Sentencia s : node.getSentencia())
+            s.accept(this, param);
         return null;
     }
 
@@ -115,7 +127,8 @@ public class TypeChecking extends DefaultVisitor {
     public Object visit(Return node, Object param) {
         Tipo tipoRetornoFuncion = (Tipo) param;
         if (node.getExpresion().size() == 0)
-            predicado(tipoRetornoFuncion instanceof TipoVoid, "El tipo devuelto no coincide con el de la función", node);
+            predicado(tipoRetornoFuncion instanceof TipoVoid,
+                    "El tipo devuelto no coincide con el de la función", node);
         else {
             node.getExpresion().get(0).accept(this, param);
             predicado(mismoTipo(tipoRetornoFuncion, node.getExpresion().get(0).getTipo()),
@@ -175,6 +188,8 @@ public class TypeChecking extends DefaultVisitor {
                 "El tipo de la izquierda no es primitivo o es Char", node);
         predicado(esTipoPrimitivo(node.getDer().getTipo()) && !(node.getIzq().getTipo() instanceof TipoChar)
                 , "El tipo de la derecha no es primitivo o es Char", node);
+        predicado(mismoTipo(node.getIzq().getTipo(), node.getDer().getTipo()),
+                "No coinciden los tipos", node);
 
         node.setTipo(node.getIzq().getTipo());
         node.setModificable(false);
@@ -186,9 +201,9 @@ public class TypeChecking extends DefaultVisitor {
         node.getIzq().accept(this, param);
         node.getDer().accept(this, param);
 
-        predicado(node.getIzq() instanceof TipoEntero,
+        predicado(node.getIzq().getTipo() instanceof TipoEntero,
                 "El tipo de la izquierda no es entero", node);
-        predicado(node.getDer() instanceof TipoEntero,
+        predicado(node.getDer().getTipo() instanceof TipoEntero,
                 "El tipo de la derecha no es entero", node);
 
         node.setTipo(node.getIzq().getTipo());
@@ -226,9 +241,14 @@ public class TypeChecking extends DefaultVisitor {
     public Object visit(Conversion node, Object param) {
         node.getNuevoTipo().accept(this, param);
         node.getExpresion().accept(this, param);
-        predicado(esTipoPrimitivo(node.getNuevoTipo()), "El nuevo tipo no es primitivo", node);
-        predicado(esTipoPrimitivo(node.getTipo()), "El tipo de la expresión no es primitivo", node);
-        predicado(!mismoTipo(node.getNuevoTipo(), node.getTipo()), "Los tipos no son distintos", node);
+
+        predicado(esTipoPrimitivo(node.getNuevoTipo()),
+                "El nuevo tipo no es primitivo", node);
+        predicado(esTipoPrimitivo(node.getExpresion().getTipo()),
+                "El tipo de la expresión no es primitivo", node);
+        predicado(!mismoTipo(node.getNuevoTipo(), node.getExpresion().getTipo()),
+                "Los tipos no son distintos", node);
+
         node.setTipo(node.getNuevoTipo());
         node.setModificable(false);
         return null;
@@ -236,6 +256,9 @@ public class TypeChecking extends DefaultVisitor {
 
     @Override
     public Object visit(InvocacionExpresion node, Object param) {
+        for (Expresion e : node.getParams())
+            e.accept(this, param);
+
         predicado(node.getDefinicion().getParams().size() == node.getParams().size(),
                 "Número incorrecto de parámetros", node);
 
@@ -244,13 +267,33 @@ public class TypeChecking extends DefaultVisitor {
                 predicado(mismoTipo(node.getDefinicion().getParams().get(i).getTipo(),
                                 node.getParams().get(i).getTipo()),
                         "No coinciden los tipos de los parámetros", node);
-                break;
+                if (!mismoTipo(node.getDefinicion().getParams().get(i).getTipo(),
+                        node.getParams().get(i).getTipo()))
+                    break;
             }
 
         predicado(!(node.getDefinicion().getTipo() instanceof TipoVoid), "El tipo de retorno no puede ser void", node);
 
         node.setTipo(node.getDefinicion().getTipo());
         node.setModificable(false);
+        return null;
+    }
+
+    @Override
+    public Object visit(AccesoArray node, Object param) {
+        node.getArray().accept(this, false);
+        node.getIndice().accept(this, param);
+
+        predicado(node.getArray().getTipo() instanceof TipoArray,
+                "El tipo debe ser Array", node);
+        predicado(node.getIndice().getTipo() instanceof TipoEntero,
+                "El tipo del índice debe ser Entero", node);
+
+        if (node.getArray().getTipo() instanceof TipoArray) {
+            TipoArray tipo = (TipoArray) node.getArray().getTipo();
+            node.setTipo(tipo.getTipo());
+        }
+
         return null;
     }
 
