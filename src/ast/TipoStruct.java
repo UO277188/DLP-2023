@@ -68,4 +68,12 @@ public class TipoStruct extends AbstractTipo {
     public void addCampo(Campo c) {
         this.campos.add(c);
     }
+
+    @Override
+    public int getTamaño() {
+        int tamaño = 0;
+        for (Campo c: getCampos())
+            tamaño += c.getTipo().getTamaño();
+        return tamaño;
+    }
 }

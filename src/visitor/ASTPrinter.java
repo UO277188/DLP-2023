@@ -115,6 +115,7 @@ public class ASTPrinter extends DefaultVisitor {
 		visit(indent + 1, "tipo", "Tipo",node.getTipo());
 		visit(indent + 1, "variablesLocales", "List<DefinicionVariable>",node.getVariablesLocales());
 		visit(indent + 1, "sentencias", "List<Sentencia>",node.getSentencias());
+
 		return null;
 	}
 
@@ -126,6 +127,9 @@ public class ASTPrinter extends DefaultVisitor {
 
 		print(indent + 1, "nombre", "String", node.getNombre());
 		visit(indent + 1, "tipo", "Tipo",node.getTipo());
+
+		print(indent + 1, "address", "int", node.getDireccion());
+
 		return null;
 	}
 

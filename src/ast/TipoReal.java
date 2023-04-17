@@ -19,4 +19,9 @@ public class TipoReal extends AbstractTipo {
 	public String toString() {
        return "{TipoReal}";
    }
+
+	@Override
+	public int getTamaño() {
+		return 4;
+	}
 }

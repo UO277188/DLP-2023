@@ -19,4 +19,9 @@ public class TipoChar extends AbstractTipo {
 	public String toString() {
        return "{TipoChar}";
    }
+
+	@Override
+	public int getTamaño() {
+		return 1;
+	}
 }

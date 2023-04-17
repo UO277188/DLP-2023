@@ -37,10 +37,14 @@ public class Identification extends DefaultVisitor {
         else
             st.put(node.getNombre(), node);
         st.set();
-        for (DefinicionVariable var : node.getParams())
+        for (DefinicionVariable var : node.getParams()) {
             var.accept(this, param);
-        for (DefinicionVariable var : node.getVariablesLocales())
+            var.setAmbito(Ambito.PARAM);
+        }
+        for (DefinicionVariable var : node.getVariablesLocales()) {
             var.accept(this, param);
+            var.setAmbito(Ambito.LOCAL);
+        }
         for (Sentencia sentencia : node.getSentencias())
             sentencia.accept(this, param);
         st.reset();
@@ -49,6 +53,7 @@ public class Identification extends DefaultVisitor {
 
     @Override
     public Object visit(DefinicionVariable node, Object param) {
+        node.setAmbito(Ambito.GLOBAL);
         if (st.getFromTop(node.getNombre()) != null) {
             error("Variable ya definida: " + node.getNombre(), node.getStart());
             return null;

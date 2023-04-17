@@ -19,4 +19,9 @@ public class TipoVoid extends AbstractTipo {
 	public String toString() {
        return "{TipoVoid}";
    }
+
+	@Override
+	public int getTamaño() {
+		return 0;
+	}
 }

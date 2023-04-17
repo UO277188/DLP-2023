@@ -52,6 +52,26 @@ public class DefinicionVariable extends AbstractDefinicion {
 	private String nombre;
 	private Tipo tipo;
 
+	private Ambito ambito;
+
+	public Ambito getAmbito() {
+		return ambito;
+	}
+
+	public void setAmbito(Ambito ambito) {
+		this.ambito = ambito;
+	}
+
+	public int direccion;
+
+	public int getDireccion() {
+		return direccion;
+	}
+
+	public void setDireccion(int direccion) {
+		this.direccion = direccion;
+	}
+
 	public String toString() {
        return "{nombre:" + getNombre() + ", tipo:" + getTipo() + "}";
    }
