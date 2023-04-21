@@ -1,36 +1,22 @@
 [TextVisitor]
-potencia(base:float, exponente:int):float{
-	var total:float;
-	if((exponente==0)){
-		total = 1.0;
-	} else {
-		if((exponente<0)){
-			total = (1.0/potencia(base, (0-exponente)));
-		} else {
-			total = base;
-			while((exponente>1)){
-				total = (total*base);
-				exponente = (exponente-1);
-			}
-		}
-	}
-	return total;
-
-}
-letraHipoteca(capital:float, meses:int, interes:float):float{
-	var mensual:float;
-	mensual = (interes/12.0);
-	return ((capital*mensual)/(100.0*(1.0-potencia((1.0+(mensual/100.0)), (0-meses)))));
-
-}
-main(){
-	var precioVivienda:float;
-	var mesesHipoteca:int;
-	var interes:float;
-	precioVivienda = 200000.0;
-	mesesHipoteca = (30*12);
-	interes = 2.04;
-	println letraHipoteca(precioVivienda, mesesHipoteca, interes);
+var a:char;
+struct Persona{
+	edad:int;
+	meses:[12]int;
+	a:float;
+};
+var b:float;
+struct Prueba{
+	campo1:int;
+	campo2:int;
+};
+var c:[2]Persona;
+var d:int;
+f(a:int, b:float, h:char){
+	var c:char;
+	var d:int;
+	var e:[2]Persona;
+	var f:float;
 
 }
 

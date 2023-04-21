@@ -85,7 +85,7 @@ public class Identification extends DefaultVisitor {
         DefinicionStruct definicion = structs.get(node.getNombre());
         if (definicion != null) {
             for (Campo c : definicion.getCampos())
-                node.addCampo(new Campo(c.getNombre(), c.getTipo()));
+                node.addCampo(c);
         } else
             error("Estructura no definida: " + node.getNombre(), node.getStart());
         return null;

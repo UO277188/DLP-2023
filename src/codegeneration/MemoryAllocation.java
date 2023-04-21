@@ -1,34 +1,33 @@
 /**
  * Tutorial de Diseño de Lenguajes de Programación
+ *
  * @author Raúl Izquierdo
  */
 
 package codegeneration;
 
-import ast.*;
-import visitor.*;
-
-import javax.sound.midi.SysexMessage;
+import ast.Campo;
+import ast.DefinicionFuncion;
+import ast.DefinicionStruct;
+import ast.DefinicionVariable;
+import visitor.DefaultVisitor;
 
 /**
  * Clase encargada de asignar direcciones a las variables.
  */
 public class MemoryAllocation extends DefaultVisitor {
-    int direccion = 0;
-    int direccionGlobales = 0;
+    private int direccion = 0;
 
     @Override
     public Object visit(DefinicionFuncion node, Object param) {
-        direccion = 0;
+        int relativa = 0;
         for (DefinicionVariable var : node.getVariablesLocales()) {
-            var.accept(this, param);
-            direccion += var.getTipo().getTamaño();
+            relativa = (int) var.accept(this, relativa);
         }
 
-        direccion = 4;
-        for (DefinicionVariable var : node.getParams()) {
-            var.accept(this, param);
-            direccion += var.getTipo().getTamaño();
+        relativa = 4;
+        for (int i = node.getParams().size() - 1; i >= 0; i--) {
+            relativa = (int) node.getParams().get(i).accept(this, relativa);
         }
 
         return null;
@@ -36,25 +35,36 @@ public class MemoryAllocation extends DefaultVisitor {
 
     @Override
     public Object visit(DefinicionVariable node, Object param) {
-        switch (node.getAmbito()){
+        int relativa = 0;
+        if (param != null)
+            relativa = (Integer) param;
+
+        switch (node.getAmbito()) {
             case LOCAL:
-                node.setDireccion(-(direccion + node.getTipo().getTamaño()));
-                break;
+                int dir = relativa + node.getTipo().getTamaño();
+                node.setDireccion(dir * -1);
+                return dir;
 
             case PARAM:
-                node.setDireccion(direccion);
-                break;
+                node.setDireccion(relativa);
+                return relativa + node.getTipo().getTamaño();
 
             case GLOBAL:
-                node.setDireccion(direccionGlobales);
-                direccionGlobales += node.getTipo().getTamaño();
+                node.setDireccion(this.direccion);
+                direccion += node.getTipo().getTamaño();
                 break;
+        }
+
+        return node.getTipo().getTamaño();
+    }
+
+    @Override
+    public Object visit(DefinicionStruct node, Object param) {
+        int tamaño = 0;
+        for (Campo c : node.getCampos()) {
+            c.setDireccion(tamaño);
+            tamaño += c.getTipo().getTamaño();
         }
         return null;
     }
-
-    // PARAMS =
-    // dir param = bp +4 + suma tamaños param de detras
-
-
 }
