@@ -4,24 +4,29 @@
 
 package ast;
 
-import visitor.*;
+import visitor.Visitor;
 
 //	tipoReal:tipo -> 
 
 public class TipoReal extends AbstractTipo {
 
-	@Override
-	public Object accept(Visitor v, Object param) { 
-		return v.visit(this, param);
-	}
+    @Override
+    public Object accept(Visitor v, Object param) {
+        return v.visit(this, param);
+    }
 
 
-	public String toString() {
-       return "{TipoReal}";
-   }
+    public String toString() {
+        return "{TipoReal}";
+    }
 
-	@Override
-	public int getTamaño() {
-		return 4;
-	}
+    @Override
+    public int getTamaño() {
+        return 4;
+    }
+
+    @Override
+    public String getSufijo() {
+        return "f";
+    }
 }

@@ -28,10 +28,12 @@ public class TypeChecking extends DefaultVisitor {
         node.getTipo().accept(this, param);
         if (!(node.getTipo() instanceof TipoVoid))
             predicado(esTipoPrimitivo(node.getTipo()), "El tipo de retorno de la función no es primitivo", node);
+
         for (DefinicionVariable var : node.getParams())
-            var.accept(this, true);
+            var.accept(this, param);
         for (DefinicionVariable var : node.getVariablesLocales())
-            var.accept(this, false);
+            var.accept(this, param);
+
         for (Sentencia sentencia : node.getSentencias())
             sentencia.accept(this, node.getTipo());
         return null;
@@ -40,11 +42,10 @@ public class TypeChecking extends DefaultVisitor {
     @Override
     public Object visit(DefinicionVariable node, Object param) {
         node.getTipo().accept(this, param);
-        if (param != null)
-            // si es parámetro de función
-            if ((boolean) param)
-                predicado(esTipoPrimitivo(node.getTipo()),
-                        "El tipo no es primitivo", node);
+
+        if (node.getAmbito().equals(Ambito.PARAM))
+            predicado(esTipoPrimitivo(node.getTipo()),
+                    "El tipo no es primitivo", node);
 
         return null;
     }

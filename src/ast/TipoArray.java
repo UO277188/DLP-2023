@@ -61,4 +61,9 @@ public class TipoArray extends AbstractTipo {
     public int getTamaño() {
         return getTipo().getTamaño() * getLongitud();
     }
+
+    @Override
+    public String getSufijo() {
+        return "";
+    }
 }

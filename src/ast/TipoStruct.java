@@ -72,8 +72,13 @@ public class TipoStruct extends AbstractTipo {
     @Override
     public int getTamaño() {
         int tamaño = 0;
-        for (Campo c: getCampos())
+        for (Campo c : getCampos())
             tamaño += c.getTipo().getTamaño();
         return tamaño;
+    }
+
+    @Override
+    public String getSufijo() {
+        return "";
     }
 }
