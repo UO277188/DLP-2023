@@ -1,0 +1,51 @@
+#source Test de Generación de Código básico.txt
+call main
+halt
+
+#line 26
+push 1111
+storei
+
+#line 27
+pushf 2222.2
+storef
+
+#line 28
+push 3333
+storei
+
+#line 29
+pushf 4444.4
+storef
+
+#line 31
+out
+i
+outb 32
+
+#line 32
+out
+f
+loadf
+addf
+outb 32
+
+#line 33
+out
+i
+loadi
+outb 10
+
+#line 35
+out
+i
+push 0
+gt
+pushf 3333.3
+lt
+and
+
+#line 36
+out
+i
+f2i

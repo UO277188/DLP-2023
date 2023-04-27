@@ -14,9 +14,6 @@ import java.io.Writer;
 
 
 public class CodeSelection extends DefaultVisitor {
-    public enum Funcion {
-        ADDRESS, VALUE, EXECUTE;
-    }
 
     public CodeSelection(Writer writer, String sourceFile) {
         this.writer = new PrintWriter(writer);
@@ -25,40 +22,73 @@ public class CodeSelection extends DefaultVisitor {
 
 
     // # ----------------------------------------------------------
-    // ----------------      SENTENCIAS       --------------------
+    // ------------------      PROGRAMA       ---------------------
 
     @Override
-    public Object visit(Asignacion node, Object param) {
-        switch ((Funcion) param) {
-            case EXECUTE:
-                line(node);
-                node.getIzquierda().accept(this, Funcion.ADDRESS);
-                node.getDerecha().accept(this, Funcion.VALUE);
-                out("store");
-                out(node.getIzquierda().getTipo().getSufijo());
-                break;
-        }
+    public Object visit(Programa node, Object param) {
+        out("#source "+sourceFile);
+        out("call main");
+        out("halt");
+        node.getDefiniciones().forEach(d -> d.accept(this, param));
         return null;
     }
+
+
+    // # ----------------------------------------------------------
+    // ----------------      DEFINICIONES       -------------------
+
+    @Override
+    public Object visit(DefinicionFuncion node, Object param) {
+        node.getSentencias().forEach(s -> s.accept(this, null));
+        return null;
+    }
+
+
+    // # ----------------------------------------------------------
+    // -----------------      SENTENCIAS       --------------------
 
     @Override
     public Object visit(Print node, Object param) {
-        switch ((Funcion) param) {
-            case EXECUTE:
-                line(node);
-                out("out");
-                out(node.getExpresion().getTipo().getSufijo());
-                node.getExpresion().accept(this, Funcion.VALUE);
+        line(node);
+        out("out");
+        out(node.getExpresion().getTipo().getSufijo());
+        node.getExpresion().accept(this, Funcion.VALUE);
 
-                if (node.getTipo_print().equals("printsp"))
-                    out("outb 32"); // imprime espacio
-                else if (node.getTipo_print().equals("println"))
-                    out("outb 10"); // imprime salto de linea
-                break;
-        }
+        if (node.getTipo_print().equals("printsp"))
+            out("outb 32"); // imprime espacio
+        else if (node.getTipo_print().equals("println"))
+            out("outb 10"); // imprime salto de linea
+
         return null;
     }
 
+    @Override
+    public Object visit(Read node, Object param) {
+        line(node);
+        out("in" + node.getExpresion().getTipo().getSufijo());
+
+        return null;
+    }
+
+    @Override
+    public Object visit(Asignacion node, Object param) {
+        line(node);
+        node.getIzquierda().accept(this, Funcion.ADDRESS);
+        node.getDerecha().accept(this, Funcion.VALUE);
+        out("store" + node.getIzquierda().getTipo().getSufijo());
+
+        return null;
+    }
+
+    @Override
+    public Object visit(Invocacion node, Object param) {
+        for (Expresion e : node.getParams()) {
+            e.accept(this, Funcion.VALUE);
+        }
+        out("call " + node.getNombre());
+
+        return null;
+    }
 
     // # ----------------------------------------------------------
     // ----------------      EXPRESIONES       --------------------
@@ -238,6 +268,17 @@ public class CodeSelection extends DefaultVisitor {
 
     // # ----------------------------------------------------------
     // Métodos auxiliares recomendados (opcionales) -------------
+
+    public enum Funcion {
+        ADDRESS, VALUE, EXECUTE;
+    }
+
+    static private int etiquetas = 1;
+    static public int getEtiquetas(int numero) {
+        int temp = etiquetas;
+        etiquetas += numero;
+        return temp;
+    }
 
     // Imprime una línea en el fichero de salida
     private void out(String instruction) {

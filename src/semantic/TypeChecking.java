@@ -223,7 +223,7 @@ public class TypeChecking extends DefaultVisitor {
         predicado(mismoTipo(node.getIzq().getTipo(), node.getDer().getTipo()),
                 "No coinciden los tipos de la comparación", node);
 
-        node.setTipo(node.getIzq().getTipo());
+        node.setTipo(new TipoEntero());
         node.setModificable(false);
         return null;
     }
