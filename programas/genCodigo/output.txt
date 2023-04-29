@@ -1,51 +1,90 @@
-#source Test de Generación de Código básico.txt
+#source "Test de Generacion de Codigo basico.txt"
 call main
 halt
+#global a : int
+#global b : float
+#type Punto : {
+	x : float
+	y : float
+}
+#global v : 5 * int
+#global p : Punto
+main:
+#func main
+#ret void
+enter 0
 
 #line 26
+push 0
 push 1111
 storei
 
 #line 27
+push 2
 pushf 2222.2
 storef
 
 #line 28
+push 6
+push 3
+push 2
+mul
+add
 push 3333
 storei
 
 #line 29
+push 16
+push 4
+add
 pushf 4444.4
 storef
 
 #line 31
-out
-i
-outb 32
+push 0
+loadi
+outi
+pushb 32
+outb
 
 #line 32
-out
-f
+push 2
+loadf
+push 16
+push 4
+add
 loadf
 addf
-outb 32
+outf
+pushb 32
+outb
 
 #line 33
-out
-i
+push 6
+push 3
+push 2
+mul
+add
 loadi
-outb 10
+outi
+pushb 10
+outb
 
 #line 35
-out
-i
 push 0
-gt
+loadi
+push 0
+gti
+push 2
+loadf
 pushf 3333.3
-lt
+ltf
 and
+outi
 
 #line 36
-out
-i
+push 2
+loadf
 f2i
+outi
+ret
