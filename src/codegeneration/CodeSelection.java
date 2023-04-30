@@ -43,15 +43,15 @@ public class CodeSelection extends DefaultVisitor {
         out("#func " + node.getNombre());
 
         node.getParams().forEach(s -> {
-            out("#param " + s.getNombre());
-            s.accept(this, null);
+            out("#param " + s.getNombre() + " : "
+                    + s.getTipo().accept(this, param));
         });
 
         out("#ret " + node.getTipo().accept(this, param));
 
         node.getVariablesLocales().forEach(s -> {
-            out("#local " + s.getNombre());
-            s.accept(this, param);
+            out("#local " + s.getNombre() + " : "
+                    + s.getTipo().accept(this, param));
         });
 
         int tamañoLocales;
@@ -59,7 +59,7 @@ public class CodeSelection extends DefaultVisitor {
             tamañoLocales = 0;
         else
             tamañoLocales = node.getVariablesLocales().get(node.getVariablesLocales().size() - 1).getDireccion();
-        out("enter " + tamañoLocales);
+        out("enter " + Math.abs(tamañoLocales));
 
         int tamañoParams = node.getParams().stream().mapToInt(p -> p.getTipo().getTamaño()).sum();
         int tamañoReturn = node.getTipo().getTamaño();
@@ -67,7 +67,10 @@ public class CodeSelection extends DefaultVisitor {
         node.getSentencias().forEach(s -> s.accept(this, new int[]{tamañoReturn, tamañoLocales, tamañoParams}));
 
         if (node.getTipo() instanceof TipoVoid)
-            out("ret");
+            out("ret "
+                    + tamañoReturn
+                    + ", " + Math.abs(tamañoLocales)
+                    + ", " + tamañoParams);
 
         return null;
     }
@@ -151,8 +154,9 @@ public class CodeSelection extends DefaultVisitor {
     @Override
     public Object visit(Read node, Object param) {
         line(node);
+        node.getExpresion().accept(this, Funcion.DIRECCION);
         out("in" + node.getExpresion().getTipo().getSufijo());
-
+        out("store" + node.getExpresion().getTipo().getSufijo());
         return null;
     }
 
@@ -172,11 +176,11 @@ public class CodeSelection extends DefaultVisitor {
 
         node.getCondicion().accept(this, Funcion.VALOR);
         out("jnz e" + etiqueta);
-        node.getVerdadero().forEach(s -> s.accept(this, param));
+        node.getFalso().forEach(s -> s.accept(this, param));
         out("jmp e" + etiqueta + 1);
         out("e" + etiqueta + ":");
-        node.getFalso().forEach(s -> s.accept(this, param));
-        out("e" + etiqueta + 1);
+        node.getVerdadero().forEach(s -> s.accept(this, param));
+        out("e" + etiqueta + 1 + ":");
 
         return null;
     }
@@ -202,7 +206,7 @@ public class CodeSelection extends DefaultVisitor {
         int[] retValues = (int[]) param;
         if (node.getExpresion().size() > 0) {
             node.getExpresion().get(0).accept(this, Funcion.VALOR);
-            out("ret " + retValues[0] + ", " + retValues[1] + ", " + retValues[2]);
+            out("ret " + retValues[0] + ", " + Math.abs(retValues[1]) + ", " + retValues[2]);
         }
 
         return null;
@@ -214,6 +218,9 @@ public class CodeSelection extends DefaultVisitor {
             e.accept(this, Funcion.VALOR);
         }
         out("call " + node.getNombre());
+
+        if (!(node.getDefinicion().getTipo() instanceof TipoVoid))
+            out("pop" + node.getDefinicion().getTipo().getSufijo());
 
         return null;
     }
@@ -246,7 +253,7 @@ public class CodeSelection extends DefaultVisitor {
     public Object visit(ConstanteChar node, Object param) {
         switch ((Funcion) param) {
             case VALOR:
-                out("pushb " + node.getValor());
+                out("pushb " + (int) node.getValor().substring(1, 2).charAt(0));
                 break;
         }
         return null;
@@ -264,6 +271,7 @@ public class CodeSelection extends DefaultVisitor {
                 if (node.getDefinicion().getAmbito() != Ambito.GLOBAL) {
                     out("pusha BP");
                     out("push " + node.getDefinicion().getDireccion());
+                    out("add");
                 } else
                     out("push " + node.getDefinicion().getDireccion());
                 break;

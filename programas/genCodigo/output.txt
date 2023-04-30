@@ -1,90 +1,208 @@
-#source "Test de Generacion de Codigo basico.txt"
+#source "Test 4.txt"
 call main
 halt
-#global a : int
-#global b : float
-#type Punto : {
-	x : float
-	y : float
-}
-#global v : 5 * int
-#global p : Punto
+potencia:
+#func potencia
+#param base : float
+#param exponente : int
+#ret float
+#local total : float
+enter 4
+pusha BP
+push 4
+add
+loadi
+push 0
+jnz e1
+pusha BP
+push 4
+add
+loadi
+push 0
+lti
+jnz e3
+
+#line 26
+pusha BP
+push -4
+add
+pusha BP
+push 6
+add
+loadf
+storef
+e5:
+pusha BP
+push 4
+add
+loadi
+push 1
+gti
+jz e51
+
+#line 28
+pusha BP
+push -4
+add
+pusha BP
+push -4
+add
+loadf
+pusha BP
+push 6
+add
+loadf
+mulf
+storef
+
+#line 29
+pusha BP
+push 4
+add
+pusha BP
+push 4
+add
+loadi
+push 1
+subi
+storei
+jmp e5
+e51:
+jmp e31
+e3:
+
+#line 24
+pusha BP
+push -4
+add
+pushf 1.0
+pusha BP
+push 6
+add
+loadf
+push 0
+pusha BP
+push 4
+add
+loadi
+subi
+call potencia
+divf
+storef
+e31:
+jmp e11
+e1:
+
+#line 21
+pusha BP
+push -4
+add
+pushf 1.0
+storef
+e11:
+
+#line 33
+pusha BP
+push -4
+add
+loadf
+ret 4, 4, 6
+letraHipoteca:
+#func letraHipoteca
+#param capital : float
+#param meses : int
+#param interes : float
+#ret float
+#local mensual : float
+enter 4
+
+#line 40
+pusha BP
+push -4
+add
+pusha BP
+push 4
+add
+loadf
+pushf 12.0
+divf
+storef
+
+#line 41
+pusha BP
+push 10
+add
+loadf
+pusha BP
+push -4
+add
+loadf
+mulf
+pushf 100.0
+pushf 1.0
+pushf 1.0
+pusha BP
+push -4
+add
+loadf
+pushf 100.0
+divf
+addf
+push 0
+pusha BP
+push 8
+add
+loadi
+subi
+call potencia
+subf
+mulf
+divf
+ret 4, 4, 10
 main:
 #func main
 #ret void
-enter 0
+#local precioVivienda : float
+#local mesesHipoteca : int
+#local interes : float
+enter 10
 
-#line 26
-push 0
-push 1111
-storei
-
-#line 27
-push 2
-pushf 2222.2
+#line 55
+pusha BP
+push -4
+add
+pushf 200000.0
 storef
 
-#line 28
-push 6
-push 3
-push 2
-mul
+#line 56
+pusha BP
+push -6
 add
-push 3333
+push 30
+push 12
+muli
 storei
 
-#line 29
-push 16
-push 4
+#line 57
+pusha BP
+push -10
 add
-pushf 4444.4
+pushf 2.04
 storef
 
-#line 31
-push 0
+#line 59
+pusha BP
+push -4
+add
+loadf
+pusha BP
+push -6
+add
 loadi
-outi
-pushb 32
-outb
-
-#line 32
-push 2
-loadf
-push 16
-push 4
+pusha BP
+push -10
 add
 loadf
-addf
+call letraHipoteca
 outf
-pushb 32
-outb
-
-#line 33
-push 6
-push 3
-push 2
-mul
-add
-loadi
-outi
-pushb 10
-outb
-
-#line 35
-push 0
-loadi
-push 0
-gti
-push 2
-loadf
-pushf 3333.3
-ltf
-and
-outi
-
-#line 36
-push 2
-loadf
-f2i
-outi
-ret
+ret 0, 10, 0
