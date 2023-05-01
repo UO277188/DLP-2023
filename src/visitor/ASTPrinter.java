@@ -94,7 +94,7 @@ public class ASTPrinter extends DefaultVisitor {
     }
 
     // ----------------------------------------------
-	//	class Programa { List<Definicion> definiciones; }
+    //	class Programa { List<Definicion> definiciones; }
     public Object visit(Programa node, Object param) {
         int indent = ((Integer) param).intValue();
 
@@ -220,8 +220,8 @@ public class ASTPrinter extends DefaultVisitor {
 
         printName(indent, "Print", node, false);
 
-        visit(indent + 1, "expresion", "Expresion", node.getExpresion());
-        print(indent + 1, "tipo_print", "String", node.getTipo_print());
+        visit(indent + 1, "expresion", "List<Expresion>", node.getExpresiones());
+
         return null;
     }
 
@@ -557,7 +557,7 @@ public class ASTPrinter extends DefaultVisitor {
             BufferedReader br = new BufferedReader(new FileReader(sourceFile));
             String line;
             while ((line = br.readLine()) != null) {
-				//	lines.add(line.replace("\t", spaces)); // Si tab = 4 espaces (Eclipse)
+                //	lines.add(line.replace("\t", spaces)); // Si tab = 4 espaces (Eclipse)
                 lines.add(line);
             }
             br.close();

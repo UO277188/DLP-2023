@@ -52,9 +52,11 @@ public class TypeChecking extends DefaultVisitor {
 
     @Override
     public Object visit(Print node, Object param) {
-        node.getExpresion().accept(this, param);
-        predicado(esTipoPrimitivo(node.getExpresion().getTipo()),
-                "El tipo del Print no es primitivo", node);
+        if (node.getExpresiones().size() > 0) {
+            node.getExpresiones().get(0).accept(this, param);
+            predicado(esTipoPrimitivo(node.getExpresiones().get(0).getTipo()),
+                    "El tipo del Print no es primitivo", node);
+        }
         return null;
     }
 
@@ -314,6 +316,7 @@ public class TypeChecking extends DefaultVisitor {
 
     // # ----------------------------------------------------------
     // Métodos auxiliares recomendados (opcionales) -------------
+
     boolean esTipoPrimitivo(Tipo t) {
         return t instanceof TipoEntero || t instanceof TipoReal || t instanceof TipoChar;
     }

@@ -16,7 +16,7 @@ tipoArray:tipo -> longitud:int tipo;
 tipoStruct:tipo -> nombre:string campos:campo*;
 tipoVoid:tipo -> ;
 
-print:sentencia -> expresion? tipo_print:string;
+print:sentencia -> expresion* tipo_print:string;
 read:sentencia -> expresion;
 asignacion:sentencia -> izquierda:expresion derecha:expresion;
 if:sentencia -> condicion:expresion verdadero:sentencia* falso:sentencia*;

@@ -1,209 +1,60 @@
-#source "Test 4.txt"
+#source "Test 1.txt"
 call main
 halt
-potencia:
-#func potencia
-#param base : float
-#param exponente : int
-#ret float
-#local total : float
-enter 4
+#global global : float
+doble:
+#func doble
+#param valor : int
+#ret int
+enter 0
+
+#line 23
 pusha BP
 push 4
 add
 loadi
-push 0
-eqi
-jnz e1
-pusha BP
-push 4
-add
-loadi
-push 0
-lti
-jnz e3
-
-#line 26
-pusha BP
-push -4
-add
-pusha BP
-push 6
-add
-loadf
-storef
-e5:
-pusha BP
-push 4
-add
-loadi
-push 1
-gti
-jz e51
-
-#line 28
-pusha BP
-push -4
-add
-pusha BP
-push -4
-add
-loadf
-pusha BP
-push 6
-add
-loadf
-mulf
-storef
-
-#line 29
-pusha BP
-push 4
-add
-pusha BP
-push 4
-add
-loadi
-push 1
-subi
-storei
-jmp e5
-e51:
-jmp e31
-e3:
-
-#line 24
-pusha BP
-push -4
-add
-pushf 1.0
-pusha BP
-push 6
-add
-loadf
-push 0
-pusha BP
-push 4
-add
-loadi
-subi
-call potencia
-divf
-storef
-e31:
-jmp e11
-e1:
-
-#line 21
-pusha BP
-push -4
-add
-pushf 1.0
-storef
-e11:
-
-#line 33
-pusha BP
-push -4
-add
-loadf
-ret 4, 4, 6
-letraHipoteca:
-#func letraHipoteca
-#param capital : float
-#param meses : int
-#param interes : float
-#ret float
-#local mensual : float
-enter 4
-
-#line 40
-pusha BP
-push -4
-add
-pusha BP
-push 4
-add
-loadf
-pushf 12.0
-divf
-storef
-
-#line 41
-pusha BP
-push 10
-add
-loadf
-pusha BP
-push -4
-add
-loadf
-mulf
-pushf 100.0
-pushf 1.0
-pushf 1.0
-pusha BP
-push -4
-add
-loadf
-pushf 100.0
-divf
-addf
-push 0
-pusha BP
-push 8
-add
-loadi
-subi
-call potencia
-subf
-mulf
-divf
-ret 4, 4, 10
+push 2
+muli
+ret 2, 0, 2
 main:
 #func main
 #ret void
-#local precioVivienda : float
-#local mesesHipoteca : int
-#local interes : float
-enter 10
+#local local : int
+enter 2
 
-#line 55
-pusha BP
-push -4
-add
-pushf 200000.0
+#line 29
+push 0
+pushf 1.0
 storef
 
-#line 56
+#line 30
 pusha BP
-push -6
+push -2
 add
-push 30
-push 12
-muli
+push 2
 storei
-
-#line 57
-pusha BP
-push -10
-add
-pushf 2.04
-storef
-
-#line 59
-pusha BP
-push -4
-add
+push 0
 loadf
+pushf 2.0
+ltf
+jnz e1
+
+#line 35
 pusha BP
-push -6
+push -2
 add
 loadi
-pusha BP
-push -10
-add
-loadf
-call letraHipoteca
-outf
-ret 0, 10, 0
+outi
+jmp e11
+e1:
+
+#line 33
+push 1
+outi
+e11:
+
+#line 38
+push 2
+call doble
+outi
+ret 0, 2, 0

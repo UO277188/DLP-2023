@@ -138,8 +138,10 @@ public class CodeSelection extends DefaultVisitor {
     @Override
     public Object visit(Print node, Object param) {
         line(node);
-        node.getExpresion().accept(this, Funcion.VALOR);
-        out("out" + node.getExpresion().getTipo().getSufijo());
+        if (node.getExpresiones().size() > 0) {
+            node.getExpresiones().get(0).accept(this, Funcion.VALOR);
+            out("out" + node.getExpresiones().get(0).getTipo().getSufijo());
+        }
 
         if (node.getTipo_print().equals("printsp")) {
             out("pushb 32");
@@ -200,6 +202,21 @@ public class CodeSelection extends DefaultVisitor {
     }
 
     @Override
+    public Object visit(Invocacion node, Object param) {
+        line(node);
+
+        for (Expresion e : node.getParams())
+            e.accept(this, Funcion.VALOR);
+
+        out("call " + node.getNombre());
+
+        if (!(node.getDefinicion().getTipo() instanceof TipoVoid))
+            out("pop" + node.getDefinicion().getTipo().getSufijo());
+
+        return null;
+    }
+
+    @Override
     public Object visit(Return node, Object param) {
         line(node);
 
@@ -208,19 +225,6 @@ public class CodeSelection extends DefaultVisitor {
             node.getExpresion().get(0).accept(this, Funcion.VALOR);
             out("ret " + retValues[0] + ", " + Math.abs(retValues[1]) + ", " + retValues[2]);
         }
-
-        return null;
-    }
-
-    @Override
-    public Object visit(Invocacion node, Object param) {
-        for (Expresion e : node.getParams()) {
-            e.accept(this, Funcion.VALOR);
-        }
-        out("call " + node.getNombre());
-
-        if (!(node.getDefinicion().getTipo() instanceof TipoVoid))
-            out("pop" + node.getDefinicion().getTipo().getSufijo());
 
         return null;
     }
@@ -281,144 +285,132 @@ public class CodeSelection extends DefaultVisitor {
 
     @Override
     public Object visit(ExpresionAritmetica node, Object param) {
-        switch ((Funcion) param) {
-            case VALOR:
-                node.getIzq().accept(this, Funcion.VALOR);
-                node.getDer().accept(this, Funcion.VALOR);
+        node.getIzq().accept(this, Funcion.VALOR);
+        node.getDer().accept(this, Funcion.VALOR);
 
-                if (node.getOperador().equals("+"))
-                    out("add" + node.getTipo().getSufijo());
-                else if (node.getOperador().equals("-"))
-                    out("sub" + node.getTipo().getSufijo());
-                else if (node.getOperador().equals("*"))
-                    out("mul" + node.getTipo().getSufijo());
-                else if (node.getOperador().equals("/"))
-                    out("div" + node.getTipo().getSufijo());
-                else if (node.getOperador().equals("%"))
-                    out("mod");
-        }
+        if (node.getOperador().equals("+"))
+            out("add" + node.getTipo().getSufijo());
+        else if (node.getOperador().equals("-"))
+            out("sub" + node.getTipo().getSufijo());
+        else if (node.getOperador().equals("*"))
+            out("mul" + node.getTipo().getSufijo());
+        else if (node.getOperador().equals("/"))
+            out("div" + node.getTipo().getSufijo());
+        else if (node.getOperador().equals("%"))
+            out("mod");
+
         return null;
     }
 
     @Override
     public Object visit(ExpresionLogica node, Object param) {
-        switch ((Funcion) param) {
-            case VALOR:
-                node.getIzq().accept(this, Funcion.VALOR);
-                node.getDer().accept(this, Funcion.VALOR);
+        node.getIzq().accept(this, Funcion.VALOR);
+        node.getDer().accept(this, Funcion.VALOR);
 
-                if (node.getOperador().equals("&&"))
-                    out("and");
-                else if (node.getOperador().equals("||"))
-                    out("or");
+        if (node.getOperador().equals("&&"))
+            out("and");
+        else if (node.getOperador().equals("||"))
+            out("or");
 
-                break;
-        }
         return null;
     }
 
     @Override
     public Object visit(Comparacion node, Object param) {
-        switch ((Funcion) param) {
-            case VALOR:
-                node.getIzq().accept(this, Funcion.VALOR);
-                node.getDer().accept(this, Funcion.VALOR);
+        node.getIzq().accept(this, Funcion.VALOR);
+        node.getDer().accept(this, Funcion.VALOR);
 
-                if (node.getOperador().equals("<"))
-                    out("lt" + node.getIzq().getTipo().getSufijo());
-                else if (node.getOperador().equals(">"))
-                    out("gt" + node.getIzq().getTipo().getSufijo());
-                else if (node.getOperador().equals(">=")) {
-                    out("gt" + node.getIzq().getTipo().getSufijo());
-                    node.getIzq().accept(this, Funcion.VALOR);
-                    node.getDer().accept(this, Funcion.VALOR);
-                    out("eq" + node.getIzq().getTipo().getSufijo());
-                    out("or");
-                } else if (node.getOperador().equals("<=")) {
-                    out("lt" + node.getIzq().getTipo().getSufijo());
-                    node.getIzq().accept(this, Funcion.VALOR);
-                    node.getDer().accept(this, Funcion.VALOR);
-                    out("eq" + node.getIzq().getTipo().getSufijo());
-                    out("or");
-                } else if (node.getOperador().equals("=="))
-                    out("eq" + node.getIzq().getTipo().getSufijo());
-                else if (node.getOperador().equals("!="))
-                    out("neq" + node.getIzq().getTipo().getSufijo());
+        if (node.getOperador().equals("<"))
+            out("lt" + node.getIzq().getTipo().getSufijo());
 
-                break;
-        }
+        else if (node.getOperador().equals(">"))
+            out("gt" + node.getIzq().getTipo().getSufijo());
+
+        else if (node.getOperador().equals(">=")) {
+            out("gt" + node.getIzq().getTipo().getSufijo());
+            node.getIzq().accept(this, Funcion.VALOR);
+            node.getDer().accept(this, Funcion.VALOR);
+            out("eq" + node.getIzq().getTipo().getSufijo());
+            out("or");
+
+        } else if (node.getOperador().equals("<=")) {
+            out("lt" + node.getIzq().getTipo().getSufijo());
+            node.getIzq().accept(this, Funcion.VALOR);
+            node.getDer().accept(this, Funcion.VALOR);
+            out("eq" + node.getIzq().getTipo().getSufijo());
+            out("or");
+
+        } else if (node.getOperador().equals("=="))
+            out("eq" + node.getIzq().getTipo().getSufijo());
+
+        else if (node.getOperador().equals("!="))
+            out("neq" + node.getIzq().getTipo().getSufijo());
+
         return null;
     }
 
     @Override
     public Object visit(ExpresionUnaria node, Object param) {
-        switch ((Funcion) param) {
-            case VALOR:
-                node.getExpresion().accept(this, Funcion.VALOR);
-                out("not");
-                break;
-        }
+        node.getExpresion().accept(this, Funcion.VALOR);
+        out("not");
+
         return null;
     }
 
     @Override
     public Object visit(Conversion node, Object param) {
-        switch ((Funcion) param) {
-            case VALOR:
-                node.getExpresion().accept(this, Funcion.VALOR);
-                if (node.getExpresion().getTipo() instanceof TipoEntero) {
-                    if (node.getNuevoTipo() instanceof TipoReal)
-                        out("i2f");
-                    if (node.getNuevoTipo() instanceof TipoChar)
-                        out("i2b");
-                } else if (node.getExpresion().getTipo() instanceof TipoReal) {
-                    if (node.getNuevoTipo() instanceof TipoEntero)
-                        out("f2i");
-                    if (node.getNuevoTipo() instanceof TipoChar) {
-                        out("f2i");
-                        out("i2b");
-                    }
-                } else if (node.getExpresion().getTipo() instanceof TipoChar) {
-                    if (node.getNuevoTipo() instanceof TipoEntero)
-                        out("b2i");
-                    if (node.getNuevoTipo() instanceof TipoReal) {
-                        out("b2i");
-                        out("i2f");
-                    }
-                }
-                break;
+        node.getExpresion().accept(this, Funcion.VALOR);
+
+        if (node.getExpresion().getTipo() instanceof TipoEntero) {
+            if (node.getNuevoTipo() instanceof TipoReal)
+                out("i2f");
+            if (node.getNuevoTipo() instanceof TipoChar)
+                out("i2b");
+
+        } else if (node.getExpresion().getTipo() instanceof TipoReal) {
+            if (node.getNuevoTipo() instanceof TipoEntero)
+                out("f2i");
+            if (node.getNuevoTipo() instanceof TipoChar) {
+                out("f2i");
+                out("i2b");
+            }
+
+        } else if (node.getExpresion().getTipo() instanceof TipoChar) {
+            if (node.getNuevoTipo() instanceof TipoEntero)
+                out("b2i");
+            if (node.getNuevoTipo() instanceof TipoReal) {
+                out("b2i");
+                out("i2f");
+            }
         }
+
         return null;
     }
 
     @Override
     public Object visit(InvocacionExpresion node, Object param) {
-        switch ((Funcion) param) {
-            case VALOR:
-                for (Expresion e : node.getParams()) {
-                    e.accept(this, Funcion.VALOR);
-                }
-                out("call " + node.getNombre());
-                break;
-        }
+        for (Expresion e : node.getParams())
+            e.accept(this, Funcion.VALOR);
+
+        out("call " + node.getNombre());
+
         return null;
     }
 
     @Override
     public Object visit(AccesoArray node, Object param) {
         switch ((Funcion) param) {
-            case VALOR:
+            case VALOR -> {
                 node.accept(this, Funcion.DIRECCION);
                 out("load" + node.getTipo().getSufijo());
-                break;
-
-            case DIRECCION:
+            }
+            case DIRECCION -> {
                 node.getArray().accept(this, Funcion.DIRECCION);
                 node.getIndice().accept(this, Funcion.VALOR);
                 out("push " + node.getTipo().getTamaño());
                 out("mul");
                 out("add");
-                break;
+            }
         }
         return null;
     }
@@ -426,18 +418,17 @@ public class CodeSelection extends DefaultVisitor {
     @Override
     public Object visit(AccesoCampo node, Object param) {
         switch ((Funcion) param) {
-            case VALOR:
+            case VALOR -> {
                 node.accept(this, Funcion.DIRECCION);
                 out("load" + node.getTipo().getSufijo());
-                break;
-
-            case DIRECCION:
+            }
+            case DIRECCION -> {
                 node.getStruct().accept(this, Funcion.DIRECCION);
                 TipoStruct tipo = (TipoStruct) node.getStruct().getTipo();
                 Variable campo = (Variable) node.getCampo();
                 out("push " + tipo.getCampo(campo.getNombre()).getDireccion());
                 out("add");
-                break;
+            }
         }
         return null;
     }
@@ -446,7 +437,7 @@ public class CodeSelection extends DefaultVisitor {
     // Métodos auxiliares recomendados (opcionales) -------------
 
     public enum Funcion {
-        DIRECCION, VALOR, EJECUTAR;
+        DIRECCION, VALOR;
     }
 
     static private int etiquetas = 1;

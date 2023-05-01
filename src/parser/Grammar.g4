@@ -49,8 +49,9 @@ tipo returns[Tipo ast]
     ;
 
 sentencia returns[Sentencia ast]
-    : TIPO_PRINT=('print'|'printsp'|'println') expr? ';'
-        { $ast = new Print($expr.ast, $TIPO_PRINT); }
+    : { List<Expresion> valorPrint = new ArrayList<Expresion>(); }
+    TIPO_PRINT=('print'|'printsp'|'println') (expr { valorPrint.add($expr.ast); } )? ';'
+        { $ast = new Print(valorPrint, $TIPO_PRINT); }
 	| 'read' expr ';'
         { $ast = new Read($expr.ast); }
 	| e1=expr '=' e2=expr ';'

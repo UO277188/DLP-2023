@@ -209,8 +209,9 @@ public class TextVisitor extends DefaultVisitor {
         // super.visit(node, param);
         printIndent((Integer) param, node.getTipo_print() + " ");
 
-        if (node.getExpresion() != null)
-            node.getExpresion().accept(this, 0);
+        if (node.getExpresiones() != null)
+            for (Expresion child : node.getExpresiones())
+                child.accept(this, param);
 
         printIndent(0, ";\n");
         return null;
