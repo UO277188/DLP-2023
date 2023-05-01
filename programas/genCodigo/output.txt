@@ -13,6 +13,7 @@ push 4
 add
 loadi
 push 0
+eqi
 jnz e1
 pusha BP
 push 4

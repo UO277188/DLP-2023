@@ -340,7 +340,11 @@ public class CodeSelection extends DefaultVisitor {
                     node.getDer().accept(this, Funcion.VALOR);
                     out("eq" + node.getIzq().getTipo().getSufijo());
                     out("or");
-                }
+                } else if (node.getOperador().equals("=="))
+                    out("eq" + node.getIzq().getTipo().getSufijo());
+                else if (node.getOperador().equals("!="))
+                    out("neq" + node.getIzq().getTipo().getSufijo());
+
                 break;
         }
         return null;
