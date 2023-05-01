@@ -134,6 +134,8 @@ public class TypeChecking extends DefaultVisitor {
                     "El tipo devuelto no coincide con el de la función", node);
         else {
             node.getExpresion().get(0).accept(this, param);
+            predicado(esTipoPrimitivo(node.getExpresion().get(0).getTipo()),
+                    "El tipo devuelto no es primitivo", node);
             predicado(mismoTipo(tipoRetornoFuncion, node.getExpresion().get(0).getTipo()),
                     "El tipo devuelto no coincide con el de la función", node);
         }

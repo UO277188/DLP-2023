@@ -218,8 +218,6 @@ public class CodeSelection extends DefaultVisitor {
 
     @Override
     public Object visit(Return node, Object param) {
-        line(node);
-
         int[] retValues = (int[]) param;
         if (node.getExpresion().size() > 0) {
             node.getExpresion().get(0).accept(this, Funcion.VALOR);

@@ -1,60 +1,275 @@
-#source "Test 1.txt"
+#source "Test 2.txt"
 call main
 halt
-#global global : float
-doble:
-#func doble
-#param valor : int
-#ret int
-enter 0
+#type Persona : {
+	inicial : char
+	sueldo : float
+}
+#global empresa : 4 * Persona
+inicia:
+#func inicia
+#ret void
+#local i : int
+enter 2
 
-#line 23
+#line 36
+pusha BP
+push -2
+add
+push 0
+storei
+e1:
+pusha BP
+push -2
+add
+loadi
+push 4
+lti
+jz e11
+
+#line 38
+push 0
+pusha BP
+push -2
+add
+loadi
+push 5
+mul
+add
+push 0
+add
+pusha BP
+push -2
+add
+loadi
+pushb 65
+b2i
+addi
+i2b
+storeb
+
+#line 39
+push 0
+pusha BP
+push -2
+add
+loadi
+push 5
+mul
+add
+push 1
+add
+push 1000
+pusha BP
+push -2
+add
+loadi
+push 100
+muli
+addi
+i2f
+storef
+
+#line 40
+pusha BP
+push -2
+add
+pusha BP
+push -2
+add
+loadi
+push 1
+addi
+storei
+jmp e1
+e11:
+ret 0, 2, 0
+busca:
+#func busca
+#param i : int
+#ret void
+enter 0
 pusha BP
 push 4
 add
 loadi
-push 2
-muli
-ret 2, 0, 2
-main:
-#func main
-#ret void
-#local local : int
-enter 2
-
-#line 29
 push 0
-pushf 1.0
-storef
+lti
+pusha BP
+push 4
+add
+loadi
+push 4
+gti
+pusha BP
+push 4
+add
+loadi
+push 4
+eqi
+or
+or
+jnz e3
+jmp e31
+e3:
+e31:
 
-#line 30
+#line 48
+push 0
+pusha BP
+push 4
+add
+loadi
+push 5
+mul
+add
+push 0
+add
+loadb
+outb
+
+#line 49
+push 0
+pusha BP
+push 4
+add
+loadi
+push 5
+mul
+add
+push 1
+add
+loadf
+outf
+ret 0, 0, 2
+imprime:
+#func imprime
+#ret int
+#local i : int
+#local aux : Persona
+enter 7
+
+#line 56
 pusha BP
 push -2
 add
-push 2
-storei
 push 0
-loadf
-pushf 2.0
-ltf
-jnz e1
-
-#line 35
+storei
+e5:
 pusha BP
 push -2
 add
 loadi
-outi
-jmp e11
-e1:
+push 4
+gti
+pusha BP
+push -2
+add
+loadi
+push 4
+eqi
+or
+not
+jz e51
 
-#line 33
+#line 58
+pusha BP
+push -7
+add
+push 0
+add
+push 0
+pusha BP
+push -2
+add
+loadi
+push 5
+mul
+add
+push 0
+add
+loadb
+storeb
+
+#line 59
+pusha BP
+push -7
+add
 push 1
-outi
-e11:
+add
+push 0
+pusha BP
+push -2
+add
+loadi
+push 5
+mul
+add
+push 1
+add
+loadf
+storef
 
-#line 38
-push 2
-call doble
-outi
+#line 61
+pusha BP
+push -7
+add
+push 0
+add
+loadb
+outb
+
+#line 62
+pusha BP
+push -7
+add
+push 1
+add
+loadf
+outf
+
+#line 64
+pusha BP
+push -2
+add
+pusha BP
+push -2
+add
+loadi
+push 1
+addi
+storei
+jmp e5
+e51:
+pusha BP
+push -2
+add
+loadi
+ret 2, 7, 0
+main:
+#func main
+#ret void
+#local posicion : int
+enter 2
+
+#line 72
+call inicia
+
+#line 74
+pusha BP
+push -2
+add
+ini
+storei
+
+#line 75
+pusha BP
+push -2
+add
+loadi
+call busca
+
+#line 77
+call imprime
+popi
 ret 0, 2, 0
