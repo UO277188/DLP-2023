@@ -78,6 +78,13 @@ public class Identification extends DefaultVisitor {
         });
 
         st.reset();
+        node.getCampos().forEach(c -> c.accept(this, param));
+        return null;
+    }
+
+    @Override
+    public Object visit(Campo node, Object param) {
+        node.getTipo().accept(this, param);
         return null;
     }
 

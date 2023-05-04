@@ -42,7 +42,7 @@ pusha BP
 push -2
 add
 loadi
-pushb 65
+pushb 32
 b2i
 addi
 i2b

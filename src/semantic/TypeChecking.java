@@ -286,7 +286,7 @@ public class TypeChecking extends DefaultVisitor {
 
     @Override
     public Object visit(AccesoArray node, Object param) {
-        node.getArray().accept(this, false);
+        node.getArray().accept(this, param);
         node.getIndice().accept(this, param);
 
         predicado(node.getArray().getTipo() instanceof TipoArray,
@@ -305,7 +305,7 @@ public class TypeChecking extends DefaultVisitor {
 
     @Override
     public Object visit(AccesoCampo node, Object param) {
-        node.getStruct().accept(this, false);
+        node.getStruct().accept(this, param);
         predicado(node.getStruct().getTipo() instanceof TipoStruct, "El tipo debe ser Struct", node);
 
         if (node.getStruct().getTipo() instanceof TipoStruct) {

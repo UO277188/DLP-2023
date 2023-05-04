@@ -3,7 +3,7 @@ lexer grammar Lexicon;
 LITENT: [0-9]+;
 LITREAL: [0-9]+ '.' [0-9]+;
 IDENT: [a-zA-Z_][a-zA-Z0-9_]*;
-LITCHAR: '\' \\n \''
+LITCHAR: '\'' '\\n' '\''
     | '\'' ~[\n\r\t] '\'';
 
 COMMENT_MULTILINEA: '/*' .*? '*/' -> skip;

@@ -179,10 +179,10 @@ public class CodeSelection extends DefaultVisitor {
         node.getCondicion().accept(this, Funcion.VALOR);
         out("jnz e" + etiqueta);
         node.getFalso().forEach(s -> s.accept(this, param));
-        out("jmp e" + etiqueta + 1);
+        out("jmp e" + (etiqueta + 1));
         out("e" + etiqueta + ":");
         node.getVerdadero().forEach(s -> s.accept(this, param));
-        out("e" + etiqueta + 1 + ":");
+        out("e" + (etiqueta + 1) + ":");
 
         return null;
     }
@@ -193,10 +193,10 @@ public class CodeSelection extends DefaultVisitor {
 
         out("e" + etiqueta + ":");
         node.getCondicion().accept(this, Funcion.VALOR);
-        out("jz e" + etiqueta + 1);
+        out("jz e" + (etiqueta + 1));
         node.getSentencia().forEach(s -> s.accept(this, param));
         out("jmp e" + etiqueta);
-        out("e" + etiqueta + 1 + ":");
+        out("e" + (etiqueta + 1) + ":");
 
         return null;
     }
@@ -255,7 +255,7 @@ public class CodeSelection extends DefaultVisitor {
     public Object visit(ConstanteChar node, Object param) {
         switch ((Funcion) param) {
             case VALOR:
-                out("pushb " + (int) node.getValor().substring(1, 2).charAt(0));
+                out("pushb " + (int) node.getValor().replace("'", " ").charAt(0));
                 break;
         }
         return null;
@@ -398,17 +398,18 @@ public class CodeSelection extends DefaultVisitor {
     @Override
     public Object visit(AccesoArray node, Object param) {
         switch ((Funcion) param) {
-            case VALOR -> {
+            case VALOR:
                 node.accept(this, Funcion.DIRECCION);
                 out("load" + node.getTipo().getSufijo());
-            }
-            case DIRECCION -> {
+                break;
+
+            case DIRECCION:
                 node.getArray().accept(this, Funcion.DIRECCION);
                 node.getIndice().accept(this, Funcion.VALOR);
                 out("push " + node.getTipo().getTamaño());
                 out("mul");
                 out("add");
-            }
+                break;
         }
         return null;
     }
@@ -416,17 +417,17 @@ public class CodeSelection extends DefaultVisitor {
     @Override
     public Object visit(AccesoCampo node, Object param) {
         switch ((Funcion) param) {
-            case VALOR -> {
+            case VALOR:
                 node.accept(this, Funcion.DIRECCION);
                 out("load" + node.getTipo().getSufijo());
-            }
-            case DIRECCION -> {
+                break;
+            case DIRECCION:
                 node.getStruct().accept(this, Funcion.DIRECCION);
                 TipoStruct tipo = (TipoStruct) node.getStruct().getTipo();
                 Variable campo = (Variable) node.getCampo();
                 out("push " + tipo.getCampo(campo.getNombre()).getDireccion());
                 out("add");
-            }
+                break;
         }
         return null;
     }
