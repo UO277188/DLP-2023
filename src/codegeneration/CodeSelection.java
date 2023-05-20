@@ -255,7 +255,11 @@ public class CodeSelection extends DefaultVisitor {
     public Object visit(ConstanteChar node, Object param) {
         switch ((Funcion) param) {
             case VALOR:
-                out("pushb " + (int) node.getValor().replace("'", " ").charAt(0));
+                String valor = node.getValor().replace("'", "");
+                if (valor.length() == 1)
+                    out("pushb " + (int) valor.charAt(0));
+                else
+                    out("pushb 10");
                 break;
         }
         return null;

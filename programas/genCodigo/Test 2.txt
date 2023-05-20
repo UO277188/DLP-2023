@@ -1,7 +1,7 @@
 /*
 Test 2 para probar la Fase de Generación de Código
 
-COMPROBACION: Si cuando pida un valor se introduce un 2 debería salir: 
+COMPROBACION: Si cuando pida un valor se introduce un 2 debería salir:
 C
 1200
 A
@@ -16,7 +16,7 @@ D
 CONSEJO: No limitarse a comprobar el resultado de la ejecución. Se recomienda además abrir el fichero generado usando el depurador GVM y comprobar sus instrucciones.
 
 Para facilitar esta tarea es de gran utilidad que el alumno haya generado directivas '#line' en el fichero de salida.
-Para información sobre la función de dicha directiva se debe abrir con GVM el siguiente tutorial: 
+Para información sobre la función de dicha directiva se debe abrir con GVM el siguiente tutorial:
 Tutorial\3 Uso básico del depurador\4 Fusión Alto Nivel.txt
 
 NOTA: Es posible que el alumno deba adaptar ligeramente la sintaxis de este ejemplo si no coincide
@@ -25,7 +25,7 @@ con la del lenguaje que le corresponde.
 
 struct Persona {
 	inicial:char;
-	sueldo:float;  
+	sueldo:float;
 };
 
 var empresa:[4] Persona;
@@ -38,7 +38,7 @@ inicia() {
 		empresa[i].inicial = <char>(i + <int>('A'));
 		empresa[i].sueldo = <float>(1000 + (i * 100));
 		i = i + 1;
-	}  
+	}
 }
 
 busca(i:int) {
@@ -57,12 +57,12 @@ imprime():int {
 	while (! (i >= 4)) {
 		aux.inicial = empresa[i].inicial;
 		aux.sueldo = empresa[i].sueldo;
-		
+
 		print aux.inicial;
 		print aux.sueldo;
-		
+
 		i = i + 1;
-	}  
+	}
 	return i;
 }
 
