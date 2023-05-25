@@ -219,6 +219,7 @@ public class CodeSelection extends DefaultVisitor {
     @Override
     public Object visit(Return node, Object param) {
         int[] retValues = (int[]) param;
+        line(node);
         if (node.getExpresion().size() > 0) {
             node.getExpresion().get(0).accept(this, Funcion.VALOR);
             out("ret " + retValues[0] + ", " + Math.abs(retValues[1]) + ", " + retValues[2]);

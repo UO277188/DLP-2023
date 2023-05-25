@@ -112,5 +112,4 @@ params returns[List<Expresion> ast = new ArrayList<Expresion>()]
 
 funcDefParams returns[List<DefinicionVariable> ast = new ArrayList<DefinicionVariable>()]
     : (d1=defVar { $ast.add($d1.ast); } (',' d2=defVar { $ast.add($d2.ast); })*)?
-    |
     ;

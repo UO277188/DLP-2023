@@ -90,6 +90,8 @@ loadb
 b2i
 storei
 e2:
+
+#line 39
 pusha BP
 push -7
 add
